@@ -1,9 +1,16 @@
 import { RouterProvider } from 'react-router-dom';
-import router from '@/app/router';
-import { AuthProvider } from '@/context/AuthContext';
 import { Toaster } from 'react-hot-toast';
+import router from '@/app/router';
+
+// Contexts
+import { AuthProvider } from '@/context/AuthContext';
 import { BattleProvider } from '@/context/BattleContext';
 import { ThemeProvider } from '@/context/ThemeContext';
+import { CommandProvider } from '@/context/CommandContext';
+
+// The new Wrapper
+import GlobalLoader from "@/components/shared/GlobalLoader";
+import CommandPalette from "@/components/shared/CommandPalette";
 
 export default function App() {
     return (
@@ -40,7 +47,12 @@ export default function App() {
                             },
                         }}
                     />
-                    <RouterProvider router={router} />
+
+                    {/* THE GLOBAL LOADER WRAPS THE ROUTER */}
+                    <GlobalLoader>
+                        <RouterProvider router={router} fallbackElement={null} />
+                    </GlobalLoader>
+
                 </BattleProvider>
             </AuthProvider>
         </ThemeProvider>

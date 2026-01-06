@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { Save, Smartphone, Zap, Cpu, Database, Image as ImageIcon } from "lucide-react";
 import { getBrands, createFullDevice } from "@/services/apiProducts";
 import toast from "react-hot-toast";
+import ImageUpload from "@/components/ui/ImageUpload";
 
 export default function AddProduct() {
     const navigate = useNavigate();
@@ -130,23 +131,10 @@ export default function AddProduct() {
                         </div>
                     </div>
 
-                    <div className="space-y-2">
-                        <label className="text-[9px] font-mono uppercase tracking-widest opacity-60 ml-2">Visual_Asset_URL</label>
-                        <div className="flex gap-4">
-                            <input
-                                name="image_url"
-                                value={formData.image_url}
-                                onChange={handleChange}
-                                placeholder="HTTPS://..."
-                                className="flex-1 bg-[var(--bg-main)] border border-[var(--border-color)] rounded-xl py-3 px-4 text-xs font-mono outline-none focus:border-cyan-500/50"
-                            />
-                            {formData.image_url && (
-                                <div className="w-12 h-12 bg-white rounded-lg p-1 border border-white/10">
-                                    <img src={formData.image_url} className="w-full h-full object-contain" />
-                                </div>
-                            )}
-                        </div>
-                    </div>
+                    <ImageUpload
+                        value={formData.image_url}
+                        onChange={(url) => setFormData(prev => ({ ...prev, image_url: url }))}
+                    />
 
                     <div className="space-y-2">
                         <label className="text-[9px] font-mono uppercase tracking-widest opacity-60 ml-2">AI_Summary_Generator</label>

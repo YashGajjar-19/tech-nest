@@ -52,7 +52,9 @@ const Logo = ({ className = "text-[var(--text-primary)]", size = 30 }) => {
                     custom={2}
                 />
             </svg>
-            <span className="text-2xl font-mono font-bold tracking-tight">Tech Nest</span>
+            <span className="text-2xl font-mono font-bold tracking-tight">Tech
+                <span className="text-cyan-500"> Nest</span>
+            </span>
         </div>
     );
 };

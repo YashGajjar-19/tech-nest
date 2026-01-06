@@ -3,6 +3,7 @@ import { useParams, Link } from "react-router-dom";
 import { ChevronLeft, Cpu, Smartphone, Zap } from "lucide-react";
 import { getDeviceBySlug } from "@/services/apiProducts";
 import Button from "@/components/ui/Button";
+import LoadingScreen from "@/components/ui/LoadingScreen";
 
 export default function ProductDetail() {
     const { slug } = useParams(); // Grabs 'samsung-s24' from URL
@@ -16,8 +17,8 @@ export default function ProductDetail() {
             .finally(() => setLoading(false));
     }, [slug]);
 
-    if (loading) return <div className="min-h-screen pt-32 text-center font-mono text-cyan-500">DECRYPTING_SCHEMATICS...</div>;
-    if (!device) return <div className="min-h-screen pt-32 text-center text-red-500">UNIT_NOT_FOUND</div>;
+    if (loading) return <LoadingScreen message="DECRYPTING_SCHEMATICS" />;
+    if (!device) return <NotFound />;
 
     // Helper: Group specs by Category (Display, Platform, etc.)
     const specsByCategory = device.device_specs.reduce((acc, spec) => {

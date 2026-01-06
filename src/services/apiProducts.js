@@ -177,3 +177,24 @@ export async function updateFullDevice(id, { device, variant, specs }) {
     if (specError) throw specError;
   }
 }
+
+export async function uploadDeviceImage(file) {
+  // 1. Create a unique file name
+  const fileExt = file.name.split('.').pop();
+  const fileName = `${Math.random().toString(36).substring(2)}_${Date.now()}.${fileExt}`;
+  const filePath = `${fileName}`;
+
+  // 2. Upload to 'gadgets' bucket
+  const { error: uploadError } = await supabase.storage
+    .from('gadgets')
+    .upload(filePath, file);
+
+  if (uploadError) throw new Error("Image upload failed");
+
+  // 3. Get the Public URL
+  const { data } = supabase.storage
+    .from('gadgets')
+    .getPublicUrl(filePath);
+
+  return data.publicUrl;
+}

@@ -8,12 +8,16 @@ import Battle from "@/pages/public/Battle";
 import Inventory from "@/pages/admin/Inventory";
 import AddProduct from "@/pages/admin/AddProduct";
 import EditProduct from "@/pages/admin/EditProduct";
+import NotFound from "@/pages/public/NotFound";
+
+import ErrorPage from "@/pages/public/ErrorPage";
 
 const router = createBrowserRouter([
     // PUBLIC ROUTES
     {
         path: "/",
         element: <MainLayout />,
+        errorElement: <ErrorPage />,
         children: [
             { path: "/", element: <Home /> },
             { path: "devices/:slug", element: <ProductDetail /> },
@@ -32,6 +36,7 @@ const router = createBrowserRouter([
                     { path: "inventory", element: <Inventory /> },
                     { path: "add-product", element: <AddProduct /> },
                     { path: "edit-product/:id", element: <EditProduct /> },
+                    { path: "*", element: <NotFound /> }
                 ]
             }
         ]

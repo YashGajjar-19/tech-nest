@@ -50,7 +50,7 @@ export default function ProductCard({ product }) {
         >
             {/* PRICE (Top Left) */}
             <div className="absolute top-8 left-8 z-20 pointer-events-none">
-                <span className="text-[var(--text-primary)] font-bold text-lg ">
+                <span className="text-[var(--text-primary)] font-mono font-bold text-lg tracking-tighter">
                     {startingPrice !== "N/A" ? `$${startingPrice}` : ""}
                 </span>
             </div>
@@ -63,19 +63,19 @@ export default function ProductCard({ product }) {
             {/* IMAGE AREA */}
             <div
                 onClick={handleNavigate}
-                className="relative h-48 mb-6 flex items-center justify-center overflow-hidden rounded-2xl bg-white/[0.02] cursor-pointer group-hover:bg-white/[0.05] transition-colors"
+                className="relative h-48 mb-6 flex items-center justify-center overflow-hidden rounded-2xl bg-[var(--bg-main)] border border-transparent group-hover:border-cyan-500/10 cursor-pointer transition-all"
             >
                 <img
                     src={image_url || "https://via.placeholder.com/300"}
                     alt={model_name}
-                    className="h-full object-contain transition-all duration-500 scale-70 group-hover:scale-71"
+                    className="h-full object-contain transition-all duration-500 scale-70 group-hover:scale-75 drop-shadow-2xl"
                 />
             </div>
 
             {/* CONTENT */}
             <div className="mb-6 cursor-pointer" onClick={handleNavigate}>
                 <div className="flex items-center gap-2 mb-2">
-                    <span className="px-3 py-1 rounded-full bg-white/5 border border-white/10 text-[9px] font-black uppercase tracking-widest text-cyan-500">
+                    <span className="px-3 py-1 rounded-full bg-[var(--bg-main)] border border-[var(--border-color)] text-[10px] font-mono font-bold uppercase tracking-widest text-cyan-500">
                         {brands?.name || "GENERIC"}
                     </span>
                 </div>
@@ -91,9 +91,9 @@ export default function ProductCard({ product }) {
             {/* ACTION BUTTON */}
             <button
                 onClick={handleToggle}
-                className={`w-full py-4 rounded-xl font-black text-[10px] tracking-[0.3em] uppercase transition-all flex items-center justify-center gap-3 active:scale-95 ${isSelected
+                className={`w-full py-4 rounded-xl font-mono font-bold text-[10px] tracking-[0.3em] uppercase transition-all flex items-center justify-center gap-3 active:scale-95 ${isSelected
                     ? 'bg-cyan-500 text-black shadow-[0_0_30px_rgba(6,182,212,0.4)]'
-                    : 'bg-[var(--bg-main)] text-[var(--text-primary)]'
+                    : 'bg-[var(--bg-main)] text-[var(--text-primary)] hover:bg-[var(--bg-main)]/80'
                     }`}
             >
                 {isSelected ? 'DISENGAGE' : 'SELECT_UNIT'} <MousePointer2 size={12} />

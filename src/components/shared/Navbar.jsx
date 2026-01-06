@@ -1,12 +1,12 @@
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { LayoutDashboard, User, Home, Swords, LogOut } from "lucide-react"; // Added LogOut
+import { LayoutDashboard, User, Home, Swords, LogOut, Search } from "lucide-react";
 import { motion } from "framer-motion";
 import Button from "@/components/ui/Button";
 import { useAuth } from "@/context/AuthContext";
+import { useCommand } from "@/context/CommandContext";
 
-
-import Logo from "@/components/ui/Logo";
+import Logo from "@/components/shared/Logo";
 
 export default function Navbar({ onOpenAuth }) {
     const { user, logout } = useAuth(); // Real Data!
@@ -14,6 +14,8 @@ export default function Navbar({ onOpenAuth }) {
 
     const [scrolled, setScrolled] = useState(false);
     const location = useLocation();
+
+    const { toggleCommand } = useCommand();
 
     useEffect(() => {
         const onScroll = () => setScrolled(window.scrollY > 20);
@@ -38,16 +40,27 @@ export default function Navbar({ onOpenAuth }) {
 
                 {/* RIGHT ACTIONS */}
                 <div className="flex items-center gap-4">
-                    
+
+                    <button
+                        onClick={toggleCommand}
+                        className="flex items-center gap-2 px-4 py-2 text-[10px] font-bold text-slate-400 hover:text-white transition-colors uppercase tracking-widest border border-transparent hover:border-white/10 rounded-full group"
+                    >
+                        <Search size={14} className="group-hover:text-cyan-500 transition-colors" />
+                        <span>Search</span>
+                        <span className="hidden lg:inline-block px-1.5 py-0.5 bg-white/10 rounded text-[9px] text-white/50 group-hover:bg-cyan-500/20 group-hover:text-cyan-500 transition-colors">
+                            ⌘K
+                        </span>
+                    </button>
+
                     {isAdmin && (
                         <Link to="/admin/inventory">
-                            <Button 
-                                variant="ghost" 
-                                size="sm" 
+                            <Button
+                                variant="ghost"
+                                size="sm"
                                 className="gap-2 text-cyan-500 bg-cyan-500/10 border border-cyan-500/20 hover:border-cyan-500 hover:bg-cyan-500/10 hover:text-cyan-500 transition-all"
                             >
                                 <span className="flex items-center gap-2">
-                                    <LayoutDashboard size={14} /> 
+                                    <LayoutDashboard size={14} />
                                     <span>ADMIN</span>
                                 </span>
                             </Button>
