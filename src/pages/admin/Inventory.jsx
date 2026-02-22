@@ -18,7 +18,7 @@ export default function Inventory() {
         try {
             const data = await getProducts();
             setProducts(data);
-        } catch (error) {
+        } catch {
             toast.error("CONNECTION_REFUSED");
         } finally {
             setLoading(false);
@@ -34,7 +34,7 @@ export default function Inventory() {
             await deleteDevice(id);
             setProducts(prev => prev.filter(p => p.id !== id));
             toast.success("UNIT_REMOVED_FROM_REGISTRY");
-        } catch (error) {
+        } catch {
             toast.error("DELETION_FAILED");
         }
     };
@@ -48,10 +48,10 @@ export default function Inventory() {
     const visibleProducts = filteredProducts.slice(0, visibleCount);
 
     return (
-        <div className="min-h-screen bg-[var(--bg-main)] text-[var(--text-primary)] p-8 font-mono transition-colors duration-500">
+        <div className="min-h-screen bg-bg-main text-text-primary p-4 sm:p-6 lg:p-8 font-mono transition-colors duration-500">
 
             {/* HEADER */}
-            <div className="border-b border-[var(--border-color)] pb-8 mb-8 flex justify-between items-end">
+            <div className="border-b border-border-color pb-8 mb-8 flex justify-between items-end">
                 <div>
                     <div className="flex items-center gap-2 text-cyan-500 mb-2">
                         <Terminal size={14} />
@@ -70,17 +70,17 @@ export default function Inventory() {
                             placeholder="FILTER_UNITS..."
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
-                            className="bg-[var(--bg-card)] border border-[var(--border-color)] py-3 pl-10 pr-4 text-[10px] tracking-widest outline-none focus:border-cyan-500/50 transition-all w-64 uppercase rounded-xl"
+                            className="bg-bg-card border border-border-color py-3 pl-10 pr-4 text-[10px] tracking-widest outline-none focus:border-cyan-500/50 transition-all w-64 uppercase rounded-xl"
                         />
                     </div>
-                    <button onClick={fetchInventory} className="border border-[var(--border-color)] px-4 rounded-xl hover:bg-cyan-500 hover:text-white transition-all">
+                    <button onClick={fetchInventory} className="border border-border-color px-4 rounded-xl hover:bg-cyan-500 hover:text-white transition-all">
                         <RefreshCw size={14} className={loading ? "animate-spin" : ""} />
                     </button>
                 </div>
             </div>
 
             {/* DATA GRID */}
-            <div className="rounded-2xl border border-[var(--border-color)] bg-[var(--bg-card)] overflow-hidden">
+            <div className="rounded-2xl border border-border-color bg-bg-card overflow-hidden">
                 {/* TABLE HEADER */}
                 <div className="grid grid-cols-12 bg-neutral-100 dark:bg-white/5 text-[9px] uppercase tracking-[0.2em] font-bold opacity-60">
                     <div className="col-span-1 p-4 text-center">ID</div>
@@ -97,14 +97,14 @@ export default function Inventory() {
                             initial={{ opacity: 0, x: -10 }}
                             animate={{ opacity: 1, x: 0 }}
                             exit={{ opacity: 0, x: 10 }}
-                            className="grid grid-cols-12 border-t border-[var(--border-color)] hover:bg-neutral-50 dark:hover:bg-white/[0.02] transition-colors group items-center"
+                            className="grid grid-cols-12 border-t border-border-color hover:bg-neutral-50 dark:hover:bg-white/[0.02] transition-colors group items-center"
                         >
                             <div className="col-span-1 p-4 text-center text-[10px] opacity-40 font-mono">
                                 {(idx + 1).toString().padStart(2, '0')}
                             </div>
 
                             <div className="col-span-5 p-4 flex items-center gap-4">
-                                <div className="w-10 h-10 rounded-lg bg-white dark:bg-black border border-[var(--border-color)] flex items-center justify-center p-1">
+                                <div className="w-10 h-10 rounded-lg bg-white dark:bg-black border border-border-color flex items-center justify-center p-1">
                                     <img src={p.image_url} className="w-full h-full object-contain" />
                                 </div>
                                 <div>
@@ -146,7 +146,7 @@ export default function Inventory() {
                 <div className="flex justify-center mt-8">
                     <button 
                         onClick={() => setVisibleCount(prev => prev + 6)}
-                        className="flex items-center gap-2 px-6 py-3 rounded-xl bg-[var(--bg-card)] border border-[var(--border-color)] text-[10px] font-black uppercase tracking-widest hover:border-cyan-500 hover:text-cyan-500 transition-all"
+                        className="flex items-center gap-2 px-6 py-3 rounded-xl bg-bg-card border border-border-color text-[10px] font-black uppercase tracking-widest hover:border-cyan-500 hover:text-cyan-500 transition-all"
                     >
                         Show_More_Devices <ChevronDown size={12} />
                     </button>

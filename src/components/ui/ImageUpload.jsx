@@ -15,7 +15,7 @@ export default function ImageUpload({ value, onChange }) {
             const url = await uploadDeviceImage(file);
             onChange(url); // Send URL back to parent form
             toast.success("ASSET_UPLOADED");
-        } catch (error) {
+        } catch {
             toast.error("UPLOAD_FAILED");
         } finally {
             setUploading(false);
@@ -28,7 +28,7 @@ export default function ImageUpload({ value, onChange }) {
                 Visual_Asset (Upload)
             </label>
 
-            <div className="relative w-full h-32 border border-dashed border-[var(--border-color)] bg-[var(--bg-main)] rounded-xl overflow-hidden hover:border-cyan-500/50 transition-colors group">
+            <div className="relative w-full h-32 border border-dashed border-border-color bg-bg-main rounded-xl overflow-hidden hover:border-cyan-500/50 transition-colors group">
 
                 {/* 1. LOADING STATE */}
                 {uploading && (
@@ -52,8 +52,8 @@ export default function ImageUpload({ value, onChange }) {
                 ) : (
                     /* 3. UPLOAD BUTTON */
                     <label className="absolute inset-0 flex flex-col items-center justify-center cursor-pointer">
-                        <Upload size={20} className="text-[var(--text-secondary)] mb-2 group-hover:text-cyan-500 transition-colors" />
-                        <span className="text-[9px] font-mono uppercase text-[var(--text-secondary)]">Click_to_Upload</span>
+                        <Upload size={20} className="text-text-secondary mb-2 group-hover:text-cyan-500 transition-colors" />
+                        <span className="text-[9px] font-mono uppercase text-text-secondary">Click_to_Upload</span>
                         <input type="file" accept="image/*" onChange={handleFile} className="hidden" />
                     </label>
                 )}

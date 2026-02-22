@@ -1,33 +1,65 @@
 @import "tailwindcss";
 
+@theme {
+    /* Define colors to sync with tailwind utilities automatically in v4 */
+    --color-bg-main: var(--bg-main);
+    --color-bg-card: var(--bg-card);
+    --color-text-primary: var(--text-primary);
+    --color-text-secondary: var(--text-secondary);
+    --color-border-color: var(--border-color);
+    --color-accent: var(--accent);
+    --color-accent-hover: var(--accent-hover);
+    --color-watermark: var(--watermark-text);
+    --color-hyper-cyan: var(--hyper-cyan);
+
+    /* Shadows Premium */
+    --shadow-premium-sm: 0 4px 6px -1px var(--border-color), 0 2px 4px -2px var(--border-color);
+    --shadow-premium-md: 0 10px 15px -3px var(--border-color), 0 4px 6px -4px var(--border-color);
+    --shadow-premium-lg: 0 20px 25px -5px var(--border-color), 0 8px 10px -6px var(--border-color);
+    --shadow-premium-xl: 0 25px 50px -12px var(--border-color);
+    --shadow-premium-glow: 0 0 20px var(--accent-glow);
+
+    /* Spring-like transitions */
+    --ease-spring: cubic-bezier(0.16, 1, 0.3, 1);
+    
+    /* Fonts */
+    --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    --font-mono: 'JetBrains Mono', 'Geist Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+}
+
 @layer base {
     :root {
-        /* --- PREMIUM LIGHT THEME (Apple Aesthetic) --- */
-        --bg-main: #F5F5F7;
-        /* Athens Gray */
-        --bg-card: #FFFFFF;
-        /* Pure White */
-        --text-primary: #1D1D1F;
-        /* Deep Charcoal (Not pure black) */
-        --text-secondary: #86868b;
-        /* Apple Gray */
-        --border-color: rgba(0, 0, 0, 0.05);
-        --accent-glow: rgba(6, 182, 212, 0.15);
-        /* Subtle Cyan */
+        /* --- HIGH-END LIGHT THEME --- */
+        --bg-main: #FAFAFA; /* Perfect neutral white-ish */
+        --bg-card: #FFFFFF; /* Pure white surface */
+        --text-primary: #111111; /* Off-black for crisp reading */
+        --text-secondary: #666666; /* Elegant grey */
+        --border-color: rgba(0, 0, 0, 0.08); /* Hairline */
+        
+        --accent: #000000; /* Contrast black as primary accent */
+        --accent-hover: #333333;
+        --hyper-cyan: #00e5ff;
+        --accent-glow: rgba(0, 229, 255, 0.15); /* Hyper-cyan glow for micro-interactions */
+        --watermark-text: rgba(0, 0, 0, 0.04);
     }
 
     .dark {
-        /* --- CYBERPUNK DARK THEME (Original) --- */
-        --bg-main: #050505;
-        --bg-card: #0a0a0a;
-        --text-primary: #FFFFFF;
-        --text-secondary: rgba(255, 255, 255, 0.4);
-        --border-color: rgba(255, 255, 255, 0.05);
-        --accent-glow: rgba(6, 182, 212, 0.15);
+        /* --- NEOLITHIC SILICON DARK THEME --- */
+        --bg-main: #000000; /* True black background */
+        --bg-card: #0A0A0A; /* Very dark grey card */
+        --text-primary: #FFFFFF; /* Pure white font */
+        --text-secondary: #888888; /* Mid-grey text */
+        --border-color: rgba(255, 255, 255, 0.08); /* Hairline white */
+        
+        --accent: #FFFFFF; /* Contrast white as primary accent */
+        --accent-hover: #E5E5E5;
+        --hyper-cyan: #00e5ff;
+        --accent-glow: rgba(0, 229, 255, 0.2);
+        --watermark-text: rgba(255, 255, 255, 0.03);
     }
 
     body {
-        @apply bg-[var(--bg-main)] text-[var(--text-primary)] transition-colors duration-300 ease-in-out antialiased selection:bg-cyan-500 selection:text-white;
+        @apply bg-bg-main text-text-primary font-sans transition-colors duration-500 antialiased selection:bg-hyper-cyan selection:text-black;
     }
 
     html {
@@ -44,34 +76,46 @@
         -ms-overflow-style: none;
         scrollbar-width: none;
     }
+
+    /* Pause animation on hover for the news ticker */
+    .pause-on-hover:hover {
+        animation-play-state: paused !important;
+    }
+
+    /* Fancy glint animation */
+    @keyframes glint {
+        0% { transform: translateX(-100%) skewX(-45deg); }
+        100% { transform: translateX(200%) skewX(-45deg); }
+    }
+
+    @keyframes scan {
+        0% { transform: translateY(-100%); }
+        100% { transform: translateY(100vh); }
+    }
 }
 
 /* Scroll bar cutomization */
-
-/* width of the scrollbar */
 ::-webkit-scrollbar {
-    width: 10px;
-    height: 10px;
+    width: 6px;
+    height: 6px;
 }
-
-/* track (background) */
 ::-webkit-scrollbar-track {
-    background: #0d0d0d;
+    background: transparent;
 }
-
-/* draggable thumb */
 ::-webkit-scrollbar-thumb {
-    background-color: rgb(0, 183, 219);
+    background-color: var(--border-color);
     border-radius: 8px;
-    border: 2px solid hsl(0, 0%, 20%);
+}
+::-webkit-scrollbar-thumb:hover {
+    background-color: var(--text-secondary);
 }
 
 /* Autofill customized */
 input:-webkit-autofill,
 textarea:-webkit-autofill,
 select:-webkit-autofill {
-    -webkit-box-shadow: 0 0 0 1000px #0d0d0d inset;
-    box-shadow: 0 0 0 1000px #0d0d0d inset;
-    -webkit-text-fill-color: #ffffff;
+    -webkit-box-shadow: 0 0 0 1000px var(--bg-card) inset;
+    box-shadow: 0 0 0 1000px var(--bg-card) inset;
+    -webkit-text-fill-color: var(--text-primary);
     transition: background-color 9999s ease-in-out 0s;
 }

@@ -98,7 +98,7 @@ export default function AddProduct() {
             <form onSubmit={handleSubmit} className="space-y-8">
 
                 {/* SECTION 1: CORE IDENTITY */}
-                <div className="bg-[var(--bg-card)] border border-[var(--border-color)] rounded-2xl p-8 space-y-6">
+                <div className="bg-bg-card border border-border-color rounded-2xl p-8 space-y-6">
                     <h3 className="flex items-center gap-2 text-xs font-black uppercase tracking-widest opacity-40">
                         <Smartphone size={14} /> Core_Identity
                     </h3>
@@ -111,7 +111,7 @@ export default function AddProduct() {
                                 required
                                 value={formData.brand_id}
                                 onChange={handleChange}
-                                className="w-full bg-[var(--bg-main)] border border-[var(--border-color)] rounded-xl py-3 px-4 text-xs font-mono outline-none focus:border-cyan-500/50"
+                                className="w-full bg-bg-main border border-border-color rounded-xl py-3 px-4 text-xs font-mono outline-none focus:border-cyan-500/50"
                             >
                                 <option value="">-- SELECT_BRAND --</option>
                                 {brands.map(b => <option key={b.id} value={b.id}>{b.name}</option>)}
@@ -126,7 +126,7 @@ export default function AddProduct() {
                                 value={formData.model_name}
                                 onChange={handleChange}
                                 placeholder="EX: GALAXY S25"
-                                className="w-full bg-[var(--bg-main)] border border-[var(--border-color)] rounded-xl py-3 px-4 text-xs font-mono outline-none focus:border-cyan-500/50"
+                                className="w-full bg-bg-main border border-border-color rounded-xl py-3 px-4 text-xs font-mono outline-none focus:border-cyan-500/50"
                             />
                         </div>
                     </div>
@@ -144,13 +144,13 @@ export default function AddProduct() {
                             value={formData.ai_summary}
                             onChange={handleChange}
                             placeholder="Short description of the device..."
-                            className="w-full bg-[var(--bg-main)] border border-[var(--border-color)] rounded-xl py-3 px-4 text-xs font-mono outline-none focus:border-cyan-500/50"
+                            className="w-full bg-bg-main border border-border-color rounded-xl py-3 px-4 text-xs font-mono outline-none focus:border-cyan-500/50"
                         />
                     </div>
                 </div>
 
                 {/* SECTION 2: HARDWARE SPECS */}
-                <div className="bg-[var(--bg-card)] border border-[var(--border-color)] rounded-2xl p-8 space-y-6">
+                <div className="bg-bg-card border border-border-color rounded-2xl p-8 space-y-6">
                     <h3 className="flex items-center gap-2 text-xs font-black uppercase tracking-widest opacity-40">
                         <Cpu size={14} /> Hardware_Matrix
                     </h3>
@@ -162,7 +162,7 @@ export default function AddProduct() {
                         <InputGroup label="Battery (mAh)" name="battery" value={formData.battery} onChange={handleChange} icon={Zap} />
                     </div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-4 border-t border-[var(--border-color)]">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-4 border-t border-border-color">
                         <InputGroup label="Chipset / Processor" name="chipset" value={formData.chipset} onChange={handleChange} icon={Cpu} />
                         <InputGroup label="Display Resolution" name="display_res" value={formData.display_res} onChange={handleChange} icon={Smartphone} />
                         <InputGroup label="Main Camera" name="camera_main" value={formData.camera_main} onChange={handleChange} icon={ImageIcon} />
@@ -194,7 +194,7 @@ function InputGroup({ label, icon: Icon, ...props }) {
             </label>
             <input
                 {...props}
-                className="w-full bg-[var(--bg-main)] border border-[var(--border-color)] rounded-xl py-3 px-4 text-xs font-mono outline-none focus:border-cyan-500/50"
+                className="w-full bg-bg-main border border-border-color rounded-xl py-3 px-4 text-xs font-mono outline-none focus:border-cyan-500/50"
             />
         </div>
     )

@@ -1,6 +1,6 @@
 import { RouterProvider } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
-import router from '@/app/router';
+import router from "@/router";
 
 // Contexts
 import { AuthProvider } from '@/context/AuthContext';
@@ -12,14 +12,16 @@ import { CommandProvider } from '@/context/CommandContext';
 import GlobalLoader from "@/components/shared/GlobalLoader";
 import CommandPalette from "@/components/shared/CommandPalette";
 
-export default function App() {
+
+export default function App ()
+{
     return (
         <ThemeProvider>
             <AuthProvider>
                 <BattleProvider>
                     <Toaster
                         position="bottom-right"
-                        toastOptions={{
+                        toastOptions={ {
                             className: '!bg-[#0a0a0a] !text-white !font-mono !text-sm !border !border-white/10 !rounded-xl !shadow-2xl',
                             style: {
                                 borderRadius: '16px',
@@ -45,12 +47,12 @@ export default function App() {
                                     secondary: '#0a0a0a',
                                 },
                             },
-                        }}
+                        } }
                     />
 
-                    {/* THE GLOBAL LOADER WRAPS THE ROUTER */}
+                    {/* THE GLOBAL LOADER WRAPS THE ROUTER */ }
                     <GlobalLoader>
-                        <RouterProvider router={router} fallbackElement={null} />
+                        <RouterProvider router={ router } fallbackElement={ null } />
                     </GlobalLoader>
 
                 </BattleProvider>

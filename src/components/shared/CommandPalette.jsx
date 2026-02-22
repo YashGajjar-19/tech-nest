@@ -8,14 +8,14 @@ export default function CommandPalette() {
     const { isOpen, setIsOpen, navigateTo } = useCommand();
     const [query, setQuery] = useState("");
     const [products, setProducts] = useState([]);
-    const [filtered, setFiltered] = useState([]);
+
 
     // Fetch list when opened (Optimization: only fetch once or when opened)
     useEffect(() => {
         if (isOpen && products.length === 0) {
             getProducts().then(setProducts);
         }
-    }, [isOpen]);
+    }, [isOpen, products.length]);
 
     // Handle Escape Key
     useEffect(() => {
@@ -29,18 +29,11 @@ export default function CommandPalette() {
     }, [isOpen, setIsOpen]);
 
     // Filter Logic
-    useEffect(() => {
-        if (!query) {
-            setFiltered([]);
-            return;
-        }
+    const filtered = !query ? [] : products.filter(p => {
         const lower = query.toLowerCase();
-        const results = products.filter(p =>
-            p.model_name.toLowerCase().includes(lower) ||
-            p.brands.name.toLowerCase().includes(lower)
-        );
-        setFiltered(results.slice(0, 5)); // Limit to top 5
-    }, [query, products]);
+        return p.model_name.toLowerCase().includes(lower) ||
+               p.brands.name.toLowerCase().includes(lower);
+    }).slice(0, 5);
 
     // Handle Backdrop Click
     const handleBackdrop = (e) => {
@@ -58,20 +51,20 @@ export default function CommandPalette() {
                         initial={{ opacity: 0, scale: 0.95, y: -20 }}
                         animate={{ opacity: 1, scale: 1, y: 0 }}
                         exit={{ opacity: 0, scale: 0.95, y: -20 }}
-                        className="w-full max-w-2xl bg-[var(--bg-card)] border border-[var(--border-color)] shadow-2xl rounded-2xl overflow-hidden flex flex-col"
+                        className="w-full max-w-2xl bg-bg-card border border-border-color shadow-2xl rounded-2xl overflow-hidden flex flex-col"
                     >
                         {/* SEARCH INPUT */}
-                        <div className="flex items-center gap-4 px-6 py-4 border-b border-[var(--border-color)]">
-                            <Search className="text-[var(--text-secondary)]" size={20} />
+                        <div className="flex items-center gap-4 px-6 py-4 border-b border-border-color">
+                            <Search className="text-text-secondary" size={20} />
                             <input
                                 autoFocus
                                 placeholder="Search database... (e.g., 'Pixel 9')"
-                                className="flex-1 bg-transparent text-lg font-mono outline-none placeholder:opacity-40 text-[var(--text-primary)]"
+                                className="flex-1 bg-transparent text-lg font-mono outline-none placeholder:opacity-40 text-text-primary"
                                 value={query}
                                 onChange={(e) => setQuery(e.target.value)}
                             />
-                            <button onClick={() => setIsOpen(false)} className="p-1 hover:bg-[var(--bg-main)] rounded-md transition-colors">
-                                <span className="text-[10px] font-mono border border-[var(--border-color)] px-2 py-1 rounded text-[var(--text-secondary)]">ESC</span>
+                            <button onClick={() => setIsOpen(false)} className="p-1 hover:bg-bg-main rounded-md transition-colors">
+                                <span className="text-[10px] font-mono border border-border-color px-2 py-1 rounded text-text-secondary">ESC</span>
                             </button>
                         </div>
 
@@ -90,7 +83,7 @@ export default function CommandPalette() {
                                 </div>
                             )}
 
-                            {filtered.map((product, i) => (
+                            {filtered.map((product) => (
                                 <button
                                     key={product.id}
                                     onClick={() => navigateTo(`/devices/${product.slug}`)}
@@ -101,7 +94,7 @@ export default function CommandPalette() {
                                     </div>
 
                                     <div className="flex-1">
-                                        <h4 className="font-bold text-sm text-[var(--text-primary)] group-hover:text-cyan-500">{product.model_name}</h4>
+                                        <h4 className="font-bold text-sm text-text-primary group-hover:text-cyan-500">{product.model_name}</h4>
                                         <p className="text-[10px] font-mono opacity-50 uppercase tracking-widest">{product.brands.name}</p>
                                     </div>
 
@@ -111,7 +104,7 @@ export default function CommandPalette() {
                         </div>
 
                         {/* FOOTER */}
-                        <div className="px-4 py-2 bg-[var(--bg-main)] border-t border-[var(--border-color)] flex justify-between items-center">
+                        <div className="px-4 py-2 bg-bg-main border-t border-border-color flex justify-between items-center">
                             <span className="text-[9px] font-mono opacity-40 uppercase tracking-widest">Tech_Nest_Search v1.0</span>
                             <div className="flex gap-2 text-[9px] font-mono opacity-40">
                                 <span>↑↓ Navigate</span>

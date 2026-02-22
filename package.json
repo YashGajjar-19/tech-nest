@@ -10,16 +10,21 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@studio-freight/lenis": "^1.0.42",
     "@supabase/supabase-js": "^2.89.0",
     "@tailwindcss/vite": "^4.0.0",
     "clsx": "^2.1.1",
+    "cmdk": "^1.1.1",
     "framer-motion": "^12.23.28",
     "lucide-react": "^0.562.0",
     "react": "^19.2.0",
+    "react-countup": "^6.5.3",
     "react-dom": "^19.2.0",
     "react-hot-toast": "^2.6.0",
+    "react-hotkeys-hook": "^5.2.4",
     "react-router-dom": "^7.11.0",
-    "tailwind-merge": "^3.4.0",
+    "react-type-animation": "^3.2.0",
+    "tailwind-merge": "^3.5.0",
     "tailwindcss": "^4.0.0"
   },
   "devDependencies": {

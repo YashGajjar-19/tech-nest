@@ -1,0 +1,95 @@
+
+> tech-nest@0.0.0 lint
+> eslint .
+
+
+D:\tech-nest\src\components\shared\CommandPalette.jsx
+  18:8   warning  React Hook useEffect has a missing dependency: 'products.length'. Either include it or remove the dependency array                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                react-hooks/exhaustive-deps
+  34:13  error    Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+  32 |     useEffect(() => {
+  33 |         if (!query) {
+> 34 |             setFiltered([]);
+     |             ^^^^^^^^^^^ Avoid calling setState() directly within an effect
+  35 |             return;
+  36 |         }
+  37 |         const lower = query.toLowerCase();  react-hooks/set-state-in-effect
+  93:53  error    'i' is defined but never used                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     no-unused-vars
+
+D:\tech-nest\src\components\shared\Footer.jsx
+  59:29  error  'Icon' is defined but never used  no-unused-vars
+
+D:\tech-nest\src\components\shared\Navbar.jsx
+  32:9  error  Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+  30 |     // Close mobile menu on route change
+  31 |     useEffect(() => {
+> 32 |         setMobileMenuOpen(false);
+     |         ^^^^^^^^^^^^^^^^^ Avoid calling setState() directly within an effect
+  33 |     }, [location.pathname]);
+  34 |
+  35 |     return (  react-hooks/set-state-in-effect
+
+D:\tech-nest\src\components\ui\ImageUpload.jsx
+  18:18  error  'error' is defined but never used  no-unused-vars
+
+D:\tech-nest\src\context\AuthContext.jsx
+  68:14  warning  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+
+D:\tech-nest\src\context\BattleContext.jsx
+  41:14  warning  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+
+D:\tech-nest\src\context\CommandContext.jsx
+  38:14  warning  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+
+D:\tech-nest\src\context\ThemeContext.jsx
+  37:14  warning  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+
+D:\tech-nest\src\pages\admin\Inventory.jsx
+  21:18  error  'error' is defined but never used  no-unused-vars
+  37:18  error  'error' is defined but never used  no-unused-vars
+
+D:\tech-nest\src\pages\public\Battle.jsx
+  10:12  error  'loading' is assigned a value but never used. Allowed unused vars must match /^[A-Z_]|motion/u                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              no-unused-vars
+  14:13  error  Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+  12 |     useEffect(() => {
+  13 |         if (selectedDevices.length === 0) {
+> 14 |             setFullData([]);
+     |             ^^^^^^^^^^^ Avoid calling setState() directly within an effect
+  15 |             setLoading(false);
+  16 |             return;
+  17 |         }  react-hooks/set-state-in-effect
+
+D:\tech-nest\src\pages\public\Home.jsx
+  30:11  error  'y1' is assigned a value but never used. Allowed unused vars must match /^[A-Z_]|motion/u  no-unused-vars
+  31:11  error  'y2' is assigned a value but never used. Allowed unused vars must match /^[A-Z_]|motion/u  no-unused-vars
+
+D:\tech-nest\src\pages\public\ProductDetail.jsx
+  94:46  error  'Icon' is defined but never used  no-unused-vars
+
+D:\tech-nest\src\services\apiProducts.js
+    4:19  error  'error' is assigned a value but never used. Allowed unused vars must match /^[A-Z_]|motion/u  no-unused-vars
+  109:15  error  '_' is defined but never used                                                                 no-unused-vars
+  168:15  error  '_' is defined but never used                                                                 no-unused-vars
+
+✖ 20 problems (15 errors, 5 warnings)
+

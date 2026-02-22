@@ -43,14 +43,14 @@ export default function ProductCard({ product }) {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className={`relative group bg-[var(--bg-card)] border border-[var(--border-color)] rounded-[3rem] p-6 transition-all duration-500 ${isSelected
+            className={`relative group bg-bg-card border border-border-color rounded-[3rem] p-6 transition-all duration-500 ${isSelected
                 ? 'border-cyan-500 shadow-[0_0_60px_var(--accent-glow)]'
                 : 'hover:border-cyan-500/30'
                 }`}
         >
             {/* PRICE (Top Left) */}
             <div className="absolute top-8 left-8 z-20 pointer-events-none">
-                <span className="text-[var(--text-primary)] font-mono font-bold text-lg tracking-tighter">
+                <span className="text-text-primary font-mono font-bold text-lg tracking-tighter">
                     {startingPrice !== "N/A" ? `$${startingPrice}` : ""}
                 </span>
             </div>
@@ -63,7 +63,7 @@ export default function ProductCard({ product }) {
             {/* IMAGE AREA */}
             <div
                 onClick={handleNavigate}
-                className="relative h-48 mb-6 flex items-center justify-center overflow-hidden rounded-2xl bg-[var(--bg-main)] border border-transparent group-hover:border-cyan-500/10 cursor-pointer transition-all"
+                className="relative h-48 mb-6 flex items-center justify-center overflow-hidden rounded-2xl bg-bg-main border border-transparent group-hover:border-cyan-500/10 cursor-pointer transition-all"
             >
                 <img
                     src={image_url || "https://via.placeholder.com/300"}
@@ -75,15 +75,15 @@ export default function ProductCard({ product }) {
             {/* CONTENT */}
             <div className="mb-6 cursor-pointer" onClick={handleNavigate}>
                 <div className="flex items-center gap-2 mb-2">
-                    <span className="px-3 py-1 rounded-full bg-[var(--bg-main)] border border-[var(--border-color)] text-[10px] font-mono font-bold uppercase tracking-widest text-cyan-500">
+                    <span className="px-3 py-1 rounded-full bg-bg-main border border-border-color text-[10px] font-mono font-bold uppercase tracking-widest text-cyan-500">
                         {brands?.name || "GENERIC"}
                     </span>
                 </div>
-                <h3 className="text-2xl font-black italic uppercase tracking-tighter text-[var(--text-primary)] mb-2">
+                <h3 className="text-2xl font-black italic uppercase tracking-tighter text-text-primary mb-2">
                     {model_name}
                 </h3>
                 {/* AI SUMMARY TRUNCATED */}
-                <p className="text-[10px] font-mono text-[var(--text-secondary)] line-clamp-2">
+                <p className="text-[10px] font-mono text-text-secondary line-clamp-2">
                     {ai_summary || "NO_NEURAL_DATA_AVAILABLE..."}
                 </p>
             </div>
@@ -93,7 +93,7 @@ export default function ProductCard({ product }) {
                 onClick={handleToggle}
                 className={`w-full py-4 rounded-xl font-mono font-bold text-[10px] tracking-[0.3em] uppercase transition-all flex items-center justify-center gap-3 active:scale-95 ${isSelected
                     ? 'bg-cyan-500 text-black shadow-[0_0_30px_rgba(6,182,212,0.4)]'
-                    : 'bg-[var(--bg-main)] text-[var(--text-primary)] hover:bg-[var(--bg-main)]/80'
+                    : 'bg-bg-main text-text-primary hover:bg-bg-main/80'
                     }`}
             >
                 {isSelected ? 'DISENGAGE' : 'SELECT_UNIT'} <MousePointer2 size={12} />

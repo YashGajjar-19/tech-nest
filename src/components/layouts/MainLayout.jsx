@@ -2,7 +2,7 @@ import { Outlet, useLocation } from "react-router-dom";
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Navbar from "@/components/shared/Navbar";
-import AuthModal from "@/features/auth/components/AuthModal"; // Import the modal
+import AuthModal from "@/components/auth/AuthModal"; // Import the modal
 import ThemeToggle from "@/components/ui/ThemeToggle";
 import Footer from "@/components/shared/Footer";
 import { CommandProvider } from "@/context/CommandContext";
@@ -14,7 +14,7 @@ export default function MainLayout() {
 
     return (
         <CommandProvider>
-            <div className="min-h-screen bg-[var(--bg-main)] text-[var(--text-primary)] font-sans">
+            <div className="min-h-screen bg-bg-main text-text-primary font-sans">
                 <Navbar onOpenAuth={() => setAuthOpen(true)} />
                 <ThemeToggle />
                 <CommandPalette />

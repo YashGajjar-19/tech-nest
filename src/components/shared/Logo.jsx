@@ -1,7 +1,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 
-const Logo = ({ className = "text-[var(--text-primary)]", size = 30 }) => {
+const Logo = ({ className = "text-text-primary", size = 30 }) => {
     const springConfig = { type: "spring", stiffness: 200, damping: 12 };
 
     const pathVariants = {
@@ -52,9 +52,6 @@ const Logo = ({ className = "text-[var(--text-primary)]", size = 30 }) => {
                     custom={2}
                 />
             </svg>
-            <span className="text-2xl font-mono font-bold tracking-tight">Tech
-                <span className="text-cyan-500"> Nest</span>
-            </span>
         </div>
     );
 };

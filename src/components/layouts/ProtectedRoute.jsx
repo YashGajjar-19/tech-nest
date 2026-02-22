@@ -6,7 +6,7 @@ export default function ProtectedRoute() {
 
     // Show a loader while checking session
     if (loading) return (
-        <div className="h-screen flex items-center justify-center bg-[var(--bg-main)] text-cyan-500 font-mono">
+        <div className="h-screen flex items-center justify-center bg-bg-main text-cyan-500 font-mono">
             SCANNING_BIOMETRICS...
         </div>
     );

@@ -13,7 +13,7 @@ export default function ThemeToggle() {
         <motion.button
             whileTap={{ scale: 0.95 }}
             onClick={handleToggle}
-            className="fixed bottom-8 right-8 z-50 w-16 h-16 rounded-2xl bg-[var(--bg-card)] dark:bg-[var(--bg-main)] shadow-[0_8px_30px_rgb(0,0,0,0.12)] border border-[var(--border-color)] flex items-center justify-center transition-colors group"
+            className="fixed bottom-8 right-8 z-50 w-16 h-16 rounded-2xl bg-bg-card dark:bg-bg-main shadow-[0_8px_30px_rgb(0,0,0,0.12)] border border-border-color flex items-center justify-center transition-colors group"
             aria-label="Toggle Theme"
         >
             {theme === "dark" ? (

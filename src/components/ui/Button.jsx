@@ -14,9 +14,9 @@ export default function Button({
     const baseStyles = "relative overflow-hidden font-black uppercase tracking-[0.2em] transition-all active:scale-95 disabled:opacity-50 disabled:pointer-events-none flex items-center justify-center gap-2 rounded-xl";
 
     const variants = {
-        primary: "bg-[var(--text-primary)] text-[var(--bg-card)] hover:bg-cyan-500 hover:text-black hover:shadow-[0_0_20px_rgba(6,182,212,0.4)] border border-transparent",
-        outline: "bg-transparent border border-[var(--border-color)] text-[var(--text-primary)] hover:border-cyan-500 hover:text-cyan-500",
-        ghost: "bg-transparent text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--text-primary)]/5",
+        primary: "bg-text-primary text-bg-card hover:bg-cyan-500 hover:text-black hover:shadow-[0_0_20px_rgba(6,182,212,0.4)] border border-transparent",
+        outline: "bg-transparent border border-border-color text-text-primary hover:border-cyan-500 hover:text-cyan-500",
+        ghost: "bg-transparent text-text-secondary hover:text-text-primary hover:bg-text-primary/5",
         danger: "bg-red-500/10 border border-red-500/20 text-red-500 hover:bg-red-500 hover:text-white"
     };
 

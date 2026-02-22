@@ -3,7 +3,7 @@ import Logo from "@/components/shared/Logo";
 
 export default function LoadingScreen() {
     return (
-        <div className="fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-[var(--bg-main)] text-[var(--text-primary)]">
+        <div className="fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-bg-main text-text-primary">
             {/* AMBIENT BACKGROUND GLOW */}
             <motion.div
                 animate={{
@@ -27,7 +27,7 @@ export default function LoadingScreen() {
 
                 {/* VISUAL LOADING INDICATOR (Minimal) */}
                 <div className="flex flex-col items-center gap-3">
-                    <div className="w-12 h-1 bg-[var(--border-color)] rounded-full overflow-hidden">
+                    <div className="w-12 h-1 bg-border-color rounded-full overflow-hidden">
                         <motion.div
                             initial={{ x: "-100%" }}
                             animate={{ x: "100%" }}

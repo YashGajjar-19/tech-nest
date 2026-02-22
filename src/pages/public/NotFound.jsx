@@ -3,14 +3,14 @@ import { AlertTriangle, ArrowLeft } from "lucide-react";
 
 export default function NotFound() {
     return (
-        <div className="min-h-screen bg-[var(--bg-main)] text-[var(--text-primary)] flex flex-col items-center justify-center text-center p-6 font-mono transition-colors duration-500">
+        <div className="min-h-screen bg-bg-main text-text-primary flex flex-col items-center justify-center text-center p-6 font-mono transition-colors duration-500">
 
             {/* ERROR CODE */}
-            <h1 className="text-[150px] font-black leading-none text-[var(--border-color)] select-none">
+            <h1 className="text-[150px] font-black leading-none text-border-color select-none">
                 404
             </h1>
 
-            <div className="relative -mt-12 bg-[var(--bg-card)] border border-[var(--border-color)] p-8 rounded-3xl shadow-2xl max-w-md w-full">
+            <div className="relative -mt-12 bg-bg-card border border-border-color p-8 rounded-3xl shadow-2xl max-w-md w-full">
                 <div className="w-12 h-12 bg-red-500/10 rounded-full flex items-center justify-center mx-auto mb-6 text-red-500">
                     <AlertTriangle size={24} />
                 </div>
@@ -22,7 +22,7 @@ export default function NotFound() {
 
                 <Link
                     to="/"
-                    className="block w-full py-4 rounded-xl bg-[var(--text-primary)] text-[var(--bg-main)] font-black uppercase tracking-[0.2em] text-xs hover:scale-[1.02] active:scale-[0.98] transition-all"
+                    className="block w-full py-4 rounded-xl bg-text-primary text-bg-main font-black uppercase tracking-[0.2em] text-xs hover:scale-[1.02] active:scale-[0.98] transition-all"
                 >
                     <span className="flex items-center justify-center gap-2">
                         <ArrowLeft size={14} /> Return_to_Base

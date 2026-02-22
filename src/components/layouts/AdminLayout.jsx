@@ -44,10 +44,10 @@ export default function AdminLayout() {
     ];
 
     return (
-        <div className="flex h-screen bg-[var(--bg-main)] text-[var(--text-primary)] font-sans overflow-hidden transition-colors duration-500">
+        <div className="flex h-screen bg-bg-main text-text-primary font-sans overflow-hidden transition-colors duration-500">
 
             {/* 1. SIDEBAR (Fixed Left) */}
-            <aside className="w-[280px] h-full bg-[var(--bg-card)] border-r border-[var(--border-color)] flex flex-col relative z-50">
+            <aside className="w-[280px] h-full bg-bg-card border-r border-border-color flex flex-col relative z-50">
 
                 {/* BRANDING */}
                 <div className="p-8">
@@ -60,7 +60,7 @@ export default function AdminLayout() {
                             Admin_OS v2.0
                         </span>
                     </div>
-                    <Logo className="text-[var(--text-primary)]" />
+                    <Logo className="text-text-primary" />
                 </div>
 
                 {/* NAVIGATION */}
@@ -78,7 +78,7 @@ export default function AdminLayout() {
                     relative flex items-center gap-4 px-5 py-4 rounded-xl transition-all overflow-hidden
                     ${active
                                             ? "bg-cyan-500/5 text-cyan-600 dark:text-cyan-400 border border-cyan-500/10"
-                                            : "text-neutral-500 dark:text-neutral-400 hover:bg-neutral-100 dark:hover:bg-white/5 hover:text-[var(--text-primary)]"
+                                            : "text-neutral-500 dark:text-neutral-400 hover:bg-neutral-100 dark:hover:bg-white/5 hover:text-text-primary"
                                         }
                   `}
                                 >
@@ -101,7 +101,7 @@ export default function AdminLayout() {
                 </nav>
 
                 {/* SYSTEM FOOTER */}
-                <div className="p-6 border-t border-[var(--border-color)] bg-neutral-50 dark:bg-white/[0.02]">
+                <div className="p-6 border-t border-border-color bg-neutral-50 dark:bg-white/[0.02]">
                     <div className="space-y-3">
                         <Link
                             to="/"
@@ -125,10 +125,10 @@ export default function AdminLayout() {
             </aside>
 
             {/* 2. MAIN CONTENT AREA */}
-            <main className="flex-1 flex flex-col relative h-full overflow-hidden bg-[var(--bg-main)]">
+            <main className="flex-1 flex flex-col relative h-full overflow-hidden bg-bg-main">
 
                 {/* TOP BAR */}
-                <header className="h-20 px-8 border-b border-[var(--border-color)] bg-[var(--bg-card)]/80 backdrop-blur-xl flex items-center justify-between sticky top-0 z-40">
+                <header className="h-20 px-8 border-b border-border-color bg-bg-card/80 backdrop-blur-xl flex items-center justify-between sticky top-0 z-40">
                     <div className="flex flex-col">
                         <div className="flex items-center gap-2">
                             <Terminal size={12} className="text-cyan-500" />
@@ -139,7 +139,7 @@ export default function AdminLayout() {
                     </div>
 
                     <div className="flex items-center gap-6">
-                        <div className="hidden lg:flex items-center gap-4 px-4 py-2 rounded-full bg-[var(--bg-main)] border border-[var(--border-color)]">
+                        <div className="hidden lg:flex items-center gap-4 px-4 py-2 rounded-full bg-bg-main border border-border-color">
                             <ShieldCheck size={14} className="text-green-500" />
                             <span className="text-[9px] font-mono font-bold uppercase tracking-widest opacity-60">
                                 Encrypted: AES-256

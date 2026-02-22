@@ -6,12 +6,13 @@ export async function getProducts() {
       .select(`
         *,
         brands ( name, logo_url ),
-        device_variants ( price_launch_usd ) 
+        device_variants ( price_launch_usd ),
+        device_specs ( spec_key, raw_value )
       `)
       .order("created_at", { ascending: false });
-  
+    if (error) throw error;
     return data;
-  }
+}
 
   export async function getDeviceBySlug(slug) {
     const { data, error } = await supabase
