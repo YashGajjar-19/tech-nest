@@ -4,7 +4,7 @@ import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion"
 import { Search, LogIn, LogOut, LayoutDashboard, User, Command, Menu, X } from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
 import { useCommand } from "@/context/CommandContext";
-import Logo from "@/components/shared/Logo";
+import Logo from "@/components/ui/Logo";
 
 const NAV_LINKS = [
     { label: "Devices", to: "/" },

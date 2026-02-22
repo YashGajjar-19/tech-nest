@@ -1,7 +1,7 @@
 import { createBrowserRouter } from "react-router-dom";
-import MainLayout from "@/components/layouts/MainLayout";
-import AdminLayout from "@/components/layouts/AdminLayout";
-import ProtectedRoute from "@/components/layouts/ProtectedRoute";
+import MainLayout from "@/layouts/MainLayout";
+import AdminLayout from "@/layouts/AdminLayout";
+import ProtectedRoute from "@/layouts/ProtectedRoute";
 import Home from "@/pages/public/Home";
 import ProductDetail from "@/pages/public/ProductDetail";
 import Battle from "@/pages/public/Battle";

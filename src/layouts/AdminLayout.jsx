@@ -12,7 +12,7 @@ import {
 import { motion, AnimatePresence } from "framer-motion";
 import { useAuth } from "@/context/AuthContext";
 
-import Logo from "@/components/shared/Logo";
+import Logo from "@/components/ui/Logo";
 
 export default function AdminLayout() {
     const { logout } = useAuth();
@@ -101,7 +101,7 @@ export default function AdminLayout() {
                 </nav>
 
                 {/* SYSTEM FOOTER */}
-                <div className="p-6 border-t border-border-color bg-neutral-50 dark:bg-white/[0.02]">
+                <div className="p-6 border-t border-border-color bg-neutral-50 dark:bg-white/2">
                     <div className="space-y-3">
                         <Link
                             to="/"
@@ -147,7 +147,7 @@ export default function AdminLayout() {
                         </div>
 
                         {/* Admin Avatar */}
-                        <div className="w-10 h-10 rounded-full bg-gradient-to-br from-cyan-500 to-blue-600 flex items-center justify-center text-white font-black italic shadow-lg shadow-cyan-500/20">
+                        <div className="w-10 h-10 rounded-full bg-linear-to-br from-cyan-500 to-blue-600 flex items-center justify-center text-white font-black italic shadow-lg shadow-cyan-500/20">
                             A
                         </div>
                     </div>

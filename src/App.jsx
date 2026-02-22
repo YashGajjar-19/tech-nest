@@ -9,8 +9,8 @@ import { ThemeProvider } from '@/context/ThemeContext';
 import { CommandProvider } from '@/context/CommandContext';
 
 // The new Wrapper
-import GlobalLoader from "@/components/shared/GlobalLoader";
-import CommandPalette from "@/components/shared/CommandPalette";
+import GlobalLoader from "@/components/ui/GlobalLoader";
+import CommandPalette from "@/components/common/CommandPalette";
 
 
 export default function App ()

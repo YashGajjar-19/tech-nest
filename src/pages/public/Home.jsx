@@ -4,8 +4,8 @@ import { motion } from "framer-motion";
 import { Smartphone, Laptop, Watch, Headphones, Tv } from "lucide-react";
 
 // Feature Components
-import Hero from "@/components/home/hero/Hero";
-import Categories from "@/components/home/Categories";
+import Hero from "@/components/sections/hero/Hero";
+import Categories from "@/components/sections/Categories";
 import TrendingDevices from "@/components/sections/TrendingDevices";
 import Features from "@/components/sections/Features";
 import AIPreview from "@/components/sections/AIPreview";

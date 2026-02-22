@@ -1,12 +1,12 @@
 import { Outlet, useLocation } from "react-router-dom";
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import Navbar from "@/components/shared/Navbar";
+import Navbar from "@/components/layout/Navbar";
 import AuthModal from "@/components/auth/AuthModal"; // Import the modal
 import ThemeToggle from "@/components/ui/ThemeToggle";
-import Footer from "@/components/shared/Footer";
+import Footer from "@/components/layout/Footer";
 import { CommandProvider } from "@/context/CommandContext";
-import CommandPalette from "@/components/shared/CommandPalette";
+import CommandPalette from "@/components/common/CommandPalette";
 
 export default function MainLayout() {
     const [isAuthOpen, setAuthOpen] = useState(false);

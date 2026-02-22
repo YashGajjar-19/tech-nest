@@ -3,7 +3,7 @@ import { ArrowDown } from "lucide-react";
 import HeroHeadline from "./HeroHeadline";
 import CommandSearch from "./CommandSearch";
 import TrendingSearches from "./TrendingSearches";
-import AIPreview from "./AIPreview";
+import HeroAI from "./HeroAI";
 import HeroBackground from "./HeroBackground";
 
 export default function Hero ()
@@ -16,7 +16,7 @@ export default function Hero ()
                 <HeroHeadline />
                 <CommandSearch />
                 <TrendingSearches />
-                <AIPreview />
+                <HeroAI />
             </div>
 
             <ScrollIndicator />

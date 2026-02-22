@@ -4,6 +4,7 @@ import { ChevronLeft, Cpu, Smartphone, Zap } from "lucide-react";
 import { getDeviceBySlug } from "@/services/apiProducts";
 import Button from "@/components/ui/Button";
 import LoadingScreen from "@/components/ui/LoadingScreen";
+import NotFound from "@/pages/public/NotFound";
 
 export default function ProductDetail() {
     const { slug } = useParams(); // Grabs 'samsung-s24' from URL
