@@ -8,10 +8,10 @@ export default function CategoryCard({ title, subtitle, icon, delay = 0 }) {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-100px" }}
             transition={{ duration: 0.5, delay, ease: [0.16, 1, 0.3, 1] }}
-            className="group relative w-full flex flex-col items-start gap-4 p-6 sm:p-8 rounded-[2rem] bg-bg-card border border-border-color hover:-translate-y-2 hover:border-hyper-cyan/30 hover:shadow-[0_20px_40px_-15px_rgba(6,182,212,0.15)] transition-all duration-500 ease-spring text-left overflow-hidden outline-none cursor-pointer"
+            className="group relative w-full flex flex-col items-start gap-4 p-6 sm:p-8 rounded-4xl bg-bg-card border border-border-color hover:-translate-y-2 hover:border-hyper-cyan/30 hover:shadow-[0_20px_40px_-15px_rgba(6,182,212,0.15)] transition-all duration-500 ease-spring text-left overflow-hidden outline-none cursor-pointer"
         >
             {/* Ambient Hover Glow */}
-            <div className="absolute inset-x-0 -bottom-10 h-32 bg-gradient-to-t from-hyper-cyan/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
+            <div className="absolute inset-x-0 -bottom-10 h-32 bg-linear-to-t from-hyper-cyan/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
 
             <div className="w-12 h-12 rounded-xl bg-bg-main border border-border-color flex items-center justify-center text-text-secondary group-hover:text-hyper-cyan group-hover:bg-hyper-cyan/10 group-hover:border-hyper-cyan/20 group-hover:scale-110 transition-all duration-500 ease-spring shadow-sm">
                 {icon}

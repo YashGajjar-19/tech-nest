@@ -97,7 +97,7 @@ export default function Inventory() {
                             initial={{ opacity: 0, x: -10 }}
                             animate={{ opacity: 1, x: 0 }}
                             exit={{ opacity: 0, x: 10 }}
-                            className="grid grid-cols-12 border-t border-border-color hover:bg-neutral-50 dark:hover:bg-white/[0.02] transition-colors group items-center"
+                            className="grid grid-cols-12 border-t border-border-color hover:bg-neutral-50 dark:hover:bg-white/0.02 transition-colors group items-center"
                         >
                             <div className="col-span-1 p-4 text-center text-[10px] opacity-40 font-mono">
                                 {(idx + 1).toString().padStart(2, '0')}
