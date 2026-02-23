@@ -1,0 +1,7 @@
+requests
+beautifulsoup4
+pillow
+rembg
+cloudinary
+python-dotenv
+supabase
