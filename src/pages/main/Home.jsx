@@ -4,17 +4,17 @@ import { motion } from "framer-motion";
 import { Smartphone, Laptop, Watch, Headphones, Tv } from "lucide-react";
 
 // Feature Components
-import Hero from "@/components/sections/hero/Hero";
-import Categories from "@/components/sections/Categories";
-import TrendingDevices from "@/components/sections/TrendingDevices";
-import Features from "@/components/sections/Features";
-import AIPreview from "@/components/sections/AIPreview";
-import LatestNews from "@/components/sections/LatestNews";
-import CompareHighlight from "@/components/sections/CompareHighlight";
-import Stats from "@/components/sections/Stats";
-import CTA from "@/components/sections/CTA";
+import Hero from "@/components/home/hero/Hero";
+import Categories from "@/components/home/Categories";
+import TrendingDevices from "@/components/home/TrendingDevices";
+import Features from "@/components/home/Features";
+import AIPreview from "@/components/home/AIPreview";
+import LatestNews from "@/components/home/LatestNews";
+import CompareHighlight from "@/components/home/CompareHighlight";
+import Stats from "@/components/home/Stats";
+import CTA from "@/components/home/CTA";
 
-import { getProducts } from "@/services/apiProducts";
+import { getProducts } from "@/services/apiDevices";
 
 const CATEGORIES = [
     { name: "Phones", icon: <Smartphone size={ 14 } /> },

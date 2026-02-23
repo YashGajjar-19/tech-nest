@@ -1,117 +1,196 @@
--- 1. SETUP EXTENSIONS
+-- UUID generator
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
-CREATE EXTENSION IF NOT EXISTS "vector"; -- Essential for AI comparisons
 
--- 2. USER SYSTEM (PROFILES)
--- Note: Supabase handles auth.users; this table extends it.
-CREATE TABLE public.profiles (
-    id UUID REFERENCES auth.users(id) ON DELETE CASCADE PRIMARY KEY,
-    username TEXT UNIQUE NOT NULL,
-    avatar_url TEXT,
-    bio TEXT,
-    reputation_score INT DEFAULT 0,
-    role TEXT DEFAULT 'user' CHECK (role IN ('user', 'editor', 'admin')),
-    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+-- Vector embeddings (for AI search)
+CREATE EXTENSION IF NOT EXISTS vector;
+
+CREATE TABLE device_categories (
+  id uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
+  name text UNIQUE NOT NULL,
+  created_at timestamptz DEFAULT now()
 );
 
--- 3. BRANDS & DEVICES
-CREATE TABLE public.brands (
-    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-    name TEXT UNIQUE NOT NULL,
-    logo_url TEXT,
-    website_url TEXT,
-    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+CREATE TABLE brands (
+  id uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
+  name text UNIQUE NOT NULL,
+  slug text UNIQUE,
+  logo_url text,
+  website_url text,
+  created_at timestamptz DEFAULT now()
 );
 
-CREATE TABLE public.devices (
-    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-    brand_id UUID REFERENCES public.brands(id) ON DELETE CASCADE,
-    model_name TEXT NOT NULL,
-    slug TEXT UNIQUE NOT NULL, -- For SEO friendly URLs: /samsung-s24-ultra
-    release_date DATE,
-    image_url TEXT,
-    is_foldable BOOLEAN DEFAULT FALSE,
-    ai_summary TEXT, -- Pre-generated AI summary of the phone
-    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+CREATE TABLE devices (
+  id uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
+
+  brand_id uuid REFERENCES brands(id),
+  category_id uuid REFERENCES device_categories(id),
+
+  model_name text NOT NULL,
+  slug text UNIQUE NOT NULL,
+
+  release_date date,
+  image_url text,
+
+  tech_nest_score numeric,
+
+  is_foldable boolean DEFAULT false,
+  ai_summary text,
+
+  created_at timestamptz DEFAULT now()
 );
 
--- 4. SPECIFICATION DEFINITIONS (The "Translation Layer")
-CREATE TABLE public.spec_definitions (
-    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-    key_name TEXT UNIQUE NOT NULL, -- e.g., 'display_nits'
-    display_label TEXT NOT NULL,   -- e.g., 'Peak Brightness'
-    unit TEXT,                    -- e.g., 'nits'
-    human_explanation TEXT,       -- e.g., 'Higher nits mean the screen is easier to see under sunlight.'
-    category TEXT CHECK (category IN ('Display', 'Performance', 'Camera', 'Battery', 'Connectivity', 'Build'))
+CREATE TABLE device_media (
+  id uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
+  device_id uuid REFERENCES devices(id) ON DELETE CASCADE,
+
+  media_type text, -- front, back, side, gallery
+  url text NOT NULL,
+  is_primary boolean DEFAULT false,
+
+  created_at timestamptz DEFAULT now()
 );
 
--- 5. DEVICE SPECIFICATIONS (The Data)
-CREATE TABLE public.device_specs (
-    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-    device_id UUID REFERENCES public.devices(id) ON DELETE CASCADE,
-    spec_key TEXT REFERENCES public.spec_definitions(key_name),
-    raw_value TEXT NOT NULL, -- e.g., '2600'
-    is_highlight BOOLEAN DEFAULT FALSE, -- Should this appear in the "Key Specs" section?
-    UNIQUE(device_id, spec_key)
+CREATE TABLE spec_definitions (
+  id uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
+
+  key_name text UNIQUE NOT NULL,
+  display_label text NOT NULL,
+  unit text,
+  human_explanation text,
+
+  category text CHECK (
+    category IN (
+      'Display','Performance','Camera','Battery',
+      'Connectivity','Build','Audio','Software',
+      'Sensors','Dimensions','Gaming','AI'
+    )
+  )
 );
 
--- 6. VARIANTS (Regional/Hardware differences)
-CREATE TABLE public.device_variants (
-    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-    device_id UUID REFERENCES public.devices(id) ON DELETE CASCADE,
-    region TEXT, -- e.g., 'Global', 'USA', 'India'
-    ram_gb INT,
-    storage_gb INT,
-    chipset TEXT, -- To handle Exynos vs Snapdragon variants
-    price_launch_usd DECIMAL
+CREATE TABLE device_specs (
+  id uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
+
+  device_id uuid REFERENCES devices(id) ON DELETE CASCADE,
+  spec_key text REFERENCES spec_definitions(key_name),
+
+  raw_value text NOT NULL,
+  numeric_value numeric,
+
+  is_highlight boolean DEFAULT false
 );
 
--- 7. AI VECTOR TABLE (For Semantic Comparison)
-CREATE TABLE public.device_embeddings (
-    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-    device_id UUID REFERENCES public.devices(id) ON DELETE CASCADE,
-    embedding vector(1536), -- Compatible with OpenAI/Claude embeddings
-    last_updated TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+CREATE TABLE device_variants (
+  id uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
+
+  device_id uuid REFERENCES devices(id) ON DELETE CASCADE,
+
+  region text,
+  ram_gb integer,
+  storage_gb integer,
+  chipset text,
+  sku text,
+
+  price_launch_usd numeric
 );
 
--- 8. SOCIAL & REVIEWS
-CREATE TABLE public.reviews (
-    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-    user_id UUID REFERENCES public.profiles(id) ON DELETE SET NULL,
-    device_id UUID REFERENCES public.devices(id) ON DELETE CASCADE,
-    rating INT CHECK (rating >= 1 AND rating <= 10),
-    title TEXT,
-    content TEXT,
-    pros TEXT[],
-    cons TEXT[],
-    is_verified_owner BOOLEAN DEFAULT FALSE,
-    proof_image_url TEXT,
-    upvotes INT DEFAULT 0,
-    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+CREATE TABLE profiles (
+  id uuid PRIMARY KEY REFERENCES auth.users(id),
+
+  username text UNIQUE,
+  avatar_url text,
+  bio text,
+
+  reputation_score integer DEFAULT 0,
+
+  role text DEFAULT 'user'
+  CHECK (role IN ('user','editor','admin')),
+
+  created_at timestamptz DEFAULT now()
 );
 
--- 9. TICKETS & REPORTS
-CREATE TABLE public.spec_reports (
-    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-    user_id UUID REFERENCES public.profiles(id),
-    device_id UUID REFERENCES public.devices(id),
-    incorrect_spec_key TEXT,
-    suggested_value TEXT,
-    status TEXT DEFAULT 'pending' CHECK (status IN ('pending', 'verified', 'rejected')),
-    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+CREATE TABLE reviews (
+  id uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
+
+  user_id uuid REFERENCES profiles(id),
+  device_id uuid REFERENCES devices(id),
+
+  rating integer CHECK (rating BETWEEN 1 AND 10),
+
+  title text,
+  content text,
+
+  pros text[],
+  cons text[],
+
+  is_verified_owner boolean DEFAULT false,
+  proof_image_url text,
+
+  upvotes integer DEFAULT 0,
+  helpful_score integer DEFAULT 0,
+
+  created_at timestamptz DEFAULT now()
 );
 
--- 10. AUTOMATED PROFILE TRIGGER
--- This automatically creates a profile when a new user signs up via Supabase Auth.
-CREATE OR REPLACE FUNCTION public.handle_new_user()
-RETURNS TRIGGER AS $$
-BEGIN
-    INSERT INTO public.profiles (id, username, avatar_url)
-    VALUES (new.id, new.raw_user_meta_data->>'username', new.raw_user_meta_data->>'avatar_url');
-    RETURN new;
-END;
-$$ LANGUAGE plpgsql SECURITY DEFINER;
+CREATE TABLE device_embeddings (
+  id uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
 
-CREATE TRIGGER on_auth_user_created
-    AFTER INSERT ON auth.users
-    FOR EACH ROW EXECUTE FUNCTION public.handle_new_user();
+  device_id uuid REFERENCES devices(id) ON DELETE CASCADE,
+
+  embedding vector(1536),
+  embedding_model text,
+
+  last_updated timestamptz DEFAULT now()
+);
+
+CREATE TABLE device_comparisons (
+  id uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
+
+  device_a uuid REFERENCES devices(id),
+  device_b uuid REFERENCES devices(id),
+
+  comparison_summary text,
+  ai_winner uuid REFERENCES devices(id),
+
+  created_at timestamptz DEFAULT now()
+);
+
+CREATE TABLE spec_reports (
+  id uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
+
+  user_id uuid REFERENCES profiles(id),
+  device_id uuid REFERENCES devices(id),
+
+  incorrect_spec_key text,
+  suggested_value text,
+
+  status text DEFAULT 'pending'
+  CHECK (status IN ('pending','verified','rejected')),
+
+  created_at timestamptz DEFAULT now()
+);
+
+CREATE INDEX idx_devices_brand ON devices(brand_id);
+CREATE INDEX idx_devices_category ON devices(category_id);
+CREATE INDEX idx_device_specs_device ON device_specs(device_id);
+CREATE INDEX idx_reviews_device ON reviews(device_id);
+
+ALTER TABLE profiles
+DROP CONSTRAINT profiles_role_check;
+
+ALTER TABLE profiles
+ADD CONSTRAINT profiles_role_check
+CHECK (role IN ('user','editor','moderator','admin','super_admin'));
+
+ALTER TABLE devices ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY editors_insert_devices
+ON devices
+FOR INSERT
+TO authenticated
+USING (
+  EXISTS (
+    SELECT 1 FROM profiles
+    WHERE profiles.id = auth.uid()
+    AND role IN ('editor','admin','super_admin')
+  )
+);

@@ -6,8 +6,8 @@ import {
     LogOut,
     Activity,
     ShieldCheck,
-    Terminal,
-    Settings
+    Settings,
+    ChevronRight
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useAuth } from "@/context/AuthContext";
@@ -28,18 +28,17 @@ export default function AdminLayout() {
         {
             path: "/admin/inventory",
             icon: <Database size={18} />,
-            label: "Inventory_Logs",
+            label: "Inventory Logs",
         },
-        // We will build this next
         {
-            path: "/admin/add-product",
+            path: "/admin/devices", // The new daily workspace
             icon: <LayoutDashboard size={18} />,
-            label: "Deploy_Unit",
+            label: "Device Manager",
         },
         {
             path: "/admin/analytics",
             icon: <Activity size={18} />,
-            label: "Traffic_Data",
+            label: "Traffic Data",
         },
     ];
 
@@ -47,26 +46,28 @@ export default function AdminLayout() {
         <div className="flex h-screen bg-bg-main text-text-primary font-sans overflow-hidden transition-colors duration-500">
 
             {/* 1. SIDEBAR (Fixed Left) */}
-            <aside className="w-[280px] h-full bg-bg-card border-r border-border-color flex flex-col relative z-50">
+            <aside className="w-[280px] h-full bg-bg-card border-r border-border-color flex flex-col relative z-50 shadow-premium-sm">
 
                 {/* BRANDING */}
-                <div className="p-8">
-                    <div className="flex items-center gap-3 mb-6 group cursor-pointer">
-                        <div className="relative">
-                            <div className="w-2 h-2 rounded-full bg-cyan-500 animate-pulse shadow-[0_0_15px_var(--accent-glow)]" />
-                            <div className="absolute inset-0 w-2 h-2 rounded-full bg-cyan-500 animate-ping opacity-20" />
+                <div className="p-8 pb-4">
+                    <div className="flex items-center gap-2 mb-6 group cursor-pointer">
+                        <div className="relative flex items-center justify-center">
+                            <div className="w-2.5 h-2.5 rounded-full bg-hyper-cyan shadow-[0_0_10px_var(--accent-glow)]" />
                         </div>
-                        <span className="font-mono text-[9px] uppercase tracking-[0.3em] font-bold text-cyan-500">
-                            Admin_OS v2.0
+                        <span className="text-xs font-semibold text-text-secondary tracking-wide uppercase">
+                            Control Center <span className="opacity-50">v2</span>
                         </span>
                     </div>
-                    <Logo className="text-text-primary" />
+                    <div className="flex items-center gap-3">
+                        <Logo className="text-text-primary" />
+                        <span className="font-semibold tracking-tight text-xl text-text-primary">Tech Nest</span>
+                    </div>
                 </div>
 
                 {/* NAVIGATION */}
-                <nav className="flex-1 px-4 space-y-2 mt-2">
-                    <p className="px-4 text-[9px] font-mono opacity-40 uppercase tracking-[0.2em] mb-4">
-                        Command_Modules
+                <nav className="flex-1 px-4 space-y-1 mt-6">
+                    <p className="px-4 text-xs font-semibold text-text-secondary/60 uppercase tracking-wider mb-3">
+                        Menu
                     </p>
 
                     {navItems.map((item) => {
@@ -75,23 +76,23 @@ export default function AdminLayout() {
                             <Link key={item.path} to={item.path}>
                                 <motion.div
                                     className={`
-                    relative flex items-center gap-4 px-5 py-4 rounded-xl transition-all overflow-hidden
-                    ${active
-                                            ? "bg-cyan-500/5 text-cyan-600 dark:text-cyan-400 border border-cyan-500/10"
-                                            : "text-neutral-500 dark:text-neutral-400 hover:bg-neutral-100 dark:hover:bg-white/5 hover:text-text-primary"
+                                        relative flex items-center gap-3 px-4 py-3 rounded-xl transition-all
+                                        ${active
+                                            ? "bg-text-primary/5 text-text-primary font-medium"
+                                            : "text-text-secondary hover:bg-black/5 dark:hover:bg-white/5 hover:text-text-primary"
                                         }
-                  `}
+                                    `}
                                 >
                                     {/* Active Indicator Bar */}
                                     {active && (
                                         <motion.div
                                             layoutId="active_indicator"
-                                            className="absolute left-0 top-2 bottom-2 w-1 bg-cyan-500 rounded-r-full"
+                                            className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-1/2 bg-hyper-cyan rounded-r-full"
                                         />
                                     )}
 
-                                    <span className="relative z-10">{item.icon}</span>
-                                    <span className="relative z-10 text-[10px] font-mono tracking-widest uppercase font-black">
+                                    <span className={`relative z-10 ${active ? 'text-hyper-cyan' : ''}`}>{item.icon}</span>
+                                    <span className="relative z-10 text-sm">
                                         {item.label}
                                     </span>
                                 </motion.div>
@@ -101,23 +102,23 @@ export default function AdminLayout() {
                 </nav>
 
                 {/* SYSTEM FOOTER */}
-                <div className="p-6 border-t border-border-color bg-neutral-50 dark:bg-white/2">
-                    <div className="space-y-3">
+                <div className="p-6 border-t border-border-color bg-bg-card">
+                    <div className="space-y-2">
                         <Link
                             to="/"
-                            className="flex items-center gap-4 text-[10px] font-mono opacity-40 hover:opacity-100 hover:text-cyan-500 transition-all group"
+                            className="flex items-center gap-3 px-4 py-3 rounded-xl text-text-secondary hover:bg-black/5 dark:hover:bg-white/5 hover:text-text-primary transition-all group"
                         >
-                            <Home size={14} className="group-hover:-translate-y-0.5 transition-transform" />
-                            <span className="uppercase tracking-[0.2em]">Exit_to_Mainframe</span>
+                            <Home size={16} className="group-hover:-translate-y-0.5 transition-transform" />
+                            <span className="text-sm font-medium">Return to App</span>
                         </Link>
 
                         <button
                             onClick={handleLogout}
-                            className="w-full flex items-center gap-3 py-3 px-4 rounded-xl text-red-500 bg-red-500/5 hover:bg-red-500/10 border border-transparent hover:border-red-500/20 transition-all"
+                            className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-red-500 hover:bg-red-500/10 transition-all font-medium"
                         >
-                            <LogOut size={14} />
-                            <span className="text-[9px] font-mono tracking-widest uppercase font-bold">
-                                Terminate_Session
+                            <LogOut size={16} />
+                            <span className="text-sm">
+                                Sign Out
                             </span>
                         </button>
                     </div>
@@ -128,26 +129,27 @@ export default function AdminLayout() {
             <main className="flex-1 flex flex-col relative h-full overflow-hidden bg-bg-main">
 
                 {/* TOP BAR */}
-                <header className="h-20 px-8 border-b border-border-color bg-bg-card/80 backdrop-blur-xl flex items-center justify-between sticky top-0 z-40">
+                <header className="h-20 px-8 border-b border-border-color bg-bg-card/60 backdrop-blur-xl flex items-center justify-between sticky top-0 z-40">
                     <div className="flex flex-col">
-                        <div className="flex items-center gap-2">
-                            <Terminal size={12} className="text-cyan-500" />
-                            <span className="text-[9px] font-mono opacity-40 uppercase tracking-[0.3em]">
-                                Secure_Node_Access
+                        <div className="flex items-center gap-2 text-text-secondary">
+                            <span className="text-sm font-medium">Dashboard</span>
+                            <ChevronRight size={14} className="opacity-50" />
+                            <span className="text-sm font-medium text-text-primary">
+                                {navItems.find(i => i.path === pathname)?.label || "Overview"}
                             </span>
                         </div>
                     </div>
 
                     <div className="flex items-center gap-6">
-                        <div className="hidden lg:flex items-center gap-4 px-4 py-2 rounded-full bg-bg-main border border-border-color">
-                            <ShieldCheck size={14} className="text-green-500" />
-                            <span className="text-[9px] font-mono font-bold uppercase tracking-widest opacity-60">
-                                Encrypted: AES-256
+                        <div className="hidden lg:flex items-center gap-2 px-3 py-1.5 rounded-full bg-text-primary/5 border border-border-color">
+                            <ShieldCheck size={14} className="text-emerald-500" />
+                            <span className="text-xs font-medium text-text-secondary">
+                                Secure Session
                             </span>
                         </div>
 
                         {/* Admin Avatar */}
-                        <div className="w-10 h-10 rounded-full bg-linear-to-br from-cyan-500 to-blue-600 flex items-center justify-center text-white font-black italic shadow-lg shadow-cyan-500/20">
+                        <div className="w-9 h-9 rounded-full bg-bg-main border border-border-color flex items-center justify-center text-text-primary font-bold shadow-premium-sm">
                             A
                         </div>
                     </div>
@@ -155,14 +157,14 @@ export default function AdminLayout() {
 
                 {/* SCROLLABLE VIEWPORT */}
                 <div className="flex-1 overflow-y-auto p-8 no-scrollbar">
-                    <div className="max-w-6xl mx-auto">
+                    <div className="max-w-7xl mx-auto">
                         <AnimatePresence mode="wait">
                             <motion.div
                                 key={pathname}
-                                initial={{ opacity: 0, y: 10, scale: 0.98 }}
+                                initial={{ opacity: 0, y: 10, scale: 0.99 }}
                                 animate={{ opacity: 1, y: 0, scale: 1 }}
-                                exit={{ opacity: 0, y: -10, scale: 0.98 }}
-                                transition={{ duration: 0.3, ease: "circOut" }}
+                                exit={{ opacity: 0, y: -10, scale: 0.99 }}
+                                transition={{ duration: 0.3, ease: "easeOut" }}
                             >
                                 <Outlet />
                             </motion.div>

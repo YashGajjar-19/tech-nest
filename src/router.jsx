@@ -1,16 +1,17 @@
 import { createBrowserRouter } from "react-router-dom";
 import MainLayout from "@/layouts/MainLayout";
 import AdminLayout from "@/layouts/AdminLayout";
-import ProtectedRoute from "@/layouts/ProtectedRoute";
-import Home from "@/pages/public/Home";
-import ProductDetail from "@/pages/public/ProductDetail";
-import Battle from "@/pages/public/Battle";
+import ProtectedRoute from "@/components/auth/ProtectedRoute";
+import Home from "@/pages/main/Home";
+import DeviceDetail from "@/pages/main/DeviceDetail";
+import Battle from "@/pages/main/Battle";
 import Inventory from "@/pages/admin/Inventory";
-import AddProduct from "@/pages/admin/AddProduct";
-import EditProduct from "@/pages/admin/EditProduct";
-import NotFound from "@/pages/public/NotFound";
+import AddDevice from "@/pages/admin/AddDevice";
+import EditDevice from "@/pages/admin/EditDevice";
+import DeviceManager from "@/pages/admin/DeviceManager";
+import NotFound from "@/pages/main/NotFound";
 
-import ErrorPage from "@/pages/public/ErrorPage";
+import ErrorPage from "@/pages/main/ErrorPage";
 
 const router = createBrowserRouter([
     // PUBLIC ROUTES
@@ -20,7 +21,7 @@ const router = createBrowserRouter([
         errorElement: <ErrorPage />,
         children: [
             { path: "/", element: <Home /> },
-            { path: "devices/:slug", element: <ProductDetail /> },
+            { path: "devices/:slug", element: <DeviceDetail /> },
             { path: "battle", element: <Battle /> },
         ],
     },
@@ -34,8 +35,9 @@ const router = createBrowserRouter([
                 element: <AdminLayout />, // 2. If yes, render Admin Layout
                 children: [
                     { path: "inventory", element: <Inventory /> },
-                    { path: "add-product", element: <AddProduct /> },
-                    { path: "edit-product/:id", element: <EditProduct /> },
+                    { path: "devices", element: <DeviceManager /> },
+                    { path: "add-device", element: <AddDevice /> },
+                    { path: "edit-device/:id", element: <EditDevice /> },
                     { path: "*", element: <NotFound /> }
                 ]
             }
