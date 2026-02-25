@@ -1,4 +1,5 @@
 import { Smartphone, Laptop, Tablet, Watch, Headphones, Tv } from "lucide-react";
+import { Link } from "react-router-dom";
 import CategoryCard from "../ui/CategoryCard";
 
 const CATEGORIES_DATA = [
@@ -50,12 +51,14 @@ export default function Categories() {
             <div className="flex md:grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 overflow-x-auto md:overflow-x-visible pb-8 md:pb-0 snap-x snap-mandatory hide-scrollbar">
                 {CATEGORIES_DATA.map((cat, i) => (
                     <div key={cat.title} className="w-[85vw] md:w-auto shrink-0 snap-center">
-                        <CategoryCard 
-                            title={cat.title}
-                            subtitle={cat.subtitle}
-                            icon={cat.icon}
-                            delay={i * 0.05}
-                        />
+                        <Link to={`/devices?q=${cat.title.split(' ')[0]}`} className="block w-full h-full outline-none">
+                            <CategoryCard 
+                                title={cat.title}
+                                subtitle={cat.subtitle}
+                                icon={cat.icon}
+                                delay={i * 0.05}
+                            />
+                        </Link>
                     </div>
                 ))}
             </div>

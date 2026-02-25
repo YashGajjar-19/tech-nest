@@ -1,38 +1,23 @@
-/* eslint-disable react-refresh/only-export-components */
-import { createContext, useContext, useEffect, useState } from "react";
-
-const ThemeContext = createContext();
+import { ThemeProvider as NextThemesProvider, useTheme as useNextTheme } from "next-themes";
 
 export function ThemeProvider({ children }) {
-    const [theme, setTheme] = useState(() => {
-        // Check localStorage or System Preference
-        if (typeof window !== "undefined") {
-            const saved = localStorage.getItem("tech_nest_theme");
-            if (saved) return saved;
-            return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
-        }
-        return "dark";
-    });
+    return (
+        <NextThemesProvider attribute="class" defaultTheme="dark" enableSystem={true}>
+            {children}
+        </NextThemesProvider>
+    );
+}
 
-    useEffect(() => {
-        const root = window.document.documentElement;
-        // 1. Remove both potential classes to be safe
-        root.classList.remove("light", "dark");
-        // 2. Add the current theme class
-        root.classList.add(theme);
-        // 3. Persist to storage
-        localStorage.setItem("tech_nest_theme", theme);
-    }, [theme]);
+export function useTheme() {
+    const { theme, setTheme, systemTheme } = useNextTheme();
 
+    // Maintain compatible interface
     const toggleTheme = (newTheme) => {
         setTheme(newTheme);
     };
 
-    return (
-        <ThemeContext.Provider value={{ theme, toggleTheme }}>
-            {children}
-        </ThemeContext.Provider>
-    );
-}
+    // If initial loading or value is not ready, default to 'dark' for UI consistency
+    const currentTheme = theme === "system" ? systemTheme : theme;
 
-export const useTheme = () => useContext(ThemeContext);
+    return { theme: currentTheme || "dark", setTheme, toggleTheme };
+}

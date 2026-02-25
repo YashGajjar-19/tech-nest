@@ -1,10 +1,12 @@
 import { createBrowserRouter } from "react-router-dom";
 import MainLayout from "@/layouts/MainLayout";
 import AdminLayout from "@/layouts/AdminLayout";
-import ProtectedRoute from "@/components/auth/ProtectedRoute";
+import ProtectedRoute from "@/layouts/ProtectedRoute";
 import Home from "@/pages/main/Home";
 import DeviceDetail from "@/pages/main/DeviceDetail";
+import DeviceRegistry from "@/pages/main/DeviceRegistry";
 import Battle from "@/pages/main/Battle";
+import PublicProfile from "@/pages/main/PublicProfile";
 import Inventory from "@/pages/admin/Inventory";
 import AddDevice from "@/pages/admin/AddDevice";
 import EditDevice from "@/pages/admin/EditDevice";
@@ -13,7 +15,7 @@ import NotFound from "@/pages/main/NotFound";
 
 import ErrorPage from "@/pages/main/ErrorPage";
 
-const router = createBrowserRouter([
+const router = createBrowserRouter( [
     // PUBLIC ROUTES
     {
         path: "/",
@@ -21,8 +23,11 @@ const router = createBrowserRouter([
         errorElement: <ErrorPage />,
         children: [
             { path: "/", element: <Home /> },
+            { path: "devices", element: <DeviceRegistry /> },
             { path: "devices/:slug", element: <DeviceDetail /> },
             { path: "battle", element: <Battle /> },
+            { path: "profile", element: <PublicProfile /> },
+            { path: "u/:username", element: <PublicProfile /> },
         ],
     },
 
@@ -43,6 +48,6 @@ const router = createBrowserRouter([
             }
         ]
     }
-]);
+] );
 
 export default router;

@@ -3,6 +3,9 @@ import { Link, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronRight, Flame, Clock, Trophy } from "lucide-react";
 import DeviceCard from "@/components/ui/DeviceCard";
+import Tabs from "@/components/ui/Tabs";
+import Section from "@/components/layout/Section";
+import Container from "@/components/layout/Container";
 
 const TABS = [
     { id: "trending", label: "Trending", icon: <Flame size={14} /> },
@@ -27,15 +30,12 @@ export default function TrendingDevices({ products, loading }) {
     });
 
     return (
-        <section className="relative py-20 md:py-28 overflow-hidden bg-bg-main">
+        <Section className="relative bg-bg-main overflow-hidden py-16 md:py-24">
             {/* Subtle Gradient Section Divider */}
-            <div className="absolute top-0 left-0 w-full h-px bg-linear-to-r from-transparent via-hyper-cyan/20 to-transparent" />
-            <div className="absolute top-0 left-1/4 w-1/2 h-px shadow-[0_0_20px_2px_rgba(0,255,255,0.1)] blur-sm" />
+            <div className="absolute top-0 left-0 w-full h-px bg-linear-to-r from-transparent via-brand/20 to-transparent" />
+            <div className="absolute top-0 left-1/4 w-1/2 h-px shadow-[0_0_20px_2px_var(--color-brand-glow)] blur-sm" />
 
-            {/* Background Variation */}
-            <div className="absolute inset-0 bg-bg-card/20 pointer-events-none -z-10" />
-
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <Container>
                 {/* SECTION HEADER */}
                 <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 mb-12">
                     <div className="max-w-2xl">
@@ -67,21 +67,13 @@ export default function TrendingDevices({ products, loading }) {
                         className="flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-6 w-full lg:w-auto overflow-x-auto pb-4 lg:pb-0"
                     >
                         {/* Premium TABS */}
-                        <div className="flex items-center gap-1 p-1 bg-bg-card border border-border-color rounded-xl w-full sm:w-auto shrink-0">
-                            {TABS.map((tab) => (
-                                <button
-                                    key={tab.id}
-                                    onClick={() => setActiveTab(tab.id)}
-                                    className={`flex-1 sm:flex-none flex justify-center items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all whitespace-nowrap ${
-                                        activeTab === tab.id
-                                            ? "bg-text-primary text-bg-main shadow-premium-md"
-                                            : "text-text-secondary hover:text-text-primary hover:bg-bg-main"
-                                    }`}
-                                >
-                                    {tab.icon}
-                                    {tab.label}
-                                </button>
-                            ))}
+                        <div className="bg-glass-bg border border-border-subtle rounded-2xl p-1 shrink-0 overflow-x-auto">
+                            <Tabs 
+                                tabs={TABS}
+                                defaultActive={activeTab}
+                                onChange={setActiveTab}
+                                className="flex-nowrap"
+                            />
                         </div>
 
                         {/* VIEW ALL (Desktop) */}
@@ -137,13 +129,13 @@ export default function TrendingDevices({ products, loading }) {
                 <div className="mt-8 flex justify-center lg:hidden relative z-10 w-full">
                     <Link 
                         to="/devices" 
-                        className="flex items-center justify-center gap-2 text-sm font-medium text-text-primary px-6 py-3 rounded-full border border-border-color bg-bg-card hover:bg-bg-main transition-colors group w-full sm:w-auto"
+                        className="flex items-center justify-center gap-2 text-sm font-medium text-text-primary px-6 py-3 rounded-full border border-border-subtle bg-bg-surface hover:bg-white/5 transition-colors group w-full sm:w-auto"
                     >
                         View All Devices
                         <ChevronRight size={16} className="group-hover:translate-x-1 transition-transform" />
                     </Link>
                 </div>
-            </div>
+            </Container>
             
             <style>{`
                 .scrollbar-hide::-webkit-scrollbar {
@@ -154,6 +146,6 @@ export default function TrendingDevices({ products, loading }) {
                     scrollbar-width: none; /* Firefox */
                 }
             `}</style>
-        </section>
+        </Section>
     );
 }

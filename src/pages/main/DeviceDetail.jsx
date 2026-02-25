@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { getDeviceBySlug } from "@/services/apiDevices";
+import { useAuth } from "@/context/AuthContext";
+import { logDeviceView } from "@/services/apiPersonalization";
 
-import LoadingScreen from "@/components/ui/LoadingScreen";
+import DeviceSkeleton from "@/components/skeleton/DeviceSkeleton";
 import NotFound from "@/pages/main/NotFound";
 
 // Device Sections
@@ -18,18 +20,24 @@ import SimilarDevices from "@/components/device/SimilarDevices";
 
 export default function DeviceDetail() {
     const { slug } = useParams();
+    const { user } = useAuth();
     const [device, setDevice] = useState(null);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         window.scrollTo(0, 0);
         getDeviceBySlug(slug)
-            .then(setDevice)
+            .then((data) => {
+                setDevice(data);
+                if (data && user) {
+                    logDeviceView(user.id, data.id);
+                }
+            })
             .catch(() => setDevice(null))
             .finally(() => setLoading(false));
-    }, [slug]);
+    }, [slug, user]);
 
-    if (loading) return <LoadingScreen message="INDEXING_SYSTEM_DATA" />;
+    if (loading) return <DeviceSkeleton />;
     if (!device) return <NotFound />;
 
     return (

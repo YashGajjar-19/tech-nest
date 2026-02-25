@@ -1,73 +1,54 @@
 import { motion } from "framer-motion";
-import { Terminal } from "lucide-react";
+import Logo from "@/components/ui/Logo";
 
-export default function LoadingScreen ( { message = "INITIALIZING_SYSTEM" } )
-{
+export default function LoadingScreen() {
     return (
-        <div className="fixed inset-0 z-100 bg-bg-main flex flex-col items-center justify-center font-mono transition-colors duration-500">
-            {/* Background Glow */ }
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-hyper-cyan/5 blur-[120px] rounded-full pointer-events-none" />
+        <div className="fixed inset-0 z-100 bg-bg-main flex flex-col items-center justify-center transition-colors duration-500">
+            {/* Ambient Background Glow */}
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-hyper-cyan/5 blur-[120px] rounded-full pointer-events-none" />
 
-            <div className="relative flex flex-col items-center">
-                {/* Circular Loader */ }
-                <div className="relative w-24 h-24 mb-10">
-                    <motion.div
-                        className="absolute inset-0 rounded-full border-2 border-border-color"
-                        animate={ { opacity: [ 0.3, 0.6, 0.3 ] } }
-                        transition={ { duration: 2, repeat: Infinity, ease: "easeInOut" } }
-                    />
-                    <motion.div
-                        className="absolute inset-0 rounded-full border-t-2 border-hyper-cyan"
-                        animate={ { rotate: 360 } }
-                        transition={ { duration: 1.5, repeat: Infinity, ease: "linear" } }
-                    />
-                    <div className="absolute inset-0 flex items-center justify-center">
-                        <Terminal size={ 24 } className="text-hyper-cyan opacity-80" />
-                    </div>
+            <div className="relative flex flex-col items-center justify-center">
+                {/* Pulsating backglow for the logo */}
+                <motion.div
+                    className="absolute inset-[-50%] rounded-full bg-hyper-cyan/10 blur-2xl"
+                    animate={{ scale: [1, 1.3, 1], opacity: [0.3, 0.6, 0.3] }}
+                    transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+                />
+                
+                {/* Tech Nest Logo */}
+                <div className="relative z-10">
+                    <Logo size={48} className="text-text-primary" />
                 </div>
 
-                {/* Text Elements */ }
-                <div className="flex flex-col items-center gap-3">
-                    <div className="flex items-center gap-3">
+                {/* Sleek Progress Indicator */}
+                <motion.div
+                    className="absolute -bottom-10 w-full flex justify-center"
+                    initial={{ opacity: 0, y: 5 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.3, duration: 0.8 }}
+                >
+                    <div className="w-24 h-[2px] bg-border-color rounded-full overflow-hidden relative">
                         <motion.div
-                            className="w-1.5 h-1.5 rounded-full bg-hyper-cyan"
-                            animate={ { opacity: [ 0, 1, 0 ] } }
-                            transition={ { duration: 1, repeat: Infinity } }
+                            className="absolute top-0 bottom-0 left-0 bg-text-primary rounded-full w-1/3"
+                            animate={{ x: ["-100%", "300%"] }}
+                            transition={{ 
+                                duration: 1.5, 
+                                repeat: Infinity, 
+                                ease: "easeInOut"
+                            }}
                         />
-                        <span className="text-[10px] sm:text-xs font-bold uppercase tracking-[0.4em] text-text-primary">
-                            { message }
-                        </span>
                     </div>
-
-                    <div className="flex gap-1">
-                        { [ 0, 1, 2 ].map( ( i ) => (
-                            <motion.div
-                                key={ i }
-                                className="w-8 h-1 rounded-full bg-border-color overflow-hidden"
-                            >
-                                <motion.div
-                                    className="h-full bg-hyper-cyan/30"
-                                    initial={ { x: "-100%" } }
-                                    animate={ { x: "100%" } }
-                                    transition={ {
-                                        duration: 1,
-                                        repeat: Infinity,
-                                        delay: i * 0.2,
-                                        ease: "easeInOut"
-                                    } }
-                                />
-                            </motion.div>
-                        ) ) }
-                    </div>
-                </div>
-            </div>
-
-            {/* Bottom Tech Text */ }
-            <div className="absolute bottom-10 left-10 hidden sm:block">
-                <div className="text-[9px] opacity-30 uppercase tracking-[0.3em]">
-                    Kernel_Ver: 5.10.0-TN-OS<br />
-                    System_Status: Optimal
-                </div>
+                </motion.div>
+                
+                {/* Optional subtle text */}
+                <motion.div
+                    className="absolute -bottom-16 text-[10px] font-semibold tracking-[0.2em] text-text-secondary uppercase"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: [0.3, 0.7, 0.3] }}
+                    transition={{ delay: 0.5, duration: 2, repeat: Infinity, ease: "easeInOut" }}
+                >
+                    Loading Environment
+                </motion.div>
             </div>
         </div>
     );

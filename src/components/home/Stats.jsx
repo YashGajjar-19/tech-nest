@@ -1,15 +1,28 @@
+import React, { useState, useEffect } from 'react';
 import { motion } from "framer-motion";
-import { Smartphone, Newspaper, Users, Zap } from "lucide-react";
+import { Smartphone, Newspaper, Users, Zap, Database, BookmarkCheck } from "lucide-react";
 import StatCard from "@/components/ui/StatCard";
-
-const STATS_DATA = [
-    { id: 1, icon: Smartphone, value: 5000, suffix: "+", label: "Devices Indexed" },
-    { id: 2, icon: Newspaper, value: 300, suffix: "+", label: "Articles Published" },
-    { id: 3, icon: Users, value: 10000, suffix: "+", label: "Monthly Visitors" },
-    { id: 4, icon: Zap, value: 2500, suffix: "+", label: "Comparisons Run" }
-];
+import { getNetworkStats } from "@/services/apiDevices";
 
 export default function Stats() {
+    const [statsData, setStatsData] = useState([
+        { id: 1, icon: Smartphone, value: 0, suffix: "+", label: "Devices Indexed" },
+        { id: 2, icon: Users, value: 0, suffix: "+", label: "Registered Users" },
+        { id: 3, icon: BookmarkCheck, value: 0, suffix: "+", label: "Saves & Bookmarks" },
+        { id: 4, icon: Zap, value: 0, suffix: "+", label: "Comparisons Run" }
+    ]);
+
+    useEffect(() => {
+        getNetworkStats().then(data => {
+            setStatsData([
+                { id: 1, icon: Database, value: data.devices, suffix: "", label: "Devices Indexed" },
+                { id: 2, icon: Users, value: data.users, suffix: "", label: "Registered Users" },
+                { id: 3, icon: BookmarkCheck, value: data.saves, suffix: "", label: "Saves & Bookmarks" },
+                { id: 4, icon: Zap, value: data.comparisons, suffix: "+", label: "Comparisons Run" }
+            ]);
+        }).catch(err => console.error("Failed to load stats", err));
+    }, []);
+
     return (
         <section className="py-24 md:py-32 px-4 sm:px-6 lg:px-8 relative overflow-hidden bg-bg-main border-y border-border-color">
             {/* Elegant background effects */}
@@ -51,7 +64,7 @@ export default function Stats() {
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
-                    {STATS_DATA.map((stat, index) => (
+                    {statsData.map((stat, index) => (
                         <StatCard 
                             key={stat.id}
                             icon={stat.icon}

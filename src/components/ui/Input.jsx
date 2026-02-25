@@ -1,31 +1,72 @@
-import { cn } from "@/lib/utils";
+import React, { forwardRef } from 'react';
+import { twMerge } from 'tailwind-merge';
+import { clsx } from 'clsx';
 
-export default function Input({ label, icon: Icon, error, className, ...props }) {
+const Input = forwardRef( ( {
+    id,
+    label,
+    error,
+    leftIcon,
+    rightIcon,
+    className,
+    containerClassName,
+    helperText,
+    type = "text",
+    ...props
+}, ref ) =>
+{
+
     return (
-        <div className="space-y-2 group w-full">
-            {label && (
-                <label className="text-[9px] font-mono text-text-secondary uppercase tracking-[0.2em] ml-2 group-focus-within:text-cyan-500 transition-colors">
-                    {label}
+        <div className={ twMerge( clsx( "flex flex-col gap-1.5 w-full", containerClassName ) ) }>
+            { label && (
+                <label htmlFor={ id } className="text-sm font-medium text-text-secondary">
+                    { label }
                 </label>
-            )}
-            <div className="relative">
-                {Icon && (
-                    <Icon
-                        size={16}
-                        className="absolute left-4 top-1/2 -translate-y-1/2 text-text-secondary group-focus-within:text-cyan-500 transition-colors"
-                    />
-                )}
+            ) }
+
+            <div className="relative group">
+                {/* ICON LEFT */ }
+                { leftIcon && (
+                    <div className="absolute left-4 top-1/2 -translate-y-1/2 text-text-muted group-focus-within:text-brand transition-colors duration-300 pointer-events-none">
+                        { leftIcon }
+                    </div>
+                ) }
+
                 <input
-                    className={cn(
-                        "w-full bg-bg-card border border-border-color rounded-xl py-3.5 pr-4 text-xs font-mono text-text-primary placeholder:text-text-secondary focus:border-cyan-500/50 focus:bg-bg-main/50 outline-none transition-all",
-                        Icon ? "pl-12" : "pl-4",
-                        error ? "border-red-500/50" : "",
+                    ref={ ref }
+                    id={ id }
+                    type={ type }
+                    className={ twMerge( clsx(
+                        "w-full bg-glass-bg border border-border-subtle rounded-xl text-text-primary placeholder:text-text-muted",
+                        "h-12 text-base transition-all duration-300 ease-out outline-none",
+                        "hover:border-white/10 hover:bg-white/5",
+                        "focus:border-brand focus:shadow-[0_0_12px_2px_var(--color-brand-glow)] focus:bg-transparent",
+                        leftIcon ? "pl-11" : "pl-4",
+                        rightIcon ? "pr-11" : "pr-4",
+                        error && "border-red-500 focus:border-red-500 text-red-500 focus:shadow-[0_0_12px_2px_rgba(239,68,68,0.2)]",
                         className
-                    )}
-                    {...props}
+                    ) ) }
+                    { ...props }
                 />
+
+                {/* ICON RIGHT */ }
+                { rightIcon && (
+                    <div className="absolute right-4 top-1/2 -translate-y-1/2 text-text-muted">
+                        { rightIcon }
+                    </div>
+                ) }
             </div>
-            {error && <p className="text-red-500 text-[9px] font-mono ml-2">{error}</p>}
+
+            {/* HELPER OR ERROR TEXT */ }
+            { ( helperText || error ) && (
+                <p className={ twMerge( clsx( "text-xs font-medium ml-1", error ? "text-red-500" : "text-text-muted" ) ) }>
+                    { error || helperText }
+                </p>
+            ) }
         </div>
     );
-}
+} );
+
+Input.displayName = 'Input';
+
+export default Input;

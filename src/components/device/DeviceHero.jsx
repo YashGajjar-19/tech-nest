@@ -1,9 +1,43 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { ChevronLeft, Zap, Smartphone, Cpu, Battery, Bookmark, Share } from "lucide-react";
 import Button from "@/components/ui/Button";
+import { useAuth } from "@/context/AuthContext";
+import { checkIfSaved, toggleSaveDevice } from "@/services/apiBookmarks";
+import toast from "react-hot-toast";
 
 export default function DeviceHero({ device }) {
+    const { user } = useAuth();
+    const [isSaved, setIsSaved] = useState(false);
+    const [isSaving, setIsSaving] = useState(false);
+
+    useEffect(() => {
+        if (!user || !device?.id) return;
+        checkIfSaved(user.id, device.id).then(setIsSaved).catch(console.error);
+    }, [user, device?.id]);
+
+    const handleToggleSave = async () => {
+        if (!user) {
+            toast.error("Please log in to save items");
+            return;
+        }
+
+        setIsSaving(true);
+        try {
+            const newState = await toggleSaveDevice(user.id, device.id, isSaved);
+            setIsSaved(newState);
+            if (newState) {
+                toast.success("Saved to your profile!");
+            } else {
+                toast.success("Removed from bookmarks");
+            }
+        } catch (error) {
+            console.error(error);
+            toast.error("Failed to update bookmark");
+        } finally {
+            setIsSaving(false);
+        }
+    };
     // Score placeholder for now
     const techNestScore = 92;
 
@@ -15,7 +49,7 @@ export default function DeviceHero({ device }) {
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
                 {/* LEFT: Device Image */}
-                <div className="relative aspect-[4/3] bg-bg-card rounded-3xl border border-border-color flex items-center justify-center p-8 group overflow-hidden">
+                <div className="relative aspect-4/3 bg-bg-card rounded-3xl border border-border-color flex items-center justify-center p-8 group overflow-hidden">
                     <div className="absolute top-6 left-6 z-10">
                         {device.brands?.logo_url ? (
                             <img src={device.brands.logo_url} className="h-6 opacity-40 grayscale" alt="brand" />
@@ -30,7 +64,7 @@ export default function DeviceHero({ device }) {
                     />
                     
                     {/* Subtle glow behind image */}
-                    <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-transparent to-hyper-cyan/5 opacity-50"></div>
+                    <div className="absolute inset-0 bg-linear-to-tr from-transparent via-transparent to-hyper-cyan/5 opacity-50"></div>
                 </div>
 
                 {/* RIGHT: Device Identity */}
@@ -69,8 +103,16 @@ export default function DeviceHero({ device }) {
                         <Button className="flex-1 justify-center py-4" icon={Zap}>
                             Compare Device
                         </Button>
-                        <button className="flex items-center justify-center w-14 h-14 rounded-xl border border-border-color bg-bg-card hover:bg-border-color transition-colors text-text-secondary hover:text-text-primary">
-                            <Bookmark size={20} />
+                        <button 
+                            onClick={handleToggleSave}
+                            disabled={isSaving}
+                            className={`flex items-center justify-center w-14 h-14 rounded-xl border transition-all ${
+                                isSaved 
+                                ? 'border-brand bg-brand/10 text-brand' 
+                                : 'border-border-color bg-bg-card hover:bg-white/5 text-text-secondary hover:text-text-primary'
+                            }`}
+                        >
+                            <Bookmark size={20} className={isSaved ? 'fill-brand' : ''} />
                         </button>
                         <button className="flex items-center justify-center w-14 h-14 rounded-xl border border-border-color bg-bg-card hover:bg-border-color transition-colors text-text-secondary hover:text-text-primary">
                             <Share size={20} />

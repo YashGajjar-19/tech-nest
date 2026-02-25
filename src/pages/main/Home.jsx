@@ -13,6 +13,7 @@ import LatestNews from "@/components/home/LatestNews";
 import CompareHighlight from "@/components/home/CompareHighlight";
 import Stats from "@/components/home/Stats";
 import CTA from "@/components/home/CTA";
+import PersonalizedFeed from "@/components/home/PersonalizedFeed";
 
 import { getProducts } from "@/services/apiDevices";
 
@@ -46,6 +47,9 @@ export default function Home ()
             {/* HERO SECTION */ }
             <Hero />
 
+            {/* PERSONALIZED FEED */ }
+            <PersonalizedFeed />
+
             {/* CATEGORIES / EXPLORE DEVICES */ }
             <Categories />
 
@@ -58,8 +62,8 @@ export default function Home ()
             {/* LATEST NEWS & REVIEWS */ }
             <LatestNews />
 
-            {/* COMPARISON HIGHLIGHT */ }
-            <CompareHighlight />
+            {/* COMPARISON HIGHLIGHT */}
+            <CompareHighlight products={products} />
 
             {/* TRENDING DEVICES */}
             <TrendingDevices products={ products } loading={ loading } />
