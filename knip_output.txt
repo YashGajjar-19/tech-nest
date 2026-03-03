@@ -1,0 +1,56 @@
+﻿[93m[4mUnused files[24m[39m (22)
+src/components/device/AISummary.tsx                                                 
+src/components/device/ComparisonShortcut.tsx                                        
+src/components/device/PerformanceInsights.tsx                                       
+src/components/device/QuickInsights.tsx                                             
+src/components/device/StructuredSpecs.tsx                                           
+src/components/hero/HeroPreview.tsx                                                 
+src/components/hero/LightRays.tsx                                                   
+src/components/layout/SearchMenu.tsx                                                
+src/components/ui/avatar.tsx                                                        
+src/components/ui/command.tsx                                                       
+src/components/ui/device-card.tsx                                                   
+src/components/ui/Reveal.tsx                                                        
+src/components/ui/Section.tsx                                                       
+src/lib/auth/getUser.ts                                                             
+backend/venv/Lib/site-packages/tokenizers/tools/visualizer-styles.css               
+backend/venv/Lib/site-packages/sklearn/utils/_repr_html/estimator.css               
+backend/venv/Lib/site-packages/sklearn/utils/_repr_html/estimator.js                
+backend/venv/Lib/site-packages/sklearn/utils/_repr_html/params.css                  
+backend/venv/Lib/site-packages/torch/utils/model_dump/code.js                       
+backend/venv/Lib/site-packages/torch/utils/model_dump/htm.mjs                       
+backend/venv/Lib/site-packages/torch/utils/model_dump/preact.mjs                    
+backend/venv/Lib/site-packages/urllib3/contrib/emscripten/emscripten_fetch_worker.js
+[93m[4mUnused dependencies[24m[39m (5)
+@fontsource/geist-sans   package.json:12:6
+@fontsource/inter        package.json:13:6
+@fontsource/inter-tight  package.json:14:6
+cmdk                     package.json:19:6
+ogl                      package.json:25:6
+[93m[4mUnlisted dependencies[24m[39m (1)
+postcss  postcss.config.mjs
+[93m[4mUnused exports[24m[39m (17)
+useScrollDepth            src/components/providers/ScrollProvider.tsx:24:14         
+buttonVariants            src/components/ui/button.tsx:65:18                        
+compareDevices  function  src/lib/api.ts:50:23                                      
+CardFooter                src/components/ui/card.tsx:79:3                           
+DialogClose               src/components/ui/dialog.tsx:149:3                        
+DialogFooter              src/components/ui/dialog.tsx:152:3                        
+DialogHeader              src/components/ui/dialog.tsx:153:3                        
+DialogOverlay             src/components/ui/dialog.tsx:154:3                        
+DialogPortal              src/components/ui/dialog.tsx:155:3                        
+DialogTrigger             src/components/ui/dialog.tsx:157:3                        
+SheetClose                src/components/ui/sheet.tsx:137:3                         
+SheetHeader               src/components/ui/sheet.tsx:139:3                         
+SheetFooter               src/components/ui/sheet.tsx:140:3                         
+ROLE_RANKS                src/lib/auth/types.ts:11:14                               
+hasMinRole      function  src/lib/auth/types.ts:18:17                               
+isAdmin         function  src/lib/auth/types.ts:22:17                               
+TOTAL_STEPS               src/components/admin/device-wizard/WizardContext.tsx:15:14
+[93m[4mUnused exported types[24m[39m (5)
+SiteConfig      type       src/config/site.ts:12:13                
+ContainerProps  interface  src/components/layout/Container.tsx:4:18
+VariantRow      interface  src/app/admin/devices/actions.ts:104:18 
+DeviceSpec      interface  src/types/wizard.ts:36:18               
+AuthUser        interface  src/lib/auth/types.ts:3:18              
+[33m[4mConfiguration hints[24m (1)[39m

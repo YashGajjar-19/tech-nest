@@ -1,0 +1,166 @@
+﻿
+> tech-nest@0.1.0 lint
+> eslint
+
+
+C:\Users\user\Documents\tech-nest\backend\venv\Lib\site-packages\sklearn\utils\_repr_html\estimator.js
+  1:10  warning  'copyToClipboard' is defined but never used  @typescript-eslint/no-unused-vars
+
+C:\Users\user\Documents\tech-nest\backend\venv\Lib\site-packages\torch\utils\model_dump\code.js
+   57:17  warning  'children' is defined but never used             @typescript-eslint/no-unused-vars
+  524:21  warning  'offset' is assigned a value but never used      @typescript-eslint/no-unused-vars
+  524:29  warning  'size' is assigned a value but never used        @typescript-eslint/no-unused-vars
+  524:35  warning  'stride' is assigned a value but never used      @typescript-eslint/no-unused-vars
+  524:43  warning  'grad' is assigned a value but never used        @typescript-eslint/no-unused-vars
+  525:12  warning  'dtype' is assigned a value but never used       @typescript-eslint/no-unused-vars
+  525:24  warning  'device' is assigned a value but never used      @typescript-eslint/no-unused-vars
+  525:32  warning  'numel' is assigned a value but never used       @typescript-eslint/no-unused-vars
+  529:21  warning  'offset' is assigned a value but never used      @typescript-eslint/no-unused-vars
+  529:29  warning  'size' is assigned a value but never used        @typescript-eslint/no-unused-vars
+  529:35  warning  'stride' is assigned a value but never used      @typescript-eslint/no-unused-vars
+  529:43  warning  'quantizer' is assigned a value but never used   @typescript-eslint/no-unused-vars
+  529:54  warning  'grad' is assigned a value but never used        @typescript-eslint/no-unused-vars
+  530:12  warning  'dtype' is assigned a value but never used       @typescript-eslint/no-unused-vars
+  530:24  warning  'device' is assigned a value but never used      @typescript-eslint/no-unused-vars
+  530:32  warning  'numel' is assigned a value but never used       @typescript-eslint/no-unused-vars
+  538:15  warning  'name' is assigned a value but never used        @typescript-eslint/no-unused-vars
+  544:19  warning  'key' is assigned a value but never used         @typescript-eslint/no-unused-vars
+  631:11  error    Unexpected aliasing of 'this' to local variable  @typescript-eslint/no-this-alias
+
+C:\Users\user\Documents\tech-nest\backend\venv\Lib\site-packages\torch\utils\model_dump\htm.mjs
+  2:117  warning  Expected an assignment or function call and instead saw an expression  @typescript-eslint/no-unused-expressions
+  2:331  warning  Unexpected default export of anonymous function                        import/no-anonymous-default-export
+  2:501  warning  Expected an assignment or function call and instead saw an expression  @typescript-eslint/no-unused-expressions
+  2:763  warning  Expected an assignment or function call and instead saw an expression  @typescript-eslint/no-unused-expressions
+  2:814  warning  Expected an assignment or function call and instead saw an expression  @typescript-eslint/no-unused-expressions
+
+C:\Users\user\Documents\tech-nest\backend\venv\Lib\site-packages\torch\utils\model_dump\preact.mjs
+  2:180   warning  Expected an assignment or function call and instead saw an expression  @typescript-eslint/no-unused-expressions
+  2:256   warning  Expected an assignment or function call and instead saw an expression  @typescript-eslint/no-unused-expressions
+  2:464   warning  Expected an assignment or function call and instead saw an expression  @typescript-eslint/no-unused-expressions
+  2:803   warning  Expected an assignment or function call and instead saw an expression  @typescript-eslint/no-unused-expressions
+  2:1219  warning  Expected an assignment or function call and instead saw an expression  @typescript-eslint/no-unused-expressions
+  2:1358  warning  Expected an assignment or function call and instead saw an expression  @typescript-eslint/no-unused-expressions
+  2:1450  warning  Expected an assignment or function call and instead saw an expression  @typescript-eslint/no-unused-expressions
+  2:2155  warning  Expected an assignment or function call and instead saw an expression  @typescript-eslint/no-unused-expressions
+  2:2513  warning  Expected an assignment or function call and instead saw an expression  @typescript-eslint/no-unused-expressions
+  2:2720  warning  Expected an assignment or function call and instead saw an expression  @typescript-eslint/no-unused-expressions
+  2:2984  warning  Expected an assignment or function call and instead saw an expression  @typescript-eslint/no-unused-expressions
+  2:3078  warning  Expected an assignment or function call and instead saw an expression  @typescript-eslint/no-unused-expressions
+  2:3170  warning  Expected an assignment or function call and instead saw an expression  @typescript-eslint/no-unused-expressions
+  2:3267  warning  Expected an assignment or function call and instead saw an expression  @typescript-eslint/no-unused-expressions
+  2:3332  warning  Expected an assignment or function call and instead saw an expression  @typescript-eslint/no-unused-expressions
+  2:3465  warning  Expected an assignment or function call and instead saw an expression  @typescript-eslint/no-unused-expressions
+  2:3699  warning  Expected an assignment or function call and instead saw an expression  @typescript-eslint/no-unused-expressions
+  2:3742  warning  Expected an assignment or function call and instead saw an expression  @typescript-eslint/no-unused-expressions
+  2:3807  warning  Expected an assignment or function call and instead saw an expression  @typescript-eslint/no-unused-expressions
+  2:4208  warning  'e' is defined but never used                                          @typescript-eslint/no-unused-vars
+  2:4212  warning  Expected an assignment or function call and instead saw an expression  @typescript-eslint/no-unused-expressions
+  2:4531  warning  Expected an assignment or function call and instead saw an expression  @typescript-eslint/no-unused-expressions
+  2:5092  warning  Expected an assignment or function call and instead saw an expression  @typescript-eslint/no-unused-expressions
+  2:5448  warning  Expected an assignment or function call and instead saw an expression  @typescript-eslint/no-unused-expressions
+  2:5556  warning  Expected an assignment or function call and instead saw an expression  @typescript-eslint/no-unused-expressions
+  2:5602  warning  Expected an assignment or function call and instead saw an expression  @typescript-eslint/no-unused-expressions
+  2:5744  warning  Expected an assignment or function call and instead saw an expression  @typescript-eslint/no-unused-expressions
+  2:6185  warning  Expected an assignment or function call and instead saw an expression  @typescript-eslint/no-unused-expressions
+  2:6263  warning  Expected an assignment or function call and instead saw an expression  @typescript-eslint/no-unused-expressions
+  2:6291  warning  Expected an assignment or function call and instead saw an expression  @typescript-eslint/no-unused-expressions
+  2:6387  warning  Expected an assignment or function call and instead saw an expression  @typescript-eslint/no-unused-expressions
+  2:6428  warning  Expected an assignment or function call and instead saw an expression  @typescript-eslint/no-unused-expressions
+  2:6681  warning  Expected an assignment or function call and instead saw an expression  @typescript-eslint/no-unused-expressions
+  2:6759  warning  Expected an assignment or function call and instead saw an expression  @typescript-eslint/no-unused-expressions
+  2:6878  warning  Expected an assignment or function call and instead saw an expression  @typescript-eslint/no-unused-expressions
+  2:7120  warning  Expected an assignment or function call and instead saw an expression  @typescript-eslint/no-unused-expressions
+  2:7370  warning  Expected an assignment or function call and instead saw an expression  @typescript-eslint/no-unused-expressions
+  2:7390  warning  Expected an assignment or function call and instead saw an expression  @typescript-eslint/no-unused-expressions
+  2:7606  warning  Expected an assignment or function call and instead saw an expression  @typescript-eslint/no-unused-expressions
+  2:7988  warning  Expected an assignment or function call and instead saw an expression  @typescript-eslint/no-unused-expressions
+  2:8006  warning  Expected an assignment or function call and instead saw an expression  @typescript-eslint/no-unused-expressions
+  2:8095  warning  Expected an assignment or function call and instead saw an expression  @typescript-eslint/no-unused-expressions
+  2:8428  warning  Expected an assignment or function call and instead saw an expression  @typescript-eslint/no-unused-expressions
+  2:8858  warning  Expected an assignment or function call and instead saw an expression  @typescript-eslint/no-unused-expressions
+  2:8991  warning  Expected an assignment or function call and instead saw an expression  @typescript-eslint/no-unused-expressions
+  2:9091  warning  Expected an assignment or function call and instead saw an expression  @typescript-eslint/no-unused-expressions
+  2:9467  warning  Expected an assignment or function call and instead saw an expression  @typescript-eslint/no-unused-expressions
+  2:9686  warning  Expected an assignment or function call and instead saw an expression  @typescript-eslint/no-unused-expressions
+
+C:\Users\user\Documents\tech-nest\src\app\admin\brands\page.tsx
+   3:16  warning  'Plus' is defined but never used                                                                                                                                                                                                                                                         @typescript-eslint/no-unused-vars
+   3:22  warning  'Globe' is defined but never used                                                                                                                                                                                                                                                        @typescript-eslint/no-unused-vars
+  69:23  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+C:\Users\user\Documents\tech-nest\src\app\admin\devices\actions.ts
+  3:10  warning  'createClient' is defined but never used  @typescript-eslint/no-unused-vars
+
+C:\Users\user\Documents\tech-nest\src\app\admin\engine\page.tsx
+  2:19  warning  'Zap' is defined but never used  @typescript-eslint/no-unused-vars
+
+C:\Users\user\Documents\tech-nest\src\app\admin\settings\page.tsx
+  2:10  warning  'Settings' is defined but never used  @typescript-eslint/no-unused-vars
+
+C:\Users\user\Documents\tech-nest\src\app\auth\callback\page.tsx
+  8:9  warning  'router' is assigned a value but never used  @typescript-eslint/no-unused-vars
+
+C:\Users\user\Documents\tech-nest\src\app\compare\page.tsx
+  3:10  warning  'Navbar' is defined but never used  @typescript-eslint/no-unused-vars
+  4:10  warning  'Footer' is defined but never used  @typescript-eslint/no-unused-vars
+
+C:\Users\user\Documents\tech-nest\src\app\profile\page.tsx
+  18:10  warning  'cn' is defined but never used                                                                                                                                                                                                                                                           @typescript-eslint/no-unused-vars
+  98:13  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+C:\Users\user\Documents\tech-nest\src\app\search\SearchSurfaceResults.tsx
+   4:18  warning  'AnimatePresence' is defined but never used  @typescript-eslint/no-unused-vars
+  10:3   warning  'Smartphone' is defined but never used       @typescript-eslint/no-unused-vars
+
+C:\Users\user\Documents\tech-nest\src\components\admin\device-wizard\StepIdentity.tsx
+  79:6  warning  React Hook useEffect has a missing dependency: 'name'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+
+C:\Users\user\Documents\tech-nest\src\components\admin\device-wizard\StepVariants.tsx
+  85:54  warning  '_d' is defined but never used  @typescript-eslint/no-unused-vars
+
+C:\Users\user\Documents\tech-nest\src\components\admin\device-wizard\WizardContext.tsx
+  136:6  warning  React Hook useEffect has a missing dependency: 'state'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+
+C:\Users\user\Documents\tech-nest\src\components\analyst\GenerativeWorkspace.tsx
+  2:33  warning  'ArrowRight' is defined but never used  @typescript-eslint/no-unused-vars
+  2:45  warning  'Battery' is defined but never used     @typescript-eslint/no-unused-vars
+  2:54  warning  'Cpu' is defined but never used         @typescript-eslint/no-unused-vars
+
+C:\Users\user\Documents\tech-nest\src\components\analyst\QueryInterface.tsx
+  1:10  warning  'BrainCircuit' is defined but never used  @typescript-eslint/no-unused-vars
+
+C:\Users\user\Documents\tech-nest\src\components\compare\ComparisonHero.tsx
+  5:36  warning  'Check' is defined but never used       @typescript-eslint/no-unused-vars
+  5:43  warning  'ArrowRight' is defined but never used  @typescript-eslint/no-unused-vars
+
+C:\Users\user\Documents\tech-nest\src\components\device\ComparisonGateway.tsx
+  2:8  warning  'Image' is defined but never used  @typescript-eslint/no-unused-vars
+
+C:\Users\user\Documents\tech-nest\src\components\device\DecisionSummary.tsx
+  3:43  warning  'device' is defined but never used  @typescript-eslint/no-unused-vars
+
+C:\Users\user\Documents\tech-nest\src\components\device\SmartSpecs.tsx
+  6:38  warning  'device' is defined but never used  @typescript-eslint/no-unused-vars
+
+C:\Users\user\Documents\tech-nest\src\components\layout\Container.tsx
+  4:18  error  An interface declaring no members is equivalent to its supertype  @typescript-eslint/no-empty-object-type
+
+C:\Users\user\Documents\tech-nest\src\components\layout\Navbar.tsx
+    6:29  warning  'useTransform' is defined but never used                                                                                                                                                                                                                                                 @typescript-eslint/no-unused-vars
+   14:16  warning  'LogoIcon' is defined but never used                                                                                                                                                                                                                                                     @typescript-eslint/no-unused-vars
+  211:11  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+  266:23  warning  'isOpen' is defined but never used                                                                                                                                                                                                                                                       @typescript-eslint/no-unused-vars
+
+C:\Users\user\Documents\tech-nest\src\components\portfolio\UpgradeTimeline.tsx
+  4:3  warning  'CheckCircle2' is defined but never used  @typescript-eslint/no-unused-vars
+
+C:\Users\user\Documents\tech-nest\src\components\providers\AuthProvider.tsx
+  9:3  warning  'useRef' is defined but never used  @typescript-eslint/no-unused-vars
+
+C:\Users\user\Documents\tech-nest\src\components\search\SearchPalette.tsx
+   9:3  warning  'Laptop' is defined but never used  @typescript-eslint/no-unused-vars
+  18:8  warning  'Image' is defined but never used   @typescript-eslint/no-unused-vars
+
+Γ£û 107 problems (2 errors, 105 warnings)
+

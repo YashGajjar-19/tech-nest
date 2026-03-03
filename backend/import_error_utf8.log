@@ -1,0 +1,55 @@
+﻿.\venv\Scripts\python.exe : 
+Traceback (most recent call 
+last):
+At line:1 char:1
++ .\venv\Scripts\python.exe 
+debug_import.py > 
+import_error.log 2>&1
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~
+    + CategoryInfo           
+   : NotSpecified: (Traceba  
+  ck (most recent call las   
+ t)::String) [], RemoteEx    
+ception
+    + FullyQualifiedErrorId  
+   : NativeCommandError
+ 
+  File "C:\Users\user\Documen
+ts\tech-nest\backend\debug_im
+port.py", line 18, in 
+<module>
+    import app.main
+  File "C:\Users\user\Documen
+ts\tech-nest\backend\app\main
+.py", line 4, in <module>
+    from app.api.endpoints 
+import intelligence, 
+decision, knowledge_graph, 
+market, generate, advisor, 
+network, devices
+  File "C:\Users\user\Documen
+ts\tech-nest\backend\app\api\
+endpoints\decision.py", line 
+26, in <module>
+    from 
+app.services.decision_memory 
+import DecisionMemoryService
+  File "C:\Users\user\Documen
+ts\tech-nest\backend\app\serv
+ices\decision_memory.py", 
+line 1, in <module>
+    from app.db.supabase 
+import get_supabase_client
+ImportError: cannot import 
+name 'get_supabase_client' 
+from 'app.db.supabase' (C:\Us
+ers\user\Documents\tech-nest\
+backend\app\db\supabase.py)
+DEBUG: sys.path is ['C:\\Users\\user\\Documents\\tech-nest\\backend', 'C:\\Users\\user\\AppData\\Local\\Programs\\Python\\Python310\\python310.zip', 'C:\\Users\\user\\AppData\\Local\\Programs\\Python\\Python310\\DLLs', 'C:\\Users\\user\\AppData\\Local\\Programs\\Python\\Python310\\lib', 'C:\\Users\\user\\AppData\\Local\\Programs\\Python\\Python310', 'C:\\Users\\user\\Documents\\tech-nest\\backend\\venv', 'C:\\Users\\user\\Documents\\tech-nest\\backend\\venv\\lib\\site-packages']
+DEBUG: CWD is C:\Users\user\Documents\tech-nest\backend
+DEBUG: Importing app.api.deps
+DEBUG: app.api.deps imported
+DEBUG: Importing app.api.endpoints.intelligence
+DEBUG: app.api.endpoints.intelligence imported

@@ -1,0 +1,17 @@
+{
+  "name": "Tech Nest",
+  "short_name": "Tech Nest",
+  "description": "Premium AI-powered technology decision platform that simplifies gadget buying.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#000000",
+  "theme_color": "#000000",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/favicon.ico",
+      "sizes": "48x48",
+      "type": "image/x-icon"
+    }
+  ]
+}

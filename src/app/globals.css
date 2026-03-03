@@ -1,26 +1,141 @@
 @import "tailwindcss";
+@plugin "tailwindcss-animate";
+
+@custom-variant dark (&:is(.dark *));
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* =========================================
+     Tech Nest Theme Harmony System
+     Light Mode (Apple/Linear inspired)
+     ========================================= */
+  
+  /* Base Layers */
+  --bg-primary: #FBFBFD; /* Calm, warm off-white */
+  --bg-secondary: #F5F5F7; /* Subtle depth layer */
+  
+  /* Elevational Surfaces (Shadow based) */
+  --surface: #FFFFFF; /* Crisp reading surface */
+  --surface-elevated: #FFFFFF; /* Floats via drop-shadow */
+  
+  /* Boundaries */
+  --border-subtle: rgba(0, 0, 0, 0.06); /* Invisible structure */
+  
+  /* Typography */
+  --text-primary: #111111; /* Deep near-black, never #000 */
+  --text-secondary: #6E6E73; /* Professional grey */
+  
+  /* Interactions */
+  --accent: #111111; /* Quiet professional accent */
+  --accent-foreground: #FFFFFF;
+  
+  /* Native System Fallbacks for base tailwind */
+  --background: var(--bg-primary);
+  --foreground: var(--text-primary);
+  --card: var(--surface);
+  --card-foreground: var(--text-primary);
+  --popover: var(--surface);
+  --popover-foreground: var(--text-primary);
+  --border: var(--border-subtle);
+  --input: rgba(0,0,0,0.06);
+  --ring: rgba(0,0,0,0.12);
+  --muted: var(--bg-secondary);
+  --muted-foreground: var(--text-secondary);
+  --radius: 0.75rem;
 }
 
 @theme inline {
+  --color-bg-primary: var(--bg-primary);
+  --color-bg-secondary: var(--bg-secondary);
+  --color-surface: var(--surface);
+  --color-surface-elevated: var(--surface-elevated);
+  --color-border-subtle: var(--border-subtle);
+  --color-text-primary: var(--text-primary);
+  --color-text-secondary: var(--text-secondary);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+
+  /* Mapping standard tailwind vars to scale with theme */
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  --radius-sm: calc(0.5rem - 4px);
+  --radius-md: calc(0.5rem - 2px);
+  --radius-lg: 0.5rem;
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+  --radius-3xl: calc(var(--radius) + 12px);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+.dark {
+  /* =========================================
+     Tech Nest Theme Harmony System
+     Dark Mode (Vercel/Linear inspired)
+     ========================================= */
+
+  /* Base Layers */
+  --bg-primary: #000000; /* Infinite deep space */
+  --bg-secondary: #0A0A0A; /* Subtle depth layer */
+  
+  /* Elevational Surfaces (Brightness based) */
+  --surface: #0A0A0A; /* Base component surface */
+  --surface-elevated: #141414; /* Floats via brightness elevation */
+  
+  /* Boundaries */
+  --border-subtle: rgba(255, 255, 255, 0.08); /* Frost boundaries */
+  
+  /* Typography */
+  --text-primary: #FAFAFA; /* Crisp readable white */
+  --text-secondary: #A1A1AA; /* Muted zinc */
+  
+  /* Interactions */
+  --accent: #FFFFFF; /* Glowing focus */
+  --accent-foreground: #000000;
+
+  /* Native System Fallbacks for base tailwind */
+  --background: var(--bg-primary);
+  --foreground: var(--text-primary);
+  --card: var(--surface);
+  --card-foreground: var(--text-primary);
+  --popover: var(--surface);
+  --popover-foreground: var(--text-primary);
+  --border: var(--border-subtle);
+  --input: rgba(255,255,255,0.1);
+  --ring: rgba(255,255,255,0.2);
+  --muted: var(--bg-secondary);
+  --muted-foreground: var(--text-secondary);
+}
+
+@utility ease-calm {
+  transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+
+  body {
+    @apply bg-background text-foreground;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@utility animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+/* Hides scrollbar on horizontal scroll containers (chip rows, trending cards) */
+@utility scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
 }
