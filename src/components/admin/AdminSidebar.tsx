@@ -18,6 +18,7 @@ import {
   LogOut,
   ChevronRight,
   Shield,
+  Terminal,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -43,10 +44,11 @@ const navGroups = [
   {
     label: "System",
     items: [
-      { name: "Analytics",    href: "/admin/analytics", icon: BarChart3 },
+      { name: "Analytics",      href: "/admin/analytics", icon: Activity },
       { name: "Users & Roles", href: "/admin/users",    icon: Users },
-      { name: "System Logs", href: "/admin/logs",      icon: Activity },
-      { name: "Settings",    href: "/admin/settings",  icon: Settings },
+      { name: "System Logs",    href: "/admin/logs",      icon: Terminal },
+      { name: "Settings",       href: "/admin/settings",  icon: Settings },
+
     ],
   },
 ];

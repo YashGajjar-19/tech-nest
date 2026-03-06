@@ -4,6 +4,8 @@ import { AdminSidebar } from "@/components/admin/AdminSidebar";
 import { createClient } from "@/lib/supabase/server";
 import { Search } from "lucide-react";
 
+import { ThemeToggle } from "@/components/theme-toggle";
+
 export const metadata = {
   title: "Admin OS | Tech Nest",
   description: "Internal Intelligence Operating System",
@@ -38,30 +40,29 @@ export default async function AdminLayout({
     .slice(0, 2) || "A";
 
   return (
-    // Force dark mode for the entire admin shell
-    <div className="dark">
-      <div className="min-h-screen bg-background text-foreground font-sans flex flex-row">
+    <div className="min-h-screen bg-bg-primary text-text-primary font-sans flex flex-row transition-colors duration-500">
 
-        {/* Sidebar — client component (handles active links, sign-out) */}
-        <AdminSidebar
-          userEmail={displayEmail}
-          userInitials={initials}
-        />
+      {/* Sidebar — client component (handles active links, sign-out) */}
+      <AdminSidebar
+        userEmail={displayEmail}
+        userInitials={initials}
+      />
 
-        {/* Main area */}
-        <div className="flex-1 flex flex-col min-h-screen overflow-hidden">
+      {/* Main area */}
+      <div className="flex-1 flex flex-col min-h-screen overflow-hidden">
 
-          {/* Top bar */}
-          <header className="h-14 shrink-0 flex items-center justify-between px-7 border-b border-border bg-surface/80 backdrop-blur-md sticky top-0 z-10">
-            {/* Inline search pill */}
-            <div className="flex items-center gap-2.5 bg-background border border-border rounded-lg px-3 py-1.5 w-60 text-sm text-muted-foreground hover:border-foreground/20 transition-colors cursor-text">
-              <Search className="w-3.5 h-3.5 shrink-0" />
-              <span className="flex-1 text-xs">Search admin…</span>
-              <kbd className="hidden sm:inline-flex items-center px-1.5 py-0.5 text-[10px] font-mono text-muted-foreground bg-foreground/6 rounded border border-border">
-                ⌘K
-              </kbd>
-            </div>
+        {/* Top bar */}
+        <header className="h-14 shrink-0 flex items-center justify-between px-7 border-b border-border bg-surface/80 backdrop-blur-md sticky top-0 z-10 transition-colors">
+          {/* Inline search pill */}
+          <div className="flex items-center gap-2.5 bg-background border border-border rounded-lg px-3 py-1.5 w-60 text-sm text-muted-foreground hover:border-foreground/20 transition-colors cursor-text">
+            <Search className="w-3.5 h-3.5 shrink-0" />
+            <span className="flex-1 text-xs">Search admin…</span>
+            <kbd className="hidden sm:inline-flex items-center px-1.5 py-0.5 text-[10px] font-mono text-muted-foreground bg-foreground/6 rounded border border-border">
+              ⌘K
+            </kbd>
+          </div>
 
+          <div className="flex items-center gap-6">
             {/* Status pill */}
             <div className="flex items-center gap-2">
               <span className="relative flex h-2 w-2">
@@ -72,15 +73,18 @@ export default async function AdminLayout({
                 System Healthy
               </span>
             </div>
-          </header>
 
-          {/* Scrollable page content */}
-          <main className="flex-1 overflow-y-auto">
-            <div className="max-w-6xl mx-auto px-8 py-8">
-              {children}
-            </div>
-          </main>
-        </div>
+            <div className="w-px h-4 bg-border" />
+            <ThemeToggle />
+          </div>
+        </header>
+
+        {/* Scrollable page content */}
+        <main className="flex-1 overflow-y-auto">
+          <div className="max-w-6xl mx-auto px-8 py-8">
+            {children}
+          </div>
+        </main>
       </div>
     </div>
   );

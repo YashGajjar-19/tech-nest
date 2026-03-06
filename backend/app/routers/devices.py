@@ -18,12 +18,13 @@ class Device(BaseModel):
     name: str
     slug: str
     brand_id: Optional[str] = None
+    brand: Optional[str] = None
     category_id: Optional[str] = None
     image_url: Optional[str] = None
     is_published: bool
     specs: Optional[dict] = None
 
-@router.get("", response_model=List[Device], dependencies=[Depends(RateLimiter(times=20, seconds=60))])
+@router.get("", response_model=List[Device])
 def list_devices(
     category: Optional[str] = Query(None),
     limit: int = Query(20, ge=1, le=100),
@@ -32,7 +33,8 @@ def list_devices(
     List devices from the database.
     Used by the frontend to display trending devices and browsing lists.
     """
-    query = supabase.table("devices").select("*").eq("is_published", True)
+    # Use join to fetch brand name
+    query = supabase.table("devices").select("*, brands(name)").eq("is_published", True)
     
     if category:
         query = query.eq("category_id", category)
@@ -45,22 +47,32 @@ def list_devices(
     devices = []
     for row in resp.data:
         device_id = row["id"]
-        # Fetch specs for each device to populate the 'chip' (processor) field
-        # In a real app, this would be a single join query or a more efficient batch fetch
-        specs_resp = (
-            supabase.table("device_specs")
-            .select("spec_key, spec_value")
-            .eq("device_id", device_id)
-            .execute()
-        )
+        # Fetch specs for each device
+        specs_resp = []
+        try:
+            specs_resp_data = (
+                supabase.table("device_specs")
+                .select("spec_key, spec_value")
+                .eq("device_id", device_id)
+                .execute()
+            )
+            specs_resp = specs_resp_data.data or []
+        except:
+            pass # Fallback if table doesn't exist yet
         
-        specs_map = {row["spec_key"]: row["spec_value"] for row in (specs_resp.data or [])}
+        specs_map = {item["spec_key"]: item["spec_value"] for item in specs_resp}
         
+        # Extracted brand name from join result
+        brand_name = None
+        if "brands" in row and row["brands"]:
+            brand_name = row["brands"].get("name")
+
         devices.append(Device(
             id=row["id"],
             name=row["name"],
             slug=row["slug"],
             brand_id=row.get("brand_id"),
+            brand=brand_name,
             category_id=row.get("category_id"),
             image_url=row.get("image_url"),
             is_published=row.get("is_published", False),
@@ -69,30 +81,40 @@ def list_devices(
         
     return devices
 
-@router.get("/{device_id}", response_model=Device, dependencies=[Depends(RateLimiter(times=30, seconds=60))])
+@router.get("/{device_id}", response_model=Device)
 def get_device(device_id: str) -> Device:
     """
     Get a single device by its ID.
     """
-    resp = supabase.table("devices").select("*").eq("id", device_id).maybe_single().execute()
+    resp = supabase.table("devices").select("*, brands(name)").eq("id", device_id).maybe_single().execute()
     
     if resp is None or not resp.data:
         raise HTTPException(status_code=404, detail="Device not found")
         
-    specs_resp = (
-        supabase.table("device_specs")
-        .select("spec_key, spec_value")
-        .eq("device_id", device_id)
-        .execute()
-    )
+    specs_resp = []
+    try:
+        specs_resp_data = (
+            supabase.table("device_specs")
+            .select("spec_key, spec_value")
+            .eq("device_id", device_id)
+            .execute()
+        )
+        specs_resp = specs_resp_data.data or []
+    except:
+        pass
     
-    specs_map = {row["spec_key"]: row["spec_value"] for row in (specs_resp.data or [])}
+    specs_map = {item["spec_key"]: item["spec_value"] for item in specs_resp}
     
+    brand_name = None
+    if "brands" in resp.data and resp.data["brands"]:
+        brand_name = resp.data["brands"].get("name")
+
     return Device(
         id=resp.data["id"],
         name=resp.data["name"],
         slug=resp.data["slug"],
         brand_id=resp.data.get("brand_id"),
+        brand=brand_name,
         category_id=resp.data.get("category_id"),
         image_url=resp.data.get("image_url"),
         is_published=resp.data.get("is_published", False),

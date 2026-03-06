@@ -1,12 +1,17 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from app.routers import intelligence, decision, knowledge_graph, market, generate, advisor, network, devices
+from app.routers import intelligence, decision, knowledge_graph, market, generate, advisor, network, devices, analytics, system
 from app.services.scheduler import start_scheduler, stop_scheduler
 from app.config import settings
 import redis.asyncio as redis
 from fastapi_limiter import FastAPILimiter
 from contextlib import asynccontextmanager
+import logging
+
+# Configure logging
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -16,10 +21,14 @@ async def lifespan(app: FastAPI):
     # Initialize Redis for rate limiting & cache
     try:
         redis_conn = redis.from_url(settings.REDIS_URL, encoding="utf-8", decode_responses=True)
+        # Verify connection
+        await redis_conn.ping()
         await FastAPILimiter.init(redis_conn)
         app.state.redis = redis_conn
+        logger.info("[Lifespan] Redis connection established.")
     except Exception as e:
-        print(f"Failed to connect to Redis: {e}")
+        logger.warning(f"[Lifespan] Redis unavailable — Rate limiting and caching disabled. Error: {e}")
+        app.state.redis = None
         
     yield
     
@@ -52,6 +61,8 @@ app.include_router(knowledge_graph.router,prefix="/api/v1/knowledge-graph",  tag
 app.include_router(market.router,         prefix="/api/v1/market-signals",   tags=["Market Signals"])
 app.include_router(advisor.router,        prefix="/api/v1/advisor",          tags=["Personal Advisor"])
 app.include_router(network.router,        prefix="/api/v1/network",          tags=["Intelligence Network"])
+app.include_router(analytics.router,      prefix="/api/v1/analytics",        tags=["Analytics"])
+app.include_router(system.router,         prefix="/api/v1/system",           tags=["System Management"])
 
 
 @app.get("/health")

@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
-import { Menu, Search, User, GitCompare, Newspaper, LayoutDashboard, ChevronRight, LogOut, Shield, Settings, Home, Zap, Activity } from "lucide-react";
+import { Menu, Search, User, GitCompare, LayoutDashboard, ChevronRight, LogOut, Shield, Zap, Activity } from "lucide-react";
 import { useAuth, openAuthModal } from "@/components/providers/AuthProvider";
 
 import { cn } from "@/lib/utils";
@@ -28,7 +28,7 @@ const AUTH_NAV_LINKS = [
 
 export function Navbar() {
   const pathname = usePathname();
-  const { role } = useAuth();
+  const { user } = useAuth();
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const { scrollY } = useScroll();
@@ -92,7 +92,6 @@ export function Navbar() {
           )}>
             {[
               ...NAV_LINKS,
-              ...(role === "admin" || role === "super_admin" ? [{ label: "Admin", to: "/admin", icon: Settings }] : [])
             ].map((link) => {
               const isActive = pathname === link.to || (link.to !== "/" && pathname.startsWith(link.to));
               return (
@@ -279,7 +278,6 @@ function MobileMenu({ isOpen, setIsOpen, pathname }: { isOpen: boolean, setIsOpe
   const allLinks = [
     ...NAV_LINKS, 
     ...AUTH_NAV_LINKS,
-    ...(role === "admin" || role === "super_admin" ? [{ label: "Admin", to: "/admin", icon: Settings }] : [])
   ];
 
   return (

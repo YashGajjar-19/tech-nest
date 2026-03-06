@@ -404,13 +404,13 @@ def run_scoring_engine(device_id: str) -> CategoryScores:
     overall   = compute_overall_score(display, perf, camera, battery, design, software)
 
     scores = CategoryScores(
-        display_score=round(display, 1),
-        performance_score=round(perf, 1),
-        camera_score=round(camera, 1),
-        battery_score=round(battery, 1),
-        design_score=round(design, 1),
-        software_score=round(software, 1),
-        overall_score=overall,
+        display_score=int(round(display)),
+        performance_score=int(round(perf)),
+        camera_score=int(round(camera)),
+        battery_score=int(round(battery)),
+        design_score=int(round(design)),
+        software_score=int(round(software)),
+        overall_score=int(round(overall)),
     )
 
     # Persist (upsert — safe to run multiple times)

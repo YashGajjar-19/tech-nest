@@ -57,11 +57,40 @@ def _safe_run_trend_engine() -> None:
         logger.error(f"[Scheduler] Trend engine error: {exc}", exc_info=True)
 
 
+def _safe_run_intelligence_sweep() -> None:
+    """Finds 'pending' devices and runs the pipeline for them."""
+    try:
+        from app.database import supabase
+        from app.workers.intelligence_worker import intelligence_background_job
+        
+        # 1. Fetch pending devices
+        resp = supabase.table("devices").select("id").eq("intelligence_status", "pending").limit(20).execute()
+        if not resp.data:
+            return
+
+        logger.info(f"[Scheduler] Found {len(resp.data)} pending devices. Starting sweep...")
+        
+        # 2. Process them (they will mark themselves as 'processing' internally)
+        for row in resp.data:
+            intelligence_background_job(row["id"], force=False)
+            
+    except Exception as exc:
+        logger.error(f"[Scheduler] Intelligence sweep error: {exc}", exc_info=True)
+
+
 def start_scheduler() -> None:
     """
     Register jobs and start the scheduler.
     Called once during FastAPI startup.
     """
+    _scheduler.add_job(
+        _safe_run_intelligence_sweep,
+        trigger=IntervalTrigger(minutes=5),
+        id="intelligence_sweep",
+        replace_existing=True,
+        max_instances=1,
+    )
+
     _scheduler.add_job(
         _safe_run_aggregation,
         trigger=IntervalTrigger(minutes=15),

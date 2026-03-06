@@ -50,6 +50,7 @@ export async function createDeviceAction(payload: {
   brand_id: string;
   name: string;
   slug: string;
+  device_type?: string;
   release_date?: string | null;
   price?: number | null;
   short_summary?: string | null;
@@ -60,7 +61,7 @@ export async function createDeviceAction(payload: {
     const supabase = createAdminClient();
     const { data, error } = await supabase
       .from("devices")
-      .insert({ ...payload, is_published: false })
+      .insert({ ...payload, device_type: payload.device_type ?? "smartphone", is_published: false })
       .select("id")
       .single();
     if (error) return { success: false, error: error.message };

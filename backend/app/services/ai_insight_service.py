@@ -95,6 +95,16 @@ def _call_llm(prompt: str, max_retries: int = 3) -> AIInsightOutput:
     client = _get_client()
     last_error: Optional[Exception] = None
 
+    if not settings.OPENAI_API_KEY or "abcdef" in settings.OPENAI_API_KEY:
+        logger.warning("[AI Insights] Using placeholder insights (No valid OpenAI Key found)")
+        return AIInsightOutput(
+            summary="Intelligence placeholder. Attach a real OpenAI API key to generate deep insights.",
+            pros=["Standout performance based on specs", "Future-ready hardware architecture"],
+            cons=["Intelligence results unverified", "Data points based on raw metadata"],
+            best_for=["System testing", "Integration verification"],
+            avoid_if=["Requiring finalized AI reasoning"]
+        )
+
     for attempt in range(1, max_retries + 1):
         try:
             logger.info(f"[AI Insights] LLM call attempt {attempt}/{max_retries}")

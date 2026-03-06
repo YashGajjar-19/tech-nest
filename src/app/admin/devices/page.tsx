@@ -1,142 +1,238 @@
-import React from "react";
+"use client";
+
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
-import { createAdminClient } from "@/lib/supabase/server";
-import { Plus, Pencil, ArrowUpDown } from "lucide-react";
+import { 
+  Plus, 
+  Pencil, 
+  ArrowUpDown, 
+  Search, 
+  Filter, 
+  Smartphone, 
+  Clock, 
+  CheckCircle2, 
+  AlertCircle,
+  RefreshCw,
+  MoreVertical
+} from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import { fetchDevices } from "@/lib/api";
 
-export default async function AdminDevicesPage() {
-  const supabase = createAdminClient();
+export default function AdminDevicesPage() {
+  const [devices, setDevices] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [search, setSearch] = useState("");
+  const [filter, setFilter] = useState("all");
 
-  // Real schema: devices(id, name, slug, brand_id → brands(name), release_date,
-  //                      price, is_published, short_summary, image_url, updated_at)
-  const { data: devices, error } = await supabase
-    .from("devices")
-    .select(`
-      id,
-      name,
-      slug,
-      price,
-      is_published,
-      release_date,
-      updated_at,
-      brands ( name )
-    `)
-    .order("updated_at", { ascending: false })
-    .limit(100);
+  const loadData = async () => {
+    setLoading(true);
+    const data = await fetchDevices();
+    setDevices(data || []);
+    setLoading(false);
+  };
 
-  const rows = devices ?? [];
+  useEffect(() => {
+    loadData();
+  }, []);
+
+  const filtered = devices.filter(d => {
+    const matchesSearch = d.name.toLowerCase().includes(search.toLowerCase()) || 
+                          d.slug.toLowerCase().includes(search.toLowerCase());
+    const matchesFilter = filter === "all" || 
+                          (filter === "published" && d.is_published) || 
+                          (filter === "draft" && !d.is_published) ||
+                          (filter === "failed" && d.intelligence_status === "failed");
+    return matchesSearch && matchesFilter;
+  });
+
+  const getStatusIcon = (status: string) => {
+    switch (status) {
+      case "ready": return <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500" />;
+      case "processing": return <RefreshCw className="w-3.5 h-3.5 text-blue-400 animate-spin" />;
+      case "failed": return <AlertCircle className="w-3.5 h-3.5 text-red-400" />;
+      default: return <Clock className="w-3.5 h-3.5 text-zinc-500" />;
+    }
+  };
+
+  const container = {
+    hidden: { opacity: 0 },
+    show: {
+      opacity: 1,
+      transition: { staggerChildren: 0.03 }
+    }
+  };
+
+  const item = {
+    hidden: { opacity: 0, x: -10 },
+    show: { opacity: 1, x: 0 }
+  };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-8 animate-in fade-in duration-500">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-        <div>
-          <p className="text-xs font-semibold text-muted-foreground uppercase tracking-widest mb-1">Admin OS</p>
-          <h1 className="text-2xl font-bold text-foreground tracking-tight">Device Management</h1>
-          <p className="text-sm text-muted-foreground mt-1">
-            {rows.length > 0 ? `${rows.length} device${rows.length !== 1 ? "s" : ""}` : "No devices yet"}
-          </p>
-        </div>
-        <Link
-          href="/admin/devices/new"
-          className="flex items-center gap-2 px-4 py-2 bg-foreground text-background text-sm font-semibold rounded-xl hover:opacity-90 transition-opacity whitespace-nowrap"
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
+        <motion.div
+           initial={{ opacity: 0, x: -20 }}
+           animate={{ opacity: 1, x: 0 }}
         >
-          <Plus className="w-4 h-4" />
-          Add Device
-        </Link>
+          <div className="flex items-center gap-2 mb-1">
+             <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+             <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-[0.3em]">Device Catalog</p>
+          </div>
+          <h1 className="text-3xl font-bold text-foreground tracking-tight">Management</h1>
+          <p className="text-sm text-muted-foreground mt-1">
+            {devices.length} objects currently registered in the knowledge graph.
+          </p>
+        </motion.div>
+        
+        <motion.div 
+           initial={{ opacity: 0, scale: 0.9 }}
+           animate={{ opacity: 1, scale: 1 }}
+           className="flex items-center gap-3 w-full md:w-auto"
+        >
+           <Link
+            href="/admin/devices/new"
+            className="flex-1 md:flex-none flex items-center justify-center gap-2 px-6 py-2.5 bg-foreground text-background text-xs font-bold rounded-2xl hover:opacity-90 transition-all hover:scale-[1.02] active:scale-[0.98] shadow-lg shadow-foreground/10"
+          >
+            <Plus className="w-4 h-4" />
+            Integrate New Device
+          </Link>
+        </motion.div>
       </div>
 
-      {error && (
-        <div className="rounded-xl border border-red-500/20 bg-red-500/8 px-4 py-3 text-sm text-red-400">
-          Failed to load devices: {error.message}
+      {/* Controls */}
+      <div className="flex flex-col sm:flex-row gap-4">
+        <div className="relative flex-1">
+          <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+          <input 
+            type="text"
+            placeholder="Search by name, slug or specs..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            className="w-full pl-11 pr-4 py-3 bg-foreground/2 border border-border rounded-2xl text-sm focus:outline-hidden focus:ring-2 focus:ring-foreground/5 transition-all"
+          />
         </div>
-      )}
-
-      {!error && rows.length === 0 && (
-        <div className="rounded-2xl border border-border bg-surface p-12 flex flex-col items-center justify-center gap-3 text-center min-h-[360px]">
-          <div className="w-12 h-12 rounded-2xl bg-foreground/5 border border-border flex items-center justify-center">
-            <Plus className="w-5 h-5 text-muted-foreground" />
-          </div>
-          <h3 className="text-sm font-semibold text-foreground">No devices yet</h3>
-          <p className="text-xs text-muted-foreground max-w-xs">
-            Start by adding your first device through the guided wizard.
-          </p>
-          <Link
-            href="/admin/devices/new"
-            className="mt-2 px-4 py-2 bg-foreground text-background text-sm font-semibold rounded-xl hover:opacity-90 transition-opacity"
-          >
-            Add First Device
-          </Link>
+        <div className="flex gap-2">
+            <select 
+              value={filter}
+              onChange={(e) => setFilter(e.target.value)}
+              className="px-4 py-3 bg-foreground/2 border border-border rounded-2xl text-xs font-bold uppercase tracking-widest focus:outline-hidden"
+            >
+               <option value="all">All Status</option>
+               <option value="published">Published</option>
+               <option value="draft">Drafts</option>
+               <option value="failed">Failed Intelligence</option>
+            </select>
+            <button 
+              onClick={loadData}
+              className="p-3 bg-foreground/2 border border-border rounded-2xl hover:bg-foreground/5 transition-colors"
+            >
+               <RefreshCw className={`w-4 h-4 text-muted-foreground ${loading ? 'animate-spin' : ''}`} />
+            </button>
         </div>
-      )}
+      </div>
 
-      {rows.length > 0 && (
-        <div className="rounded-2xl border border-border bg-surface overflow-hidden">
+      {loading && devices.length === 0 ? (
+        <div className="h-64 flex flex-col items-center justify-center gap-4">
+           <div className="w-12 h-12 border-2 border-foreground/5 border-t-foreground rounded-full animate-spin" />
+           <p className="text-xs font-bold text-muted-foreground uppercase tracking-widest">Hydrating Device Store...</p>
+        </div>
+      ) : filtered.length === 0 ? (
+        <div className="rounded-4xl border border-dashed border-border py-20 flex flex-col items-center justify-center text-center gap-4">
+            <Smartphone className="w-12 h-12 text-muted-foreground/20" />
+            <div>
+               <h3 className="font-bold text-foreground">No devices matched</h3>
+               <p className="text-xs text-muted-foreground mt-1">Try adjusting your filters or search query.</p>
+            </div>
+        </div>
+      ) : (
+        <div className="rounded-4xl border border-border bg-foreground/1.5 overflow-hidden shadow-sm backdrop-blur-3xl">
           <div className="overflow-x-auto">
-            <table className="min-w-full divide-y divide-border">
-              <thead className="bg-background/60">
-                <tr>
-                  {["Device", "Brand", "Price", "Status", "Released", "Last Updated", ""].map((h) => (
-                    <th key={h} className="px-5 py-3 text-left">
-                      <div className="flex items-center gap-1 text-[10px] font-semibold text-muted-foreground uppercase tracking-widest">
-                        {h}{h && h !== "" && <ArrowUpDown className="w-3 h-3 opacity-40" />}
+            <table className="min-w-full">
+              <thead>
+                <tr className="border-b border-border/50">
+                  {["Device & Brand", "Market Value", "Status", "Intelligence", "Modified", ""].map((h) => (
+                    <th key={h} className="px-8 py-5 text-left">
+                      <div className="flex items-center gap-2 text-[10px] font-bold text-muted-foreground uppercase tracking-[0.2em]">
+                        {h}
                       </div>
                     </th>
                   ))}
                 </tr>
               </thead>
-              <tbody className="divide-y divide-border">
-                {rows.map((device) => (
-                  <tr key={device.id} className="hover:bg-surface-elevated transition-colors group">
-                    <td className="px-5 py-3.5">
-                      <div>
-                        <p className="text-sm font-semibold text-foreground">{device.name}</p>
-                        <p className="text-[10px] font-mono text-muted-foreground mt-0.5">{device.slug}</p>
+              <motion.tbody 
+                variants={container}
+                initial="hidden"
+                animate="show"
+                className="divide-y divide-border/30"
+              >
+                {filtered.map((device) => (
+                  <motion.tr 
+                    variants={item}
+                    key={device.id} 
+                    className="hover:bg-foreground/3 transition-colors group"
+                  >
+                    <td className="px-8 py-5">
+                      <div className="flex items-center gap-4">
+                        <div className="w-10 h-10 rounded-xl bg-foreground/3 border border-border flex items-center justify-center group-hover:bg-foreground/10 transition-colors">
+                           <Smartphone className="w-4 h-4 text-muted-foreground group-hover:scale-110 transition-transform" />
+                        </div>
+                        <div>
+                          <p className="text-sm font-bold text-foreground group-hover:translate-x-0.5 transition-transform">{device.name}</p>
+                          <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider opacity-60">
+                            {device.brands?.name ?? "Unknown Brand"}
+                          </p>
+                        </div>
                       </div>
                     </td>
-                    <td className="px-5 py-3.5 whitespace-nowrap">
-                      {/* @ts-expect-error supabase join shape */}
-                      <span className="text-sm text-muted-foreground">{device.brands?.name ?? "—"}</span>
-                    </td>
-                    <td className="px-5 py-3.5 whitespace-nowrap">
-                      <span className="text-sm text-muted-foreground">
+                    <td className="px-8 py-5">
+                       <span className="text-sm font-mono text-foreground font-medium">
                         {device.price != null ? `$${Number(device.price).toLocaleString()}` : "—"}
                       </span>
                     </td>
-                    <td className="px-5 py-3.5 whitespace-nowrap">
-                      <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-semibold border uppercase tracking-wide ${
+                    <td className="px-8 py-5">
+                       <span className={`inline-flex items-center px-2.5 py-1 rounded-full text-[9px] font-bold border uppercase tracking-widest ${
                         device.is_published
-                          ? "text-emerald-500 bg-emerald-500/8 border-emerald-500/20"
-                          : "text-muted-foreground bg-foreground/5 border-border"
+                          ? "text-emerald-500 bg-emerald-500/5 border-emerald-500/20"
+                          : "text-zinc-500 bg-foreground/5 border-border"
                       }`}>
                         {device.is_published ? "Published" : "Draft"}
                       </span>
                     </td>
-                    <td className="px-5 py-3.5 whitespace-nowrap">
-                      <span className="text-sm text-muted-foreground">
-                        {device.release_date
-                          ? new Date(device.release_date).toLocaleDateString("en-US", { month: "short", year: "numeric" })
-                          : "—"}
-                      </span>
+                    <td className="px-8 py-5">
+                       <div className="flex items-center gap-2">
+                          {getStatusIcon(device.intelligence_status)}
+                          <span className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground">
+                             {device.intelligence_status || "Pending"}
+                          </span>
+                       </div>
                     </td>
-                    <td className="px-5 py-3.5 whitespace-nowrap">
-                      <span className="text-xs text-muted-foreground">
-                        {device.updated_at
-                          ? new Date(device.updated_at).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })
-                          : "—"}
-                      </span>
+                    <td className="px-8 py-5">
+                       <div className="flex flex-col gap-0.5">
+                          <span className="text-xs font-bold text-foreground">
+                            {new Date(device.updated_at).toLocaleDateString("en-US", { month: "short", day: "numeric" })}
+                          </span>
+                          <span className="text-[10px] text-muted-foreground font-medium opacity-60 uppercase">
+                             {new Date(device.updated_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                          </span>
+                       </div>
                     </td>
-                    <td className="px-5 py-3.5 whitespace-nowrap text-right">
-                      <Link
-                        href={`/admin/devices/${device.id}/edit`}
-                        className="inline-flex p-1.5 rounded-lg text-muted-foreground hover:text-foreground hover:bg-foreground/6 opacity-0 group-hover:opacity-100 transition-all"
-                        title="Edit Device"
-                      >
-                        <Pencil className="w-4 h-4" />
-                      </Link>
+                    <td className="px-8 py-5 text-right">
+                      <div className="flex items-center justify-end gap-2">
+                        <Link
+                          href={`/admin/devices/${device.id}/edit`}
+                          className="p-2 rounded-xl text-muted-foreground hover:text-foreground hover:bg-foreground/5 transition-all opacity-0 group-hover:opacity-100"
+                        >
+                          <Pencil className="w-4 h-4" />
+                        </Link>
+                        <button className="p-2 rounded-xl text-muted-foreground hover:text-foreground hover:bg-foreground/5 transition-all opacity-0 group-hover:opacity-100">
+                          <MoreVertical className="w-4 h-4" />
+                        </button>
+                      </div>
                     </td>
-                  </tr>
+                  </motion.tr>
                 ))}
-              </tbody>
+              </motion.tbody>
             </table>
           </div>
         </div>
@@ -144,3 +240,4 @@ export default async function AdminDevicesPage() {
     </div>
   );
 }
+

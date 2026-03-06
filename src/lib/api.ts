@@ -2,7 +2,7 @@ import type { components } from "./api-types";
 
 // A lightweight utility client to communicate with the Tech Nest Python Backend Engine.
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8001/api/v1";
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000/api/v1";
 
 export type Device = components["schemas"]["Device"];
 
@@ -66,3 +66,107 @@ export async function compareDevices(deviceIds: string[]) {
     return null;
   }
 }
+
+export async function fetchIntelligenceMetrics() {
+  try {
+    const res = await fetch(`${API_BASE_URL}/intelligence/admin/metrics`, {
+      cache: "no-store",
+      headers: {
+        "x-admin-role": "admin" // For simulation; real app would use proper JWT auth
+      }
+    });
+    if (!res.ok) return null;
+    return await res.json();
+  } catch (error) {
+    return null;
+  }
+}
+
+export async function triggerNetworkAggregation() {
+  try {
+    const res = await fetch(`${API_BASE_URL}/network/aggregate`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({}),
+      cache: "no-store",
+    });
+    return res.ok;
+  } catch (error) {
+    return false;
+  }
+}
+
+export async function triggerBulkIntelligence() {
+  try {
+    const devices = await fetchDevices();
+    const ids = devices.map(d => d.id);
+    const res = await fetch(`${API_BASE_URL}/intelligence/bulk-generate`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ device_ids: ids, force: false }),
+      cache: "no-store",
+    });
+    return res.ok;
+  } catch (error) {
+    return false;
+  }
+}
+
+export async function fetchIntelligenceQueue(): Promise<any[]> {
+  try {
+    const res = await fetch(`${API_BASE_URL}/intelligence/admin/queue`, {
+      cache: "no-store",
+      headers: {
+        "x-admin-role": "admin"
+      }
+    });
+    if (!res.ok) return [];
+    return await res.json();
+  } catch (error) {
+    return [];
+  }
+}
+
+export async function fetchAnalyticsSummary() {
+  try {
+    const res = await fetch(`${API_BASE_URL}/analytics/summary`, {
+      cache: "no-store",
+      headers: {
+        "x-admin-role": "admin"
+      }
+    });
+    if (!res.ok) return null;
+    return await res.json();
+  } catch (error) {
+    return null;
+  }
+}
+
+export async function fetchSystemLogs(limit = 50) {
+  try {
+    const res = await fetch(`${API_BASE_URL}/system/logs?limit=${limit}`, {
+      cache: "no-store",
+      headers: { "x-admin-role": "admin" }
+    });
+    if (!res.ok) return [];
+    return await res.json();
+  } catch (error) {
+    return [];
+  }
+}
+
+export async function fetchSystemSettings() {
+  try {
+    const res = await fetch(`${API_BASE_URL}/system/settings`, {
+      cache: "no-store",
+      headers: { "x-admin-role": "admin" }
+    });
+    if (!res.ok) return null;
+    return await res.json();
+  } catch (error) {
+    return null;
+  }
+}
+
+
+
