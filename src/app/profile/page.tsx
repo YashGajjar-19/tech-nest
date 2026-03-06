@@ -83,7 +83,7 @@ export default function ProfilePage() {
   ];
 
   return (
-    <div className="flex-1 w-full max-w-3xl mx-auto px-6 py-16 md:py-24">
+    <div className="flex-1 w-full max-w-3xl mx-auto px-6 pt-[20vh] pb-24">
       {/* ── Avatar + Name ── */}
       <motion.div
         variants={FADE_UP}

@@ -1,4 +1,4 @@
-from app.db.supabase import supabase
+from app.database import supabase
 from typing import Optional
 
 class DecisionMemoryService:

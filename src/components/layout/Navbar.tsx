@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
-import { Menu, Search, User, GitCompare, Newspaper, LayoutDashboard, ChevronRight, LogOut, Shield, Settings, Home } from "lucide-react";
+import { Menu, Search, User, GitCompare, Newspaper, LayoutDashboard, ChevronRight, LogOut, Shield, Settings, Home, Zap, Activity } from "lucide-react";
 import { useAuth, openAuthModal } from "@/components/providers/AuthProvider";
 
 import { cn } from "@/lib/utils";
@@ -15,10 +15,10 @@ import Logo, { LogoIcon } from "@/components/ui/Logo";
 
 // Public nav links — shown to all users
 const NAV_LINKS = [
-  { label: "Home", to: "/", icon: Home },
-  { label: "Devices", to: "/devices", icon: Search },
+  { label: "Discover", to: "/phones", icon: Search },
   { label: "Compare", to: "/compare", icon: GitCompare },
-  { label: "News", to: "/news", icon: Newspaper },
+  { label: "Decision AI", to: "/decision", icon: Zap },
+  { label: "Trending", to: "/#trending", icon: Activity },
 ];
 
 // Auth-required nav links — shown in mobile menu with sign-in gate
@@ -239,6 +239,16 @@ function NavUserButton() {
                 )}
               </div>
               <div className="border-t border-border-subtle mb-1" />
+              {role && role !== "user" && (
+                <Link
+                  href="/admin"
+                  onClick={() => setMenuOpen(false)}
+                  className="flex w-full items-center gap-2.5 rounded-xl px-3 py-2.5 text-sm text-text-secondary hover:text-text-primary hover:bg-bg-secondary transition-colors duration-150"
+                >
+                  <Shield className="h-4 w-4" />
+                  Admin Dashboard
+                </Link>
+              )}
               <Link
                 href="/profile"
                 onClick={() => setMenuOpen(false)}
@@ -355,3 +365,4 @@ function MobileMenu({ isOpen, setIsOpen, pathname }: { isOpen: boolean, setIsOpe
     </div>
   );
 }
+  

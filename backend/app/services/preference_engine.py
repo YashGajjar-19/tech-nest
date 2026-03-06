@@ -1,6 +1,6 @@
 from typing import Dict, Any, List
 # Hypothetical db module import based on the architecture, using the supabase client
-from app.db.supabase import supabase
+from app.database import supabase
 from app.models.advisor import UserProfileBase
 
 class PreferenceEngine:

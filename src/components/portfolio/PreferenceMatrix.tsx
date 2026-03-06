@@ -11,7 +11,7 @@ import {
   Camera,
   Battery,
   Gamepad2,
-  Apple,
+  Smartphone,
 } from "lucide-react";
 
 const PREFERENCES = [
@@ -21,7 +21,7 @@ const PREFERENCES = [
   {
     label: "Ecosystem (Apple)",
     weight: 0.8,
-    icon: Apple,
+    icon: Smartphone,
     color: "bg-slate-400",
   },
 ];

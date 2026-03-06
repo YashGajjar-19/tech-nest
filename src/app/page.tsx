@@ -1,22 +1,18 @@
-import HeroSection from "@/components/hero/HeroSection";
-import SmartSearchStrip from "@/components/home/SmartSearchStrip";
-import TrendingDevices from "@/components/home/TrendingDevices";
-import CompareExperience from "@/components/home/CompareExperience";
-import AIDiscovery from "@/components/home/AIDiscovery";
-import CategoryExplorer from "@/components/home/CategoryExplorer";
-import LatestTech from "@/components/home/LatestTech";
-import TrustSection from "@/components/home/TrustSection";
+import { HeroSection } from "@/features/home/hero-section";
+import { TrendingSection } from "@/features/home/trending-section";
+import { CategorySection } from "@/features/home/category-section";
+import { ComparisonsSection } from "@/features/home/comparisons-section";
+import { RecommendationsSection } from "@/features/home/recommendations-section";
+import { TrustSection } from "@/features/home/trust-section";
 
 export default function Home() {
   return (
-    <main className="min-h-screen bg-bg-primary selection:bg-brand/10 text-text-primary flex flex-col w-full overflow-x-hidden">
+    <main className="flex flex-col w-full selection:bg-surface-elevated/50 bg-bg-primary overflow-x-hidden min-h-screen">
       <HeroSection />
-      <SmartSearchStrip />
-      <TrendingDevices />
-      <CompareExperience />
-      <AIDiscovery />
-      <CategoryExplorer />
-      <LatestTech />
+      <TrendingSection />
+      <CategorySection />
+      <ComparisonsSection />
+      <RecommendationsSection />
       <TrustSection />
     </main>
   );

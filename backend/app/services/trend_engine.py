@@ -34,7 +34,7 @@ import math
 from datetime import datetime, timedelta, timezone
 from typing import Literal
 
-from app.db.supabase import supabase
+from app.database import supabase
 
 logger = logging.getLogger(__name__)
 

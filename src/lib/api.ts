@@ -1,8 +1,12 @@
+import type { components } from "./api-types";
+
 // A lightweight utility client to communicate with the Tech Nest Python Backend Engine.
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8001/api/v1";
 
-export async function fetchDevices(category?: string, limit: number = 20) {
+export type Device = components["schemas"]["Device"];
+
+export async function fetchDevices(category?: string, limit: number = 20): Promise<Device[]> {
   const url = new URL(`${API_BASE_URL}/devices`);
   if (category) url.searchParams.append("category", category);
   if (limit) url.searchParams.append("limit", limit.toString());
@@ -15,20 +19,20 @@ export async function fetchDevices(category?: string, limit: number = 20) {
     
     if (!res.ok) throw new Error("Failed to fetch devices");
     
-    return res.json();
+    return await res.json();
   } catch (error) {
-    console.error("Fetch Devices Error:", error instanceof Error ? error.message : String(error));
+    // Suppress console errors to allow graceful UI fallbacks
     return [];
   }
 }
 
-export async function fetchDeviceById(id: string) {
+export async function fetchDeviceById(id: string): Promise<Device | null> {
   try {
     const res = await fetch(`${API_BASE_URL}/devices/${id}`, { cache: "no-store" });
     if (!res.ok) return null;
-    return res.json();
+    return await res.json();
   } catch (error) {
-    console.error(`Fetch Device ${id} Error:`, error instanceof Error ? error.message : String(error));
+    // Suppress console errors to allow graceful UI fallbacks
     return null;
   }
 }
@@ -40,9 +44,9 @@ export async function fetchDeviceDecision(id: string, context?: string) {
   try {
     const res = await fetch(url.toString(), { cache: "no-store" });
     if (!res.ok) return null;
-    return res.json();
+    return await res.json();
   } catch (error) {
-    console.error(`Fetch Decision ${id} Error:`, error instanceof Error ? error.message : String(error));
+    // Suppress console errors to allow graceful UI fallbacks
     return null;
   }
 }
@@ -56,9 +60,9 @@ export async function compareDevices(deviceIds: string[]) {
       cache: "no-store",
     });
     if (!res.ok) return null;
-    return res.json();
+    return await res.json();
   } catch (error) {
-    console.error("Compare Devices Error:", error instanceof Error ? error.message : String(error));
+    // Suppress console errors to allow graceful UI fallbacks
     return null;
   }
 }

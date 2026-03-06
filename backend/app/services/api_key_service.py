@@ -25,7 +25,7 @@ from base64 import urlsafe_b64encode
 
 import bcrypt
 
-from app.db.supabase import supabase
+from app.database import supabase
 from app.models.platform import APIClientCreate, APIClientCreatedResponse, AuthenticatedClient, PLAN_RATE_LIMITS
 
 logger = logging.getLogger(__name__)

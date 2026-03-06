@@ -30,7 +30,7 @@ import logging
 from typing import Optional
 
 
-from app.db.supabase import supabase
+from app.database import supabase
 
 logger = logging.getLogger(__name__)
 

@@ -1,6 +1,6 @@
 from datetime import datetime, timezone
 
-from app.db.supabase import supabase
+from app.database import supabase
 from typing import Dict, Any, Optional
 
 class UpgradePredictor:

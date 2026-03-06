@@ -27,7 +27,7 @@ from collections import defaultdict
 from datetime import datetime, timedelta, timezone
 from typing import Any
 
-from app.db.supabase import supabase
+from app.database import supabase
 
 logger = logging.getLogger(__name__)
 

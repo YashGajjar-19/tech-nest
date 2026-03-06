@@ -1,5 +1,5 @@
 from typing import List
-from app.db.supabase import supabase
+from app.database import supabase
 from app.services.upgrade_predictor import UpgradePredictor
 from app.services.preference_engine import PreferenceEngine
 
