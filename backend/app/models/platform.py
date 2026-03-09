@@ -1,92 +1,110 @@
 """
-Platform API Key Models
-────────────────────────
-Pydantic schemas for the API client registry and usage logs.
-All schemas use strict field definitions — no Optional fields without defaults.
+Platform Models
+─────────────────
+Pydantic DTOs for the /platform/v1 API surface.
+
+These models define the contract between:
+  - PlatformGatewayMiddleware (auth + rate limiting)
+  - platform_deps.py (dependency injection)
+  - platform_*.py endpoint handlers
+
+AuthenticatedClient is the canonical identity object placed on
+request.state.platform_client after successful API key validation.
 """
 
 from __future__ import annotations
 
 from datetime import datetime
 from typing import Any, Literal, Optional
-from uuid import UUID
 
-from pydantic import BaseModel, EmailStr, Field
+from pydantic import BaseModel, Field
 
 
-# ── Plan definitions ─────────────────────────────────────────────────────────
+# ── Plan Tier Constants ───────────────────────────────────────────────────────
 
-PlanType = Literal["free", "starter", "growth", "enterprise"]
+PLAN_ORDER: dict[str, int] = {
+    "free":       0,
+    "starter":    1,
+    "growth":     2,
+    "enterprise": 3,
+}
 
 PLAN_RATE_LIMITS: dict[str, int] = {
-    "free":       100,
+    "free":       100,     # req/min
     "starter":    500,
-    "growth":    2000,
+    "growth":     2000,
     "enterprise": 10000,
 }
 
 PLAN_DAILY_LIMITS: dict[str, int] = {
-    "free":          1_000,
-    "starter":      50_000,
-    "growth":      500_000,
-    "enterprise": 10_000_000,
+    "free":       1_000,
+    "starter":    50_000,
+    "growth":     500_000,
+    "enterprise": 5_000_000,
 }
 
 
-# ── API Client schemas ────────────────────────────────────────────────────────
+# ── Core Identity ─────────────────────────────────────────────────────────────
 
-class APIClientCreate(BaseModel):
-    """Request body to register a new API client."""
-    name:     str       = Field(..., min_length=2,  max_length=255)
-    email:    EmailStr
-    plan:     PlanType  = "free"
+class AuthenticatedClient(BaseModel):
+    """
+    Represents a validated platform API client.
+    Attached to request.state by the gateway middleware.
+    """
+    client_id:   str
+    name:        str
+    email:       str
+    plan:        Literal["free", "starter", "growth", "enterprise"]
+    rate_limit:  int          # requests per minute
+    is_active:   bool
+    metadata:    dict[str, Any] = Field(default_factory=dict)
+
+    @property
+    def plan_rank(self) -> int:
+        return PLAN_ORDER.get(self.plan, 0)
+
+    def meets_plan(self, minimum: str) -> bool:
+        return self.plan_rank >= PLAN_ORDER.get(minimum, 0)
+
+
+# ── API Key Creation ──────────────────────────────────────────────────────────
+
+class APIKeyCreateRequest(BaseModel):
+    name:     str = Field(..., min_length=2, max_length=255)
+    email:    str = Field(..., min_length=5, max_length=255)
+    plan:     Literal["free", "starter", "growth", "enterprise"] = "free"
     metadata: dict[str, Any] = Field(default_factory=dict)
 
 
-class APIClientPublic(BaseModel):
+class APIKeyCreateResponse(BaseModel):
     """
-    Safe public representation of an API client.
-    NEVER includes the raw key or the hash.
+    Returned ONCE after key creation. The raw key is never stored or shown again.
     """
-    id:             UUID
-    name:           str
-    email:          str
-    api_key_prefix: str          # e.g., "tn_live_ab12" — for identification only
-    plan:           str
-    rate_limit:     int
-    is_active:      bool
-    created_at:     datetime
+    client_id:  str
+    api_key:    str          # Full raw key — shown only this one time
+    plan:       str
+    rate_limit: int
+    message:    str = "Store this key securely. It cannot be retrieved again."
 
 
-class APIClientCreatedResponse(APIClientPublic):
-    """
-    Returned ONCE at creation. Contains the raw API key.
-    After this response, the raw key is gone — it is not stored.
-    """
-    raw_api_key: str = Field(
-        ...,
-        description="Store this immediately. It will not be shown again."
-    )
+# ── Usage Log ─────────────────────────────────────────────────────────────────
+
+class UsageLogEntry(BaseModel):
+    client_id:     Optional[str]
+    endpoint:      str
+    method:        str
+    status_code:   int
+    latency_ms:    int
+    request_meta:  dict[str, Any] = Field(default_factory=dict)
 
 
-# ── Authenticated client context (injected by middleware) ────────────────────
+# ── Developer Dashboard ──────────────────────────────────────────────────────
 
-class AuthenticatedClient(BaseModel):
-    """Attached to every request that passes API key validation."""
-    client_id:   str
-    plan:        str
-    rate_limit:  int   # requests per minute
-
-
-# ── Usage log schemas ─────────────────────────────────────────────────────────
-
-class UsageSummary(BaseModel):
-    """Per-client usage summary returned by admin or self-service dashboard."""
-    client_id:      str
-    period:         str          # e.g., "today", "7d", "30d"
-    total_requests: int
-    endpoints_used: list[str]
-    avg_latency_ms: Optional[float] = None
-    plan:           str
-    rate_limit:     int
-    daily_limit:    int
+class ClientUsageSummary(BaseModel):
+    client_id:         str
+    name:              str
+    plan:              str
+    total_requests_24h: int
+    total_requests_7d:  int
+    avg_latency_ms:    float
+    top_endpoints:     list[dict[str, Any]]

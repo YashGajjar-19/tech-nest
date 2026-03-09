@@ -16,9 +16,9 @@ This dependency simply extracts that state for clean injection into handlers.
 
 from __future__ import annotations
 
-from fastapi import HTTPException, Request, status
+from fastapi import Depends, HTTPException, Request, status
 
-from app.models.platform import AuthenticatedClient
+from app.models.platform import AuthenticatedClient, PLAN_ORDER
 
 
 def get_platform_client(request: Request) -> AuthenticatedClient:
@@ -46,11 +46,10 @@ def require_plan(minimum_plan: str):
 
     Plan hierarchy: free < starter < growth < enterprise
     """
-    _PLAN_ORDER = {"free": 0, "starter": 1, "growth": 2, "enterprise": 3}
 
-    def _check(client: AuthenticatedClient = get_platform_client):
-        client_tier = _PLAN_ORDER.get(client.plan, 0)
-        required_tier = _PLAN_ORDER.get(minimum_plan, 0)
+    def _check(client: AuthenticatedClient = Depends(get_platform_client)):
+        client_tier = PLAN_ORDER.get(client.plan, 0)
+        required_tier = PLAN_ORDER.get(minimum_plan, 0)
         if client_tier < required_tier:
             raise HTTPException(
                 status_code=status.HTTP_403_FORBIDDEN,
