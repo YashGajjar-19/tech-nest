@@ -126,7 +126,7 @@ export default function AdminEnginePage() {
             </div>
 
             <div className="space-y-1">
-              <p className="text-xs font-bold text-muted-foreground uppercase tracking-[0.1em] opacity-60">
+              <p className="text-xs font-bold text-muted-foreground uppercase tracking-widest opacity-60">
                 {s.label}
               </p>
               <p className="text-3xl font-bold text-foreground tracking-tighter">

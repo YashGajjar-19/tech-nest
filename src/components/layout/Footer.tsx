@@ -1,4 +1,5 @@
-import { Container } from "@/components/ui/container"
+import { Container } from "@/components/ui/container";
+import Link from "next/link";
 
 export function Footer() {
   return (
@@ -14,35 +15,35 @@ export function Footer() {
           <div>
             <h4 className="font-medium text-text-primary mb-4">Platform</h4>
             <ul className="space-y-2 text-sm text-text-secondary">
-              <li><a href="/discover" className="hover:text-text-primary transition-colors">Discover</a></li>
-              <li><a href="/compare" className="hover:text-text-primary transition-colors">Compare Matrix</a></li>
-              <li><a href="/decision" className="hover:text-text-primary transition-colors">Decision AI</a></li>
+              <li><Link href="/discover" className="hover:text-text-primary transition-colors">Discover</Link></li>
+              <li><Link href="/compare" className="hover:text-text-primary transition-colors">Compare Matrix</Link></li>
+              <li><Link href="/decision" className="hover:text-text-primary transition-colors">Decision AI</Link></li>
             </ul>
           </div>
           <div>
             <h4 className="font-medium text-text-primary mb-4">Categories</h4>
             <ul className="space-y-2 text-sm text-text-secondary">
-              <li><a href="/phones" className="hover:text-text-primary transition-colors">Phones</a></li>
-              <li><a href="/laptops" className="hover:text-text-primary transition-colors">Laptops</a></li>
-              <li><a href="/audio" className="hover:text-text-primary transition-colors">Audio</a></li>
+              <li><Link href="/phones" className="hover:text-text-primary transition-colors">Phones</Link></li>
+              <li><Link href="/laptops" className="hover:text-text-primary transition-colors">Laptops</Link></li>
+              <li><Link href="/audio" className="hover:text-text-primary transition-colors">Audio</Link></li>
             </ul>
           </div>
           <div>
             <h4 className="font-medium text-text-primary mb-4">More</h4>
             <ul className="space-y-2 text-sm text-text-secondary">
-              <li><a href="/api-docs" className="hover:text-text-primary transition-colors">API & Devs</a></li>
-              <li><a href="/about" className="hover:text-text-primary transition-colors">About</a></li>
+              <li><Link href="/api-docs" className="hover:text-text-primary transition-colors">API & Devs</Link></li>
+              <li><Link href="/about" className="hover:text-text-primary transition-colors">About</Link></li>
             </ul>
           </div>
         </div>
         <div className="mt-12 pt-8 border-t border-border-subtle flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-text-secondary">
           <p>© {new Date().getFullYear()} Tech Nest. All rights reserved.</p>
           <div className="flex gap-4">
-            <a href="/privacy" className="hover:text-text-primary">Privacy Policy</a>
-            <a href="/terms" className="hover:text-text-primary">Terms of Service</a>
+            <Link href="/privacy" className="hover:text-text-primary">Privacy Policy</Link>
+            <Link href="/terms" className="hover:text-text-primary">Terms of Service</Link>
           </div>
         </div>
       </Container>
     </footer>
-  )
+  );
 }

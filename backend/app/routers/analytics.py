@@ -7,7 +7,7 @@ import datetime
 router = APIRouter()
 
 @router.get("/summary", response_model=Dict[str, Any])
-async def get_analytics_summary(_: dict = Depends(require_admin)):
+def get_analytics_summary(_: dict = Depends(require_admin)):
     """
     Returns platform-wide analytics summary for the last 7 days.
     """

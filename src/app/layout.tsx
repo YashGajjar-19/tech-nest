@@ -3,13 +3,10 @@ import { Geist, Geist_Mono } from "next/font/google";
 import { siteConfig } from "@/config/site";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
-import { ScrollProvider } from "@/components/providers/ScrollProvider";
-import AppReady from "@/components/providers/AppReady";
 import { SearchProvider } from "@/components/providers/SearchProvider";
 import { SearchPalette } from "@/components/search/SearchPalette";
 import { AuthProvider } from "@/components/providers/AuthProvider";
 import { AuthModal } from "@/components/auth/AuthModal";
-import { ConditionalShell } from "@/components/providers/ConditionalShell";
 
 const fontSans = Geist({
   variable: "--font-sans",
@@ -53,8 +50,6 @@ export const viewport: Viewport = {
   ],
   width: "device-width",
   initialScale: 1,
-  maximumScale: 1,
-  userScalable: false,
   viewportFit: "cover",
   interactiveWidget: "resizes-content",
 };
@@ -66,9 +61,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: `history.scrollRestoration = "manual";` }} />
+      </head>
       <body
         className={`${fontSans.variable} ${fontHeading.variable} ${fontMono.variable} min-h-screen bg-background text-foreground antialiased font-sans flex flex-col`}
-        suppressHydrationWarning
       >
         <ThemeProvider
           attribute="class"
@@ -76,19 +73,13 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <AppReady>
             <AuthProvider>
               <SearchProvider>
-                <ScrollProvider>
-                  <AuthModal />
-                  <SearchPalette />
-                  <ConditionalShell>
-                    {children}
-                  </ConditionalShell>
-                </ScrollProvider>
+                <AuthModal />
+                <SearchPalette />
+                {children}
               </SearchProvider>
             </AuthProvider>
-          </AppReady>
         </ThemeProvider>
       </body>
     </html>

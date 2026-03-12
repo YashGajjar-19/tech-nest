@@ -20,7 +20,7 @@ def process_signal_in_background(signal: SignalIngestion):
     pass
 
 @router.put("/ingest")
-async def ingest_market_signal(payload: SignalIngestion, background_tasks: BackgroundTasks):
+def ingest_market_signal(payload: SignalIngestion, background_tasks: BackgroundTasks):
     """
     Fire-and-forget behavioral logging endpoint for continuous learning.
     """

@@ -198,7 +198,7 @@ export default function AdminAnalyticsPage() {
             </div>
 
             <div className="space-y-1 mb-6">
-              <p className="text-xs font-bold text-muted-foreground uppercase tracking-[0.1em] opacity-60">
+              <p className="text-xs font-bold text-muted-foreground uppercase tracking-widest opacity-60">
                 {s.label}
               </p>
               <p className="text-3xl font-bold text-foreground tracking-tighter">
@@ -230,7 +230,7 @@ export default function AdminAnalyticsPage() {
           />
 
           <div className="relative">
-            <div className="w-20 h-20 rounded-[2rem] bg-foreground/5 border border-border flex items-center justify-center relative z-10 transition-all group-hover:scale-110 group-hover:rotate-3 duration-500">
+            <div className="w-20 h-20 rounded-4xl bg-foreground/5 border border-border flex items-center justify-center relative z-10 transition-all group-hover:scale-110 group-hover:rotate-3 duration-500">
               <Layers className="w-10 h-10 text-muted-foreground group-hover:text-blue-400 transition-colors " />
             </div>
             <div className="absolute -inset-4 bg-blue-500/20 blur-3xl opacity-0 group-hover:opacity-100 transition-opacity" />

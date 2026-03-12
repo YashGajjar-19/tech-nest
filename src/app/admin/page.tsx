@@ -22,120 +22,9 @@ import { motion, AnimatePresence } from "framer-motion";
 import { createClient } from "@/lib/supabase/client";
 import { fetchIntelligenceMetrics } from "@/lib/api";
 import { cn } from "@/lib/utils";
+import { MetricCard } from "@/features/admin/components/metric-card";
+import { QuickAction } from "@/features/admin/components/quick-action";
 
-interface MetricCardProps {
-  title: string;
-  value: string | number;
-  trend: string;
-  icon: React.ElementType;
-  state?: "neutral" | "positive" | "warning" | "info";
-  delay: number;
-}
-
-function MetricCard({
-  title,
-  value,
-  trend,
-  icon: Icon,
-  state = "neutral",
-  delay,
-}: MetricCardProps) {
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5, delay, ease: [0.16, 1, 0.3, 1] }}
-      className="relative overflow-hidden rounded-4xl border border-border bg-foreground/2 p-6 px-7 group hover:bg-foreground/5 transition-all duration-300"
-    >
-      <div className="absolute -right-3 -top-3 opacity-[0.03] group-hover:opacity-[0.08] transition-all duration-700 group-hover:scale-110 group-hover:-rotate-12">
-        <Icon className="w-24 h-24" />
-      </div>
-      <div className="relative flex flex-col gap-6">
-        <div className="flex items-center justify-between">
-          <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-[0.2em]">
-            {title}
-          </p>
-          <div className="w-9 h-9 rounded-2xl bg-foreground/5 flex items-center justify-center border border-border/50 group-hover:scale-110 transition-transform">
-            <Icon
-              className={cn(
-                "w-4 h-4 transition-colors",
-                state === "positive"
-                  ? "text-emerald-400"
-                  : state === "warning"
-                    ? "text-amber-400"
-                    : state === "info"
-                      ? "text-blue-400"
-                      : "text-muted-foreground",
-              )}
-            />
-          </div>
-        </div>
-        <div>
-          <p className="text-4xl font-bold text-foreground tracking-tight leading-none mb-3">
-            {typeof value === "number" ? value.toLocaleString() : value}
-          </p>
-          <div
-            className={cn(
-              "inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[9px] font-bold uppercase tracking-wider border",
-              state === "positive"
-                ? "text-emerald-500 bg-emerald-500/8 border-emerald-500/20"
-                : state === "warning"
-                  ? "text-amber-500 bg-amber-500/8 border-amber-500/20"
-                  : state === "info"
-                    ? "text-blue-400 bg-blue-500/8 border-blue-500/20"
-                    : "text-muted-foreground bg-foreground/5 border-border",
-            )}
-          >
-            {state === "positive" && <Activity className="w-2.5 h-2.5" />}
-            {trend}
-          </div>
-        </div>
-      </div>
-    </motion.div>
-  );
-}
-
-function QuickAction({
-  label,
-  description,
-  href,
-  icon: Icon,
-  delay,
-}: {
-  label: string;
-  description: string;
-  href: string;
-  icon: React.ElementType;
-  delay: number;
-}) {
-  return (
-    <motion.div
-      initial={{ opacity: 0, x: 10 }}
-      animate={{ opacity: 1, x: 0 }}
-      transition={{ duration: 0.4, delay }}
-    >
-      <Link
-        href={href}
-        className="flex items-center justify-between p-4 rounded-2xl border border-border bg-foreground/2 hover:bg-foreground/5 hover:border-foreground/20 transition-all group shadow-sm hover:shadow-md"
-      >
-        <div className="flex items-center gap-4">
-          <div className="w-11 h-11 rounded-2xl bg-foreground/5 flex items-center justify-center shrink-0 group-hover:bg-foreground/10 transition-colors border border-border/50">
-            <Icon className="w-5 h-5 text-muted-foreground group-hover:text-foreground transition-colors" />
-          </div>
-          <div>
-            <p className="text-sm font-bold text-foreground tracking-tight">
-              {label}
-            </p>
-            <p className="text-[11px] text-muted-foreground mt-0.5">
-              {description}
-            </p>
-          </div>
-        </div>
-        <ArrowRight className="w-4 h-4 text-muted-foreground/30 group-hover:text-muted-foreground group-hover:translate-x-1 transition-all" />
-      </Link>
-    </motion.div>
-  );
-}
 
 export default function AdminDashboard() {
   const [stats, setStats] = useState<any>({
@@ -152,7 +41,6 @@ export default function AdminDashboard() {
       { count: totalDevices },
       { data: recentDevices },
       { count: totalBrands },
-      metricsData,
     ] = await Promise.all([
       supabase.from("devices").select("*", { count: "exact", head: true }),
       supabase
@@ -161,8 +49,13 @@ export default function AdminDashboard() {
         .order("updated_at", { ascending: false })
         .limit(6),
       supabase.from("brands").select("*", { count: "exact", head: true }),
-      fetchIntelligenceMetrics(),
     ]);
+
+    const { data: { session } } = await supabase.auth.getSession();
+    const token = session?.access_token;
+    
+    // Fetch metrics with the token
+    const metricsData = await fetchIntelligenceMetrics(token);
 
     setStats({
       totalDevices: totalDevices ?? 0,

@@ -1,6 +1,6 @@
 import Link from "next/link";
-import { DeviceCardSkeleton } from "@/features/devices/device-card-skeleton"; // Needs to be created
-import { DecisionCard } from "@/features/devices/device-card";
+import { DeviceCardSkeleton } from "@/features/device/device-card-skeleton"; // Needs to be created
+import { DecisionCard } from "@/features/device/device-card";
 import { Suspense } from "react";
 import { fetchDevices, fetchDeviceDecision } from "@/lib/api";
 
@@ -27,23 +27,12 @@ async function TrendingDevicesList() {
     })
   );
 
-  // If backend fails, return static fallback to maintain demo UI.
+  // If backend fails or returns empty, show empty state instead of faking data.
   if (enrichedDevices.length === 0) {
     return (
-      <>
-        <DecisionCard 
-           id="pixel-8" name="Pixel 8" brand="Google" score={89} price="$699"
-           highlights={["Best camera", "Clean software", "AI Features"]} href="/device/pixel-8"
-        />
-        <DecisionCard 
-           id="s24-ultra" name="Galaxy S24" brand="Samsung" score={91} price="$799"
-           highlights={["Anti-reflective Display", "7 Years Updates", "Compact Design"]} href="/device/galaxy-s24"
-        />
-        <DecisionCard 
-           id="iphone-15" name="iPhone 15" brand="Apple" score={90} price="$799"
-           highlights={["Dynamic Island", "USB-C Transition", "Reliable Ecosystem"]} href="/device/iphone-15"
-        />
-      </>
+      <div className="col-span-1 md:col-span-2 lg:col-span-3 text-center text-text-secondary py-12">
+        <p>No trending devices available at the moment.</p>
+      </div>
     );
   }
 

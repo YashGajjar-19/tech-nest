@@ -15,10 +15,8 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from app.routers import (
     intelligence, decision, knowledge_graph, market, generate,
-    advisor, network, devices, analytics, system,
-    platform_decision, platform_devices, platform_admin, platform_agent,
+    devices, analytics, system,
 )
-from app.middleware.platform_gateway import PlatformGatewayMiddleware
 from app.services.scheduler import start_scheduler, stop_scheduler
 from app.config import settings
 import redis.asyncio as redis
@@ -61,16 +59,10 @@ app = FastAPI(
     lifespan=lifespan,
 )
 
-# ── Middleware Stack ──────────────────────────────────────────────────────────
-# Order matters: CORS must be outermost, then Platform Gateway.
-
-# Platform Gateway: intercepts /platform/* for API key auth + rate limiting
-app.add_middleware(PlatformGatewayMiddleware)
-
 # CORS: allows Next.js frontend + any platform embed origins
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000", "https://technest.app", "*"],
+    allow_origins=["http://localhost:3000", "https://technest.app"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -83,18 +75,8 @@ app.include_router(generate.router,        prefix="/api/v1/intelligence",      t
 app.include_router(decision.router,        prefix="/api/v1/decision",          tags=["Decision Engine"])
 app.include_router(knowledge_graph.router, prefix="/api/v1/knowledge-graph",   tags=["Knowledge Graph"])
 app.include_router(market.router,          prefix="/api/v1/market-signals",    tags=["Market Signals"])
-app.include_router(advisor.router,         prefix="/api/v1/advisor",           tags=["Personal Advisor"])
-app.include_router(network.router,         prefix="/api/v1/network",           tags=["Intelligence Network"])
 app.include_router(analytics.router,       prefix="/api/v1/analytics",         tags=["Analytics"])
 app.include_router(system.router,          prefix="/api/v1/system",            tags=["System Management"])
-
-# ── Platform Admin (Supabase JWT Auth — admin only) ───────────────────────────
-app.include_router(platform_admin.router,  prefix="/api/v1/platform-admin",    tags=["Platform Admin"])
-
-# ── Public Platform Routers (API Key Auth via Middleware) ─────────────────────
-app.include_router(platform_devices.router,  prefix="/platform/v1/devices",    tags=["Platform: Devices"])
-app.include_router(platform_decision.router, prefix="/platform/v1/decision",   tags=["Platform: Decision"])
-app.include_router(platform_agent.router,    prefix="/platform/v1/agent",      tags=["Platform: AI Agents"])
 
 
 @app.get("/health")

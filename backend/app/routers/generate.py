@@ -91,7 +91,7 @@ def _mark_pending(device_id: str) -> None:
 # ── Endpoints ─────────────────────────────────────────────────────────────────
 
 @router.post("/generate/{device_id}", response_model=GenerateResponse)
-async def trigger_intelligence_generation(
+def trigger_intelligence_generation(
     device_id: str,
     background_tasks: BackgroundTasks,
     _: dict = Depends(require_admin),
@@ -127,7 +127,7 @@ async def trigger_intelligence_generation(
 
 
 @router.post("/regenerate/{device_id}", response_model=GenerateResponse)
-async def force_regenerate_intelligence(
+def force_regenerate_intelligence(
     device_id: str,
     background_tasks: BackgroundTasks,
     _: dict = Depends(require_admin),
@@ -149,7 +149,7 @@ async def force_regenerate_intelligence(
 
 
 @router.get("/status/{device_id}", response_model=IntelligenceStatusResponse)
-async def get_intelligence_status(device_id: str) -> IntelligenceStatusResponse:
+def get_intelligence_status(device_id: str) -> IntelligenceStatusResponse:
     """
     Returns full intelligence status for a device.
     Includes scores, insight availability, and competitor count.
@@ -212,7 +212,7 @@ async def get_intelligence_status(device_id: str) -> IntelligenceStatusResponse:
 
 
 @router.post("/bulk-generate", response_model=BulkGenerateResponse)
-async def bulk_trigger_intelligence(
+def bulk_trigger_intelligence(
     payload: BulkGenerateRequest,
     background_tasks: BackgroundTasks,
     _: dict = Depends(require_admin),

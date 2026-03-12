@@ -4,7 +4,9 @@ import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronDown, Plus, Share, Check, ArrowRight } from "lucide-react";
 
-export default function ComparisonHero() {
+import { fetchDeviceById } from "@/lib/api";
+
+export default function ComparisonHero({ slugA, slugB }: { slugA?: string, slugB?: string }) {
   const [isSticky, setIsSticky] = useState(false);
 
   useEffect(() => {
@@ -16,6 +18,24 @@ export default function ComparisonHero() {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  const [deviceA, setDeviceA] = useState<any>(null);
+  const [deviceB, setDeviceB] = useState<any>(null);
+
+  useEffect(() => {
+    async function load() {
+      if (slugA) setDeviceA(await fetchDeviceById(slugA));
+      if (slugB) setDeviceB(await fetchDeviceById(slugB));
+    }
+    load();
+  }, [slugA, slugB]);
+
+  const nameA = deviceA?.name || "iPhone 16 Pro Max";
+  const nameB = deviceB?.name || "Galaxy S24 Ultra";
+  const priceA = deviceA?.specs?.price ? `$${deviceA.specs.price}` : "Starting at $1199";
+  const priceB = deviceB?.specs?.price ? `$${deviceB.specs.price}` : "Starting at $1299";
+  const imgA = deviceA?.image_url || null;
+  const imgB = deviceB?.image_url || null;
 
   return (
     <>
@@ -31,8 +51,7 @@ export default function ComparisonHero() {
                 Which flagship is right for you?
               </h1>
               <p className="text-text-secondary text-lg md:text-xl max-w-2xl mx-auto font-light">
-                An expert comparison between the iPhone 16 Pro Max and Galaxy
-                S24 Ultra.
+                An expert comparison between the {nameA} and {nameB}.
               </p>
             </motion.div>
           </div>
@@ -52,9 +71,13 @@ export default function ComparisonHero() {
               {/* Dummy Image Placeholder */}
               <div className="w-full h-full rounded-3xl bg-surface-elevated relative shadow-2xl overflow-hidden flex items-center justify-center border-[6px] border-border-subtle">
                 <div className="absolute top-2 left-1/2 -translate-x-1/2 w-1/3 h-4 bg-surface rounded-full"></div>
-                <div className="text-text-secondary font-medium">
-                  iPhone 16 Pro Max
-                </div>
+                {imgA ? (
+                  <img src={imgA} alt={nameA} className="object-cover w-full h-full" />
+                ) : (
+                  <div className="text-text-secondary font-medium px-4 text-center">
+                    {nameA}
+                  </div>
+                )}
               </div>
             </div>
 
@@ -64,9 +87,9 @@ export default function ComparisonHero() {
                 <ChevronDown className="w-3 h-3" />
               </div>
               <h2 className="text-2xl md:text-3xl font-medium tracking-tight text-text-primary mb-1">
-                iPhone 16 Pro Max
+                {nameA}
               </h2>
-              <div className="text-text-secondary mb-4">Starting at $1199</div>
+              <div className="text-text-secondary mb-4">{priceA}</div>
 
               <div className="mt-6 p-4 rounded-xl bg-surface border border-border-subtle text-left">
                 <div className="text-[10px] font-semibold tracking-wider uppercase text-text-secondary mb-1">
@@ -86,9 +109,13 @@ export default function ComparisonHero() {
               {/* Dummy Image Placeholder */}
               <div className="w-full h-full rounded-2xl bg-surface-elevated relative shadow-2xl overflow-hidden flex items-center justify-center border-2 border-border-subtle">
                 <div className="absolute top-2 left-1/2 -translate-x-1/2 w-2 h-2 bg-surface rounded-full"></div>
-                <div className="text-text-secondary font-medium text-center px-4">
-                  Galaxy S24 Ultra
-                </div>
+                {imgB ? (
+                  <img src={imgB} alt={nameB} className="object-cover w-full h-full" />
+                ) : (
+                  <div className="text-text-secondary font-medium text-center px-4">
+                    {nameB}
+                  </div>
+                )}
               </div>
             </div>
 
@@ -98,9 +125,9 @@ export default function ComparisonHero() {
                 <ChevronDown className="w-3 h-3" />
               </div>
               <h2 className="text-2xl md:text-3xl font-medium tracking-tight text-text-primary mb-1">
-                Galaxy S24 Ultra
+                {nameB}
               </h2>
-              <div className="text-text-secondary mb-4">Starting at $1299</div>
+              <div className="text-text-secondary mb-4">{priceB}</div>
 
               <div className="mt-6 p-4 rounded-xl bg-surface border border-border-subtle text-left">
                 <div className="text-[10px] font-semibold tracking-wider uppercase text-text-secondary mb-1">
@@ -140,9 +167,9 @@ export default function ComparisonHero() {
               <div className="flex-1 flex items-center justify-end gap-4">
                 <div className="text-right">
                   <div className="text-sm font-medium text-text-primary">
-                    iPhone 16 Pro Max
+                    {nameA}
                   </div>
-                  <div className="text-xs text-text-secondary">$1199</div>
+                  <div className="text-xs text-text-secondary">{priceA}</div>
                 </div>
                 <div className="w-10 h-10 rounded-lg bg-surface-elevated shadow-sm border border-border-subtle"></div>
               </div>
@@ -155,9 +182,9 @@ export default function ComparisonHero() {
                 <div className="w-10 h-10 rounded-lg bg-surface border border-border-subtle"></div>
                 <div className="text-left">
                   <div className="text-sm font-medium text-text-primary">
-                    Galaxy S24 Ultra
+                    {nameB}
                   </div>
-                  <div className="text-xs text-text-secondary">$1299</div>
+                  <div className="text-xs text-text-secondary">{priceB}</div>
                 </div>
               </div>
             </div>

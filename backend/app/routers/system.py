@@ -16,7 +16,7 @@ class SystemLog(BaseModel):
     severity: str
 
 @router.get("/logs", response_model=List[Dict[str, Any]])
-async def get_system_logs(
+def get_system_logs(
     limit: int = 50,
     severity: Optional[str] = None,
     _: dict = Depends(require_admin)
@@ -46,7 +46,7 @@ async def get_system_logs(
         ]
 
 @router.get("/settings", response_model=Dict[str, Any])
-async def get_system_settings(_: dict = Depends(require_admin)):
+def get_system_settings(_: dict = Depends(require_admin)):
     """
     Returns system-wide settings.
     """
@@ -60,7 +60,7 @@ async def get_system_settings(_: dict = Depends(require_admin)):
     }
 
 @router.post("/logs", status_code=201)
-async def create_log(log: Dict[str, Any], _: dict = Depends(require_admin)):
+def create_log(log: Dict[str, Any], _: dict = Depends(require_admin)):
     """
     Manually create a system log entry.
     """

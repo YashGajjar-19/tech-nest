@@ -1,14 +1,15 @@
 import Link from "next/link";
 import { fetchDeviceById } from "@/lib/api";
+import Image from "next/image";
 
 export async function DeviceHero({ slug }: { slug: string }) {
   const device = await fetchDeviceById(slug);
   
   // Un-slugify title safely
-  const fallbackName = (slug || "iphone-16-pro").replace(/-/g, " ").replace(/\b\w/g, l => l.toUpperCase());
+  const fallbackName = (slug || "Unknown").replace(/-/g, " ").replace(/\b\w/g, l => l.toUpperCase());
   const deviceName = device?.name || fallbackName;
-  const price = device?.specs?.price ? `$${device.specs.price}` : "Starting at $999";
-  const release = device?.specs?.release_date ? `Release: ${device.specs.release_date}` : "Release: Q3 2024";
+  const price = device?.specs?.price ? `$${device.specs.price}` : "Price N/A";
+  const release = device?.specs?.release_date ? `Release: ${device.specs.release_date}` : "Release Date TBD";
 
   return (
     <section className="relative w-full min-h-[50vh] flex flex-col items-center pt-[20vh] pb-16 border-b border-border-subtle bg-bg-secondary overflow-hidden">
@@ -17,7 +18,7 @@ export async function DeviceHero({ slug }: { slug: string }) {
         
         <div className="w-56 h-72 bg-linear-to-b from-surface to-bg-primary rounded-3xl border border-border-subtle shadow-2xl mb-12 flex items-center justify-center transition-transform hover:scale-105 duration-700 overflow-hidden relative">
            {device?.image_url ? (
-             <img src={device.image_url} alt={deviceName} className="object-cover w-full h-full opacity-80" />
+             <Image src={device.image_url} alt={deviceName} fill className="object-cover opacity-80" />
            ) : (
              <span className="text-text-secondary text-sm tracking-widest uppercase">Hardware</span>
            )}
@@ -37,9 +38,9 @@ export async function DeviceHero({ slug }: { slug: string }) {
               Compare Device
             </div>
           </Link>
-          <button className="bg-accent text-accent-foreground font-medium rounded-full px-8 py-3 hover:opacity-90 transition shadow-md hover:shadow-lg hover:-translate-y-0.5 duration-300">
+          <a href={`https://www.google.com/search?q=${deviceName}+price+buy`} target="_blank" rel="noopener noreferrer" className="bg-accent text-accent-foreground font-medium rounded-full px-8 py-3 hover:opacity-90 transition shadow-md hover:shadow-lg hover:-translate-y-0.5 duration-300">
             Check Prices
-          </button>
+          </a>
         </div>
       </div>
     </section>

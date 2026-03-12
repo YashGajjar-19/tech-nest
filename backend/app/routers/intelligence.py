@@ -20,7 +20,7 @@ class IntelligenceContext(BaseModel):
     primary_constraint: str
 
 @router.post("/context", response_model=IntelligenceContext)
-async def update_intelligence_context(payload: UserSignalPayload):
+def update_intelligence_context(payload: UserSignalPayload):
     """
     Receives session signals (searches, views, constraints) and updates 
     the Zero-Party Behavioral Layer.
@@ -38,19 +38,12 @@ async def update_intelligence_context(payload: UserSignalPayload):
     )
 
 @router.get("/admin/metrics", response_model=Dict[str, Any])
-async def get_intelligence_metrics(_: dict = Depends(require_admin)):
+def get_intelligence_metrics(_: dict = Depends(require_admin)):
     """
     Protected Admin Endpoint.
     Returns real global system intelligence metrics.
     """
     try:
-        # 1. Device status counts
-        status_resp = (
-            supabase.table("devices")
-            .select("intelligence_status")
-            .execute()
-        )
-        
         status_counts = {
             "pending": 0,
             "processing": 0,
@@ -58,12 +51,15 @@ async def get_intelligence_metrics(_: dict = Depends(require_admin)):
             "failed": 0
         }
         
-        for row in (status_resp.data or []):
-            s = row.get("intelligence_status", "pending")
-            if s in status_counts:
-                status_counts[s] += 1
-            else:
-                status_counts["pending"] += 1
+        for status in status_counts.keys():
+            res = (
+                supabase.table("devices")
+                .select("id", count="exact")
+                .eq("intelligence_status", status)
+                .limit(0)
+                .execute()
+            )
+            status_counts[status] = res.count or 0
 
         # 2. Total record counts
         events_resp = supabase.table("interaction_events").select("id", count="exact").limit(0).execute()
@@ -146,7 +142,7 @@ async def get_intelligence_metrics(_: dict = Depends(require_admin)):
         }
 
 @router.get("/admin/queue", response_model=List[Dict[str, Any]])
-async def get_intelligence_queue(_: dict = Depends(require_admin)):
+def get_intelligence_queue(_: dict = Depends(require_admin)):
     """
     Returns the list of devices currently in the intelligence queue.
     """

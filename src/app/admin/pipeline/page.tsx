@@ -155,7 +155,7 @@ export default function AdminPipelinePage() {
               <div className="text-6xl font-bold text-foreground tracking-tighter">
                 {metrics?.pipeline_uptime || "99.9%"}
               </div>
-              <div className="text-[10px] text-muted-foreground font-bold pb-2 uppercase tracking-[0.1em]">
+              <div className="text-[10px] text-muted-foreground font-bold pb-2 uppercase tracking-widest">
                 Uptime
               </div>
             </div>
@@ -233,7 +233,7 @@ export default function AdminPipelinePage() {
                  <motion.div
                    variants={item}
                    key={task.id}
-                   className="p-8 flex flex-col sm:flex-row sm:items-center justify-between gap-6 hover:bg-foreground/[0.03] transition-colors group"
+                   className="p-8 flex flex-col sm:flex-row sm:items-center justify-between gap-6 hover:bg-foreground/3 transition-colors group"
                  >
                    <div className="flex items-start gap-5 flex-1">
                      <div className="mt-1">
@@ -269,7 +269,7 @@ export default function AdminPipelinePage() {
                      </div>
 
                      <div className="text-right w-28 hidden sm:block">
-                       <span className="text-[10px] font-bold text-muted-foreground uppercase tracking-[0.1em] opacity-40">
+                       <span className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest opacity-40">
                          {task.time}
                        </span>
                      </div>

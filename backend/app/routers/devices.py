@@ -3,7 +3,7 @@ from __future__ import annotations
 from typing import Any, List, Optional
 from fastapi import APIRouter, HTTPException, Query, Depends
 from pydantic import BaseModel
-from fastapi_limiter.depends import RateLimiter
+from uuid import UUID
 
 from app.database import supabase
 
@@ -44,23 +44,37 @@ def list_devices(
     if not resp.data:
         return []
     
+    device_ids = [row["id"] for row in resp.data]
+    
     devices = []
+    
+    # Bulk fetch specs
+    all_specs = []
+    try:
+        specs_resp_data = (
+            supabase.table("device_specs")
+            .select("device_id, spec_key, spec_value")
+            .in_("device_id", device_ids)
+            .execute()
+        )
+        all_specs = specs_resp_data.data or []
+    except Exception as e:
+        import logging
+        logger = logging.getLogger(__name__)
+        logger.warning(f"Failed to fetch specs for devices: {e}")
+        
+    # Group specs by device_id
+    specs_by_device = {}
+    for spec in all_specs:
+        did = spec["device_id"]
+        if did not in specs_by_device:
+            specs_by_device[did] = {}
+        if spec.get("spec_key") and spec.get("spec_value") is not None:
+            specs_by_device[did][spec["spec_key"]] = str(spec["spec_value"])
+
     for row in resp.data:
         device_id = row["id"]
-        # Fetch specs for each device
-        specs_resp = []
-        try:
-            specs_resp_data = (
-                supabase.table("device_specs")
-                .select("spec_key, spec_value")
-                .eq("device_id", device_id)
-                .execute()
-            )
-            specs_resp = specs_resp_data.data or []
-        except:
-            pass # Fallback if table doesn't exist yet
-        
-        specs_map = {item["spec_key"]: item["spec_value"] for item in specs_resp}
+        specs_map = specs_by_device.get(device_id, {})
         
         # Extracted brand name from join result
         brand_name = None
@@ -82,11 +96,23 @@ def list_devices(
     return devices
 
 @router.get("/{device_id}", response_model=Device)
-def get_device(device_id: str) -> Device:
+def get_device(identifier: str) -> Device:
     """
-    Get a single device by its ID.
+    Get a single device by its ID or slug.
     """
-    resp = supabase.table("devices").select("*, brands(name)").eq("id", device_id).maybe_single().execute()
+    try:
+        UUID(identifier, version=4)
+        is_uuid = True
+    except ValueError:
+        is_uuid = False
+        
+    query = supabase.table("devices").select("*, brands(name)")
+    if is_uuid:
+        query = query.eq("id", identifier)
+    else:
+        query = query.eq("slug", identifier)
+        
+    resp = query.maybe_single().execute()
     
     if resp is None or not resp.data:
         raise HTTPException(status_code=404, detail="Device not found")
@@ -96,12 +122,14 @@ def get_device(device_id: str) -> Device:
         specs_resp_data = (
             supabase.table("device_specs")
             .select("spec_key, spec_value")
-            .eq("device_id", device_id)
+            .eq("device_id", resp.data["id"])
             .execute()
         )
         specs_resp = specs_resp_data.data or []
-    except:
-        pass
+    except Exception as e:
+        import logging
+        logger = logging.getLogger(__name__)
+        logger.warning(f"Failed to fetch specs for {identifier}: {e}")
     
     specs_map = {item["spec_key"]: item["spec_value"] for item in specs_resp}
     
@@ -121,12 +149,34 @@ def get_device(device_id: str) -> Device:
         specs=specs_map
     )
 
-@router.get("/{device_id}/decision")
-def get_device_decision(device_id: str) -> dict:
+@router.get("/{identifier}/decision")
+def get_device_decision(identifier: str) -> dict:
     """
     Get the decision intelligence score for a device.
     Used by TrendingDevices and other UI components to show the Tech Nest Score.
     """
+    try:
+        UUID(identifier, version=4)
+        is_uuid = True
+    except ValueError:
+        is_uuid = False
+        
+    if is_uuid:
+        device_id = identifier
+    else:
+        dev_resp = supabase.table("devices").select("id").eq("slug", identifier).maybe_single().execute()
+        device_id = dev_resp.data["id"] if dev_resp and dev_resp.data else None
+        
+    if not device_id:
+        return {
+            "device_id": identifier,
+            "tech_nest_score": 5.0,
+            "overall_score": 5.0,
+            "performance_score": 5.0,
+            "camera_score": 5.0,
+            "battery_score": 5.0
+        }
+
     resp = (
         supabase.table("device_scores")
         .select("overall_score, performance_score, camera_score, battery_score")

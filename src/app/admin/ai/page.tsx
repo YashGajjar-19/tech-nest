@@ -131,7 +131,7 @@ export default function AdminAIPage() {
                     <motion.div 
                       variants={item}
                       key={item.id} 
-                      className="flex items-center gap-6 px-10 py-6 hover:bg-foreground/[0.03] transition-colors group relative overflow-hidden"
+                      className="flex items-center gap-6 px-10 py-6 hover:bg-foreground/3 transition-colors group relative overflow-hidden"
                     >
                       <div className="flex-1 min-w-0 flex items-center gap-6">
                         <div className="w-12 h-12 rounded-2xl bg-foreground/5 border border-border flex items-center justify-center shrink-0 group-hover:bg-foreground/10 transition-colors">
@@ -139,7 +139,7 @@ export default function AdminAIPage() {
                         </div>
                         <div>
                           <p className="text-base font-bold text-foreground group-hover:translate-x-1 transition-transform">{item.name}</p>
-                          <p className="text-[10px] text-muted-foreground uppercase font-bold tracking-[0.1em] mt-0.5 opacity-60">
+                          <p className="text-[10px] text-muted-foreground uppercase font-bold tracking-widest mt-0.5 opacity-60">
                             {status === 'ready' ? 'Neural Weighting Complete' : 'Optimizing Decision Vectors'}
                           </p>
                         </div>

@@ -25,15 +25,15 @@ export async function middleware(request: NextRequest) {
     }
   );
 
-  // IMPORTANT: Always call getUser() to refresh the session token
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
   const { pathname } = request.nextUrl;
 
   // Protect /admin routes
   if (pathname.startsWith("/admin")) {
+    // IMPORTANT: Call getUser() to refresh the session token and get user securely
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+
     if (!user) {
       const url = request.nextUrl.clone();
       url.pathname = "/";
@@ -41,7 +41,13 @@ export async function middleware(request: NextRequest) {
       return NextResponse.redirect(url);
     }
 
-    // Validate role from DB (never trust the JWT payload alone)
+    // Check if we have a cached role in cookies
+    const cachedRole = request.cookies.get("cached_admin_role")?.value;
+    if (cachedRole && ["admin", "super_admin"].includes(cachedRole)) {
+      return supabaseResponse;
+    }
+
+    // Validate role from DB if not cached
     const { data: roleData } = await supabase
       .from("user_roles")
       .select("role")
@@ -53,6 +59,9 @@ export async function middleware(request: NextRequest) {
     if (!["admin", "super_admin"].includes(role)) {
       return NextResponse.redirect(new URL("/", request.url));
     }
+
+    // Cache the successful role check for 5 minutes to prevent DB hammering
+    supabaseResponse.cookies.set("cached_admin_role", role, { maxAge: 300 });
   }
 
   return supabaseResponse;

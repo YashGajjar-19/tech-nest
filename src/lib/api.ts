@@ -12,9 +12,9 @@ export async function fetchDevices(category?: string, limit: number = 20): Promi
   if (limit) url.searchParams.append("limit", limit.toString());
 
   try {
-    // For development, disable cache to ensure we see the latest from the working backend
+    // Use Next.js revalidation for public data
     const res = await fetch(url.toString(), {
-      cache: "no-store"
+      next: { revalidate: 300 }
     });
     
     if (!res.ok) throw new Error("Failed to fetch devices");
@@ -28,7 +28,7 @@ export async function fetchDevices(category?: string, limit: number = 20): Promi
 
 export async function fetchDeviceById(id: string): Promise<Device | null> {
   try {
-    const res = await fetch(`${API_BASE_URL}/devices/${id}`, { cache: "no-store" });
+    const res = await fetch(`${API_BASE_URL}/devices/${id}`, { next: { revalidate: 300 } });
     if (!res.ok) return null;
     return await res.json();
   } catch (error) {
@@ -42,7 +42,7 @@ export async function fetchDeviceDecision(id: string, context?: string) {
   if (context) url.searchParams.append("user_context", context);
   
   try {
-    const res = await fetch(url.toString(), { cache: "no-store" });
+    const res = await fetch(url.toString(), { next: { revalidate: 300 } });
     if (!res.ok) return null;
     return await res.json();
   } catch (error) {
@@ -57,7 +57,7 @@ export async function compareDevices(deviceIds: string[]) {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(deviceIds),
-      cache: "no-store",
+      next: { revalidate: 300 },
     });
     if (!res.ok) return null;
     return await res.json();
@@ -67,13 +67,29 @@ export async function compareDevices(deviceIds: string[]) {
   }
 }
 
-export async function fetchIntelligenceMetrics() {
+export async function fetchRecommendations(priority: string, budget: number, ecosystem: string) {
   try {
+    const res = await fetch(`${API_BASE_URL}/decision/decide`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ priority, budget, ecosystem }),
+      cache: "no-store",
+    });
+    if (!res.ok) return [];
+    return await res.json();
+  } catch (error) {
+    return [];
+  }
+}
+
+export async function fetchIntelligenceMetrics(token?: string) {
+  try {
+    const headers: Record<string, string> = { "x-admin-role": "admin" };
+    if (token) headers["Authorization"] = `Bearer ${token}`;
+
     const res = await fetch(`${API_BASE_URL}/intelligence/admin/metrics`, {
       cache: "no-store",
-      headers: {
-        "x-admin-role": "admin" // For simulation; real app would use proper JWT auth
-      }
+      headers
     });
     if (!res.ok) return null;
     return await res.json();
@@ -82,11 +98,14 @@ export async function fetchIntelligenceMetrics() {
   }
 }
 
-export async function triggerNetworkAggregation() {
+export async function triggerNetworkAggregation(token?: string) {
   try {
+    const headers: Record<string, string> = { "Content-Type": "application/json", "x-admin-role": "admin" };
+    if (token) headers["Authorization"] = `Bearer ${token}`;
+
     const res = await fetch(`${API_BASE_URL}/network/aggregate`, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers,
       body: JSON.stringify({}),
       cache: "no-store",
     });
@@ -96,13 +115,16 @@ export async function triggerNetworkAggregation() {
   }
 }
 
-export async function triggerBulkIntelligence() {
+export async function triggerBulkIntelligence(token?: string) {
   try {
     const devices = await fetchDevices();
     const ids = devices.map(d => d.id);
+    const headers: Record<string, string> = { "Content-Type": "application/json", "x-admin-role": "admin" };
+    if (token) headers["Authorization"] = `Bearer ${token}`;
+
     const res = await fetch(`${API_BASE_URL}/intelligence/bulk-generate`, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers,
       body: JSON.stringify({ device_ids: ids, force: false }),
       cache: "no-store",
     });
@@ -112,13 +134,14 @@ export async function triggerBulkIntelligence() {
   }
 }
 
-export async function fetchIntelligenceQueue(): Promise<any[]> {
+export async function fetchIntelligenceQueue(token?: string): Promise<any[]> {
   try {
+    const headers: Record<string, string> = { "x-admin-role": "admin" };
+    if (token) headers["Authorization"] = `Bearer ${token}`;
+
     const res = await fetch(`${API_BASE_URL}/intelligence/admin/queue`, {
       cache: "no-store",
-      headers: {
-        "x-admin-role": "admin"
-      }
+      headers
     });
     if (!res.ok) return [];
     return await res.json();
@@ -127,13 +150,14 @@ export async function fetchIntelligenceQueue(): Promise<any[]> {
   }
 }
 
-export async function fetchAnalyticsSummary() {
+export async function fetchAnalyticsSummary(token?: string) {
   try {
+    const headers: Record<string, string> = { "x-admin-role": "admin" };
+    if (token) headers["Authorization"] = `Bearer ${token}`;
+
     const res = await fetch(`${API_BASE_URL}/analytics/summary`, {
       cache: "no-store",
-      headers: {
-        "x-admin-role": "admin"
-      }
+      headers
     });
     if (!res.ok) return null;
     return await res.json();
@@ -142,11 +166,14 @@ export async function fetchAnalyticsSummary() {
   }
 }
 
-export async function fetchSystemLogs(limit = 50) {
+export async function fetchSystemLogs(limit = 50, token?: string) {
   try {
+    const headers: Record<string, string> = { "x-admin-role": "admin" };
+    if (token) headers["Authorization"] = `Bearer ${token}`;
+
     const res = await fetch(`${API_BASE_URL}/system/logs?limit=${limit}`, {
       cache: "no-store",
-      headers: { "x-admin-role": "admin" }
+      headers
     });
     if (!res.ok) return [];
     return await res.json();
@@ -155,11 +182,14 @@ export async function fetchSystemLogs(limit = 50) {
   }
 }
 
-export async function fetchSystemSettings() {
+export async function fetchSystemSettings(token?: string) {
   try {
+    const headers: Record<string, string> = { "x-admin-role": "admin" };
+    if (token) headers["Authorization"] = `Bearer ${token}`;
+
     const res = await fetch(`${API_BASE_URL}/system/settings`, {
       cache: "no-store",
-      headers: { "x-admin-role": "admin" }
+      headers
     });
     if (!res.ok) return null;
     return await res.json();

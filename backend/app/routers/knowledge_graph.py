@@ -3,7 +3,7 @@ from fastapi import APIRouter, HTTPException
 router = APIRouter()
 
 @router.get("/adjacencies/{device_id}")
-async def get_device_knowledge_graph(device_id: str, limit: int = 4):
+def get_device_knowledge_graph(device_id: str, limit: int = 4):
     """
     Returns highly correlated alternatives and upgrade lineages using pgvector cosine distance.
     """

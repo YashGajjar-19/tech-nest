@@ -1,135 +1,115 @@
-"""
-Decision Engine API
-─────────────────────
-Orchestrates the deterministic scoring verdict for a set of devices
-under a given user context.
-
-Network Integration (Intelligence Network):
-  - POST /orchestrate now fetches network enrichment signals for all devices
-    BEFORE computing verdicts, so the Decision AI can see:
-      * Which devices have high user selection rates (network_multiplier > 1.0)
-      * Which devices are being actively dismissed (multiplier < 1.0 / dismiss trend)
-    This is used to adjust confidence_score, not the verdict itself.
-    The VERDICT (BUY/WAIT/SKIP) remains purely spec-based and deterministic.
-    The CONFIDENCE reflects how much behavioral evidence supports that verdict.
-
-  - Every session logs a start_decision event per device (interaction_events)
-    so the trend engine can observe Decision AI usage patterns.
-"""
-
-from __future__ import annotations
-
-from fastapi import APIRouter, BackgroundTasks
+import logging
+from fastapi import APIRouter
 from pydantic import BaseModel
-from typing import List, Dict, Optional
-
-from app.services.decision_memory import DecisionMemoryService
-from app.services.event_logger import log_event
-from app.services.intelligence_graph import enhance_decision_context
+from typing import List, Optional
+from app.database import supabase
 
 router = APIRouter()
-
-
-class DeviceVerdict(BaseModel):
-    device_id:           str
-    verdict:             str    # BUY, WAIT, SKIP
-    confidence_score:    float
-    network_boost:       float  # ±confidence modifier from network signals
-    definitive_reason:   str
-    pillars:             Dict[str, dict]
-
+logger = logging.getLogger(__name__)
 
 class DecisionRequest(BaseModel):
-    session_id:    str
-    device_ids:    List[str]
-    user_id:       Optional[str] = None       # From auth token in production
-    intent_vector: Optional[List[float]] = None  # From /intelligence/context
+    priority: str
+    budget: int
+    ecosystem: str
+    session_id: Optional[str] = None
 
+class DeviceVerdict(BaseModel):
+    id: str  
+    name: str
+    brand: str
+    score: int
+    price: str
+    highlights: List[str]
 
-@router.post("/orchestrate", response_model=List[DeviceVerdict])
-async def generate_decision(payload: DecisionRequest, background_tasks: BackgroundTasks):
+@router.post("/decide", response_model=List[DeviceVerdict])
+def decide(payload: DecisionRequest):
     """
-    The Intelligence Heavy Lifter.
-
-    1. Fetches network enrichment for all candidate devices (non-blocking: read from
-       device_network_stats — already aggregated, sub-millisecond query).
-    2. Adjust confidence_score based on network_multiplier signal:
-         - multiplier > 1.2 → strong behavioral confirmation → confidence +0.05
-         - multiplier < 0.8 → behavioral concern    → confidence -0.07
-    3. Run deterministic spec-based scoring for BUY/WAIT/SKIP verdict.
-    4. Log start_decision events for all considered devices (background).
-    5. Log decision memory for the top-verdict device (background).
+    Real decision engine: filters by price/ecosystem,
+    weights the category scores by user priority,
+    and returns top 3 matching devices.
     """
+    logger.info(f"Decision request: {payload}")
+    
+    # 1. Fetch published devices with their scores, brand names and insights.
+    query = (
+        supabase.table("devices")
+        .select("id, name, slug, price, brand_id, brands(name), "
+                "device_scores(overall_score, camera_score, battery_score, performance_score), "
+                "device_ai_insights(pros)")
+        .eq("is_published", True)
+    )
+    
+    # Filter by budget
+    if payload.budget > 0:
+        query = query.lte("price", payload.budget)
+        
+    resp = query.execute()
+    devices_data = resp.data or []
+    
+    # 2. Filter by ecosystem
+    filtered = []
+    for d in devices_data:
+        brand = d.get("brands", {}).get("name", "") if d.get("brands") else ""
+        ecosystem = payload.ecosystem.lower()
+        if ecosystem == "ios" and brand.lower() != "apple":
+            continue
+        if ecosystem == "android" and brand.lower() == "apple":
+            continue
+        filtered.append(d)
+        
+    # 3. Calculate weighted score
+    results = []
+    for d in filtered:
+        # device_scores might be a dict or list depending on the join
+        scores = d.get("device_scores") or {}
+        if isinstance(scores, list) and scores:
+            scores = scores[0]
 
-    # ── Step 1: Network enrichment ────────────────────────────────────────────
-    network_enrichments = {}
-    if payload.device_ids:
-        try:
-            network_enrichments = enhance_decision_context(payload.device_ids)
-        except Exception:
-            pass  # Network enrichment is non-critical — gracefully degrade
-
-    # ── Step 2 + 3: Score + Verdict ───────────────────────────────────────────
-    # In production: run real scoring engine against adjusted intent_vector.
-    # Here we compute the confidence modifier from network signals.
-
-    verdicts = []
-    for device_id in payload.device_ids:
-        enrichment      = network_enrichments.get(device_id, {})
-        net_multiplier  = enrichment.get("network_multiplier", 1.0)
-
-        # Map multiplier [0.5, 1.5] → confidence modifier [-0.07, +0.05]
-        if net_multiplier >= 1.2:
-            network_boost = +0.05
-        elif net_multiplier <= 0.8:
-            network_boost = -0.07
+        overall = float(scores.get("overall_score", 5.0) or 5.0)
+        camera = float(scores.get("camera_score", 5.0) or 5.0)
+        battery = float(scores.get("battery_score", 5.0) or 5.0)
+        performance = float(scores.get("performance_score", 5.0) or 5.0)
+        
+        priority_str = payload.priority.lower()
+        if "camera" in priority_str or "photography" in priority_str:
+            weighted_score = (camera * 2.0 + overall) / 3.0
+        elif "battery" in priority_str:
+            weighted_score = (battery * 2.0 + overall) / 3.0
+        elif "performance" in priority_str or "gaming" in priority_str:
+            weighted_score = (performance * 2.0 + overall) / 3.0
         else:
-            network_boost = 0.0
-
-        # Deterministic base confidence from spec scoring (real engine replaces this stub)
-        base_confidence = 0.92
-        final_confidence = round(min(0.99, max(0.50, base_confidence + network_boost)), 2)
-
+            weighted_score = overall
+            
+        d["weighted_score"] = weighted_score
+        results.append(d)
+        
+    # 4. Sort and return top 3
+    results.sort(key=lambda x: x["weighted_score"], reverse=True)
+    top_3 = results[:3]
+    
+    verdicts = []
+    for d in top_3:
+        brand = d.get("brands", {}).get("name", "") if d.get("brands") else ""
+        price_val = d.get("price")
+        price_str = f"${int(price_val)}" if price_val is not None else "N/A"
+        
+        highlights = ["Great overall value", "Solid performance"]
+        insights = d.get("device_ai_insights")
+        if isinstance(insights, list) and insights:
+            insights = insights[0]
+            
+        if insights and isinstance(insights, dict) and insights.get("pros"):
+            pros = insights.get("pros", [])
+            if pros and isinstance(pros, list) and len(pros) > 0:
+                highlights = pros[:3]
+                
         verdicts.append(DeviceVerdict(
-            device_id=device_id,
-            verdict="BUY",
-            confidence_score=final_confidence,
-            network_boost=network_boost,
-            definitive_reason=(
-                "Unmatched sustained performance and highest community sentiment "
-                "among creative professionals."
-            ),
-            pillars={
-                "hardware":   {"score": 9.5, "explanation": "A18 Pro offers unparalleled rendering speeds."},
-                "experience": {"score": 8.0, "explanation": "iOS 18 provides stable but rigid workflows."},
-                "value":      {"score": 6.5, "explanation": "Premium tax applies, but holds value on resale."},
-            }
+            id=d.get("slug", d.get("id")), 
+            name=d.get("name", "Unknown"),
+            brand=brand,
+            score=int(d["weighted_score"] * 10), 
+            price=price_str,
+            highlights=highlights
         ))
-
-    # ── Step 4: Log start_decision events for all devices (background) ─────────
-    for device_id in payload.device_ids:
-        background_tasks.add_task(
-            log_event,
-            event_type="start_decision",
-            device_id=device_id,
-            user_id=payload.user_id,
-            metadata={"session_id": payload.session_id},
-        )
-
-    # ── Step 5: Log decision memory for top verdict (background) ───────────────
-    if verdicts:
-        top = verdicts[0]
-        memory_service = DecisionMemoryService()
-        background_tasks.add_task(
-            memory_service.log_decision,
-            user_id=payload.user_id or "anonymous",
-            session_id=payload.session_id,
-            chosen_device_id=top.device_id,
-            decision_type="upgrade_phone",
-        )
-
+        
     return verdicts
-
-
-# Note: The SSE AI synthesis endpoint would live here as well.
-# e.g., @router.post("/synthesize") streaming the semantic explanation of the Verdict.
