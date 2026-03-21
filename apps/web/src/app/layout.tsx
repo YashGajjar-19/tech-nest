@@ -1,11 +1,12 @@
 import type { Metadata } from "next";
 import { ClerkProvider } from "@clerk/nextjs";
-import { TooltipProvider } from "@/components/ui/tooltip";
+import { ThemeProvider } from "@/components/providers/theme-provider";
+import { Navbar, Footer } from "@/components/layout";
 import "./globals.css";
 
 export const metadata: Metadata = {
   title: "Tech Nest",
-  description: "The smartest way to compare and discover mobile phones.",
+  description: "Compare phones, read news, get AI-powered recommendations.",
 };
 
 export default function RootLayout({
@@ -16,8 +17,14 @@ export default function RootLayout({
   return (
     <ClerkProvider>
       <html lang="en" suppressHydrationWarning>
-        <body>
-          <TooltipProvider>{children}</TooltipProvider>
+        <body className="flex min-h-screen flex-col">
+          <ThemeProvider>
+            <Navbar />
+            <main className="flex-1">
+              {children}
+            </main>
+            <Footer />
+          </ThemeProvider>
         </body>
       </html>
     </ClerkProvider>

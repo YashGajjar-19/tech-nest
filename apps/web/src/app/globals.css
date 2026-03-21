@@ -1,130 +1,373 @@
+/* ─────────────────────────────────────────────────────────────
+   TECH NEST · DESIGN SYSTEM
+   Premium · Minimal · Electric Blue
+   
+   Font Stack:
+   · Syne           — Display & headings (geometric, confident)
+   · Instrument Sans — Body & UI (clean, refined)
+   · JetBrains Mono  — Specs, code, data
+───────────────────────────────────────────────────────────── */
+
 @import "tailwindcss";
-@import "tw-animate-css";
-@import "shadcn/tailwind.css";
-
-@custom-variant dark (&:is(.dark *));
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-sans);
-  --font-mono: var(--font-geist-mono);
-  --font-heading: var(--font-sans);
-  --color-sidebar-ring: var(--sidebar-ring);
-  --color-sidebar-border: var(--sidebar-border);
-  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
-  --color-sidebar-accent: var(--sidebar-accent);
-  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
-  --color-sidebar-primary: var(--sidebar-primary);
-  --color-sidebar-foreground: var(--sidebar-foreground);
-  --color-sidebar: var(--sidebar);
-  --color-chart-5: var(--chart-5);
-  --color-chart-4: var(--chart-4);
-  --color-chart-3: var(--chart-3);
-  --color-chart-2: var(--chart-2);
-  --color-chart-1: var(--chart-1);
-  --color-ring: var(--ring);
-  --color-input: var(--input);
-  --color-border: var(--border);
-  --color-destructive: var(--destructive);
-  --color-accent-foreground: var(--accent-foreground);
-  --color-accent: var(--accent);
-  --color-muted-foreground: var(--muted-foreground);
-  --color-muted: var(--muted);
-  --color-secondary-foreground: var(--secondary-foreground);
-  --color-secondary: var(--secondary);
-  --color-primary-foreground: var(--primary-foreground);
-  --color-primary: var(--primary);
-  --color-popover-foreground: var(--popover-foreground);
-  --color-popover: var(--popover);
-  --color-card-foreground: var(--card-foreground);
-  --color-card: var(--card);
-  --radius-sm: calc(var(--radius) * 0.6);
-  --radius-md: calc(var(--radius) * 0.8);
-  --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) * 1.4);
-  --radius-2xl: calc(var(--radius) * 1.8);
-  --radius-3xl: calc(var(--radius) * 2.2);
-  --radius-4xl: calc(var(--radius) * 2.6);
-}
-
-:root {
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.205 0 0);
-  --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.97 0 0);
-  --secondary-foreground: oklch(0.205 0 0);
-  --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.556 0 0);
-  --accent: oklch(0.97 0 0);
-  --accent-foreground: oklch(0.205 0 0);
-  --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.922 0 0);
-  --input: oklch(0.922 0 0);
-  --ring: oklch(0.708 0 0);
-  --chart-1: oklch(0.87 0 0);
-  --chart-2: oklch(0.556 0 0);
-  --chart-3: oklch(0.439 0 0);
-  --chart-4: oklch(0.371 0 0);
-  --chart-5: oklch(0.269 0 0);
-  --radius: 0.625rem;
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: oklch(0.205 0 0);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.97 0 0);
-  --sidebar-accent-foreground: oklch(0.205 0 0);
-  --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: oklch(0.708 0 0);
-}
-
-.dark {
-  --background: oklch(0.145 0 0);
-  --foreground: oklch(0.985 0 0);
-  --card: oklch(0.205 0 0);
-  --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.205 0 0);
-  --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.922 0 0);
-  --primary-foreground: oklch(0.205 0 0);
-  --secondary: oklch(0.269 0 0);
-  --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.269 0 0);
-  --muted-foreground: oklch(0.708 0 0);
-  --accent: oklch(0.269 0 0);
-  --accent-foreground: oklch(0.985 0 0);
-  --destructive: oklch(0.704 0.191 22.216);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.556 0 0);
-  --chart-1: oklch(0.87 0 0);
-  --chart-2: oklch(0.556 0 0);
-  --chart-3: oklch(0.439 0 0);
-  --chart-4: oklch(0.371 0 0);
-  --chart-5: oklch(0.269 0 0);
-  --sidebar: oklch(0.205 0 0);
-  --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.269 0 0);
-  --sidebar-accent-foreground: oklch(0.985 0 0);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.556 0 0);
-}
-
+@config "../../tailwind.config.ts";
+/* ── LIGHT THEME ───────────────────────────────────────────── */
 @layer base {
-  * {
-    @apply border-border outline-ring/50;
+  :root {
+    /* ── shadcn/ui HSL tokens (Tailwind v3 convention) ── */
+    --background:             210 20% 98%;
+    --foreground:             218 30% 6%;
+
+    --card:                   0 0% 100%;
+    --card-foreground:        218 30% 6%;
+
+    --popover:                0 0% 100%;
+    --popover-foreground:     218 30% 6%;
+
+    --primary:                210 100% 50%;   /* #0080FF */
+    --primary-foreground:     0 0% 100%;
+
+    --secondary:              210 18% 94%;
+    --secondary-foreground:   215 22% 25%;
+
+    --muted:                  210 18% 94%;
+    --muted-foreground:       215 14% 50%;
+
+    --accent:                 210 100% 50%;
+    --accent-foreground:      0 0% 100%;
+
+    --destructive:            0 72% 51%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border:                 210 18% 89%;
+    --input:                  210 18% 89%;
+    --ring:                   210 100% 50%;
+    --radius:                 0.5rem;
+
+    /* ── Tech Nest Semantic Tokens ── */
+    --tn-bg:                  #F7F9FC;
+    --tn-bg-secondary:        #EEF2F7;
+    --tn-surface:             #FFFFFF;
+    --tn-surface-raised:      #FFFFFF;
+    --tn-overlay:             rgba(247, 249, 252, 0.88);
+
+    --tn-text-primary:        #08090B;
+    --tn-text-secondary:      #52606D;
+    --tn-text-muted:          #9AA3AE;
+    --tn-text-inverse:        #F7F9FC;
+
+    --tn-border:              #E2E7EE;
+    --tn-border-subtle:       #EEF1F6;
+    --tn-border-strong:       #C8CDD4;
+
+    --tn-accent:              #0080FF;
+    --tn-accent-hover:        #006ACC;
+    --tn-accent-subtle:       #EBF4FF;
+    --tn-accent-muted:        #C8E2FF;
+    --tn-accent-glow:         0 0 24px rgb(0 128 255 / 0.15);
+
+    --tn-success:             #16A34A;
+    --tn-warning:             #D97706;
+    --tn-error:               #DC2626;
+
+    --tn-shadow-sm:           0 1px 2px rgb(0 0 0 / 0.04);
+    --tn-shadow-md:           0 4px 12px rgb(0 0 0 / 0.06), 0 1px 3px rgb(0 0 0 / 0.04);
+    --tn-shadow-lg:           0 12px 32px rgb(0 0 0 / 0.08), 0 2px 6px rgb(0 0 0 / 0.04);
+    --tn-shadow-xl:           0 24px 48px rgb(0 0 0 / 0.10), 0 8px 16px rgb(0 0 0 / 0.05);
+    --tn-shadow-accent:       0 4px 24px rgb(0 128 255 / 0.22);
   }
+
+  /* ── DARK THEME ──────────────────────────────────────────── */
+  .dark {
+    --background:             222 22% 7%;
+    --foreground:             210 20% 93%;
+
+    --card:                   224 20% 10%;
+    --card-foreground:        210 20% 93%;
+
+    --popover:                224 20% 10%;
+    --popover-foreground:     210 20% 93%;
+
+    --primary:                210 100% 58%;   /* slightly lighter for dark bg */
+    --primary-foreground:     0 0% 100%;
+
+    --secondary:              222 18% 16%;
+    --secondary-foreground:   210 18% 78%;
+
+    --muted:                  222 18% 16%;
+    --muted-foreground:       215 14% 55%;
+
+    --accent:                 210 100% 58%;
+    --accent-foreground:      0 0% 100%;
+
+    --destructive:            0 65% 58%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border:                 222 18% 17%;
+    --input:                  222 18% 17%;
+    --ring:                   210 100% 58%;
+
+    /* ── Tech Nest Dark Semantic Tokens ── */
+    --tn-bg:                  #0B0E14;
+    --tn-bg-secondary:        #10141C;
+    --tn-surface:             #141922;
+    --tn-surface-raised:      #1A202E;
+    --tn-overlay:             rgba(11, 14, 20, 0.88);
+
+    --tn-text-primary:        #ECF0F6;
+    --tn-text-secondary:      #8A96A4;
+    --tn-text-muted:          #44505E;
+    --tn-text-inverse:        #0B0E14;
+
+    --tn-border:              #1D2436;
+    --tn-border-subtle:       #151C2A;
+    --tn-border-strong:       #2A3550;
+
+    --tn-accent:              #1A90FF;
+    --tn-accent-hover:        #45A8FF;
+    --tn-accent-subtle:       #091828;
+    --tn-accent-muted:        #0F2A48;
+    --tn-accent-glow:         0 0 28px rgb(26 144 255 / 0.28);
+
+    --tn-success:             #22C55E;
+    --tn-warning:             #F59E0B;
+    --tn-error:               #EF4444;
+
+    --tn-shadow-sm:           0 1px 2px rgb(0 0 0 / 0.20);
+    --tn-shadow-md:           0 4px 16px rgb(0 0 0 / 0.32), 0 1px 4px rgb(0 0 0 / 0.20);
+    --tn-shadow-lg:           0 12px 36px rgb(0 0 0 / 0.44), 0 4px 10px rgb(0 0 0 / 0.22);
+    --tn-shadow-xl:           0 24px 56px rgb(0 0 0 / 0.56), 0 8px 20px rgb(0 0 0 / 0.28);
+    --tn-shadow-accent:       0 4px 28px rgb(26 144 255 / 0.32);
+  }
+
+  /* ── BASE RESET & DEFAULTS ───────────────────────────────── */
+  * {
+    @apply border-border;
+    box-sizing: border-box;
+  }
+
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-feature-settings: "kern" 1, "liga" 1, "calt" 1;
+    text-rendering: optimizeLegibility;
+    scroll-behavior: smooth;
+  }
+
   body {
     @apply bg-background text-foreground;
+    font-family: var(--font-body);
+    font-size: 1rem;
+    line-height: 1.6;
   }
-  html {
-    @apply font-sans;
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-display);
+    letter-spacing: -0.025em;
+    line-height: 1.15;
   }
+
+  code, kbd, pre, samp {
+    font-family: var(--font-mono);
+  }
+
+  /* Remove tap highlight on mobile */
+  * {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  /* Smooth scrollbar in WebKit */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: var(--tn-border-strong);
+    border-radius: 999px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--tn-text-muted);
+  }
+}
+
+/* ── TYPOGRAPHY UTILITIES ────────────────────────────────────── */
+@layer components {
+  .tn-display {
+    font-family: var(--font-display);
+    font-size: clamp(2.75rem, 6vw, 4.75rem);
+    font-weight: 700;
+    letter-spacing: -0.038em;
+    line-height: 1.04;
+  }
+
+  .tn-h1 {
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 3.5vw, 3.25rem);
+    font-weight: 700;
+    letter-spacing: -0.032em;
+    line-height: 1.1;
+  }
+
+  .tn-h2 {
+    font-family: var(--font-display);
+    font-size: clamp(1.5rem, 2.5vw, 2.25rem);
+    font-weight: 600;
+    letter-spacing: -0.025em;
+    line-height: 1.2;
+  }
+
+  .tn-h3 {
+    font-family: var(--font-display);
+    font-size: clamp(1.2rem, 2vw, 1.625rem);
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    line-height: 1.28;
+  }
+
+  .tn-h4 {
+    font-family: var(--font-display);
+    font-size: 1.125rem;
+    font-weight: 600;
+    letter-spacing: -0.015em;
+    line-height: 1.35;
+  }
+
+  /* All-caps label — for tags, badges, section headers */
+  .tn-label {
+    font-family: var(--font-body);
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--tn-text-muted);
+  }
+
+  /* Spec / data value — monospaced for numbers & specs */
+  .tn-spec {
+    font-family: var(--font-mono);
+    font-size: 0.875rem;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+  }
+
+  .tn-body-lg {
+    font-family: var(--font-body);
+    font-size: 1.125rem;
+    line-height: 1.7;
+    color: var(--tn-text-secondary);
+  }
+
+  .tn-body {
+    font-family: var(--font-body);
+    font-size: 1rem;
+    line-height: 1.65;
+  }
+
+  .tn-body-sm {
+    font-family: var(--font-body);
+    font-size: 0.875rem;
+    line-height: 1.6;
+  }
+
+  /* ── SURFACE / CARD ──────────────────────────────────────── */
+  .tn-surface {
+    background: var(--tn-surface);
+    border: 1px solid var(--tn-border);
+  }
+
+  .tn-card {
+    background: var(--tn-surface);
+    border: 1px solid var(--tn-border);
+    border-radius: 12px;
+    box-shadow: var(--tn-shadow-sm);
+    transition: box-shadow 200ms ease, border-color 200ms ease,
+                transform 200ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .tn-card-hover {
+    cursor: pointer;
+  }
+
+  .tn-card-hover:hover {
+    box-shadow: var(--tn-shadow-md);
+    border-color: var(--tn-border-strong);
+    transform: translateY(-1px);
+  }
+
+  /* ── FOCUS RING ──────────────────────────────────────────── */
+  .tn-focus-ring:focus-visible {
+    outline: 2px solid var(--tn-accent);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+
+  /* ── SKELETON / SHIMMER ──────────────────────────────────── */
+  .tn-skeleton {
+    background: linear-gradient(
+      90deg,
+      var(--tn-bg-secondary) 25%,
+      var(--tn-border-subtle) 50%,
+      var(--tn-bg-secondary) 75%
+    );
+    background-size: 200% 100%;
+    animation: tn-shimmer 1.8s ease-in-out infinite;
+    border-radius: 6px;
+  }
+
+  /* ── ACCENT UTILITIES ────────────────────────────────────── */
+  .tn-accent-text  { color: var(--tn-accent); }
+  .tn-accent-bg    { background: var(--tn-accent-subtle); }
+  .tn-accent-border { border-color: var(--tn-accent-muted); }
+
+  /* ── GLASS / OVERLAY ─────────────────────────────────────── */
+  .tn-glass {
+    background: var(--tn-overlay);
+    backdrop-filter: blur(12px) saturate(1.4);
+    -webkit-backdrop-filter: blur(12px) saturate(1.4);
+    border: 1px solid var(--tn-border);
+  }
+
+  /* ── DIVIDER ─────────────────────────────────────────────── */
+  .tn-divider {
+    border-color: var(--tn-border);
+  }
+}
+
+/* ── ANIMATIONS ──────────────────────────────────────────────── */
+@keyframes tn-shimmer {
+  0%   { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+@keyframes tn-fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes tn-slide-up {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes tn-scale-in {
+  from { opacity: 0; transform: scale(0.97); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+@layer utilities {
+  .animate-tn-fade-in  { animation: tn-fade-in  0.35s cubic-bezier(0.16, 1, 0.3, 1) both; }
+  .animate-tn-slide-up { animation: tn-slide-up 0.35s cubic-bezier(0.16, 1, 0.3, 1) both; }
+  .animate-tn-scale-in { animation: tn-scale-in 0.2s  cubic-bezier(0.16, 1, 0.3, 1) both; }
+
+  /* Stagger delays for lists */
+  .stagger-1 { animation-delay: 50ms; }
+  .stagger-2 { animation-delay: 100ms; }
+  .stagger-3 { animation-delay: 150ms; }
+  .stagger-4 { animation-delay: 200ms; }
+  .stagger-5 { animation-delay: 250ms; }
 }
