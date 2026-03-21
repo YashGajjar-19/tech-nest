@@ -1,0 +1,13 @@
+fastapi
+uvicorn[standard]
+pydantic
+pydantic-settings
+strawberry-graphql[fastapi]
+supabase
+python-jose[cryptography]
+httpx
+anthropic
+openai
+python-dotenv
+python-slugify
+loguru
