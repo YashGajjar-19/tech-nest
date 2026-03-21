@@ -78,23 +78,23 @@
 
   /* ── DARK THEME ──────────────────────────────────────────── */
   .dark {
-    --background:             222 22% 7%;
-    --foreground:             210 20% 93%;
+    --background:             0 0% 0%;
+    --foreground:             0 0% 93%;
 
-    --card:                   224 20% 10%;
-    --card-foreground:        210 20% 93%;
+    --card:                   0 0% 4%;
+    --card-foreground:        0 0% 93%;
 
-    --popover:                224 20% 10%;
-    --popover-foreground:     210 20% 93%;
+    --popover:                0 0% 4%;
+    --popover-foreground:     0 0% 93%;
 
-    --primary:                210 100% 58%;   /* slightly lighter for dark bg */
+    --primary:                210 100% 58%;
     --primary-foreground:     0 0% 100%;
 
-    --secondary:              222 18% 16%;
-    --secondary-foreground:   210 18% 78%;
+    --secondary:              0 0% 9%;
+    --secondary-foreground:   0 0% 78%;
 
-    --muted:                  222 18% 16%;
-    --muted-foreground:       215 14% 55%;
+    --muted:                  0 0% 9%;
+    --muted-foreground:       0 0% 40%;
 
     --accent:                 210 100% 58%;
     --accent-foreground:      0 0% 100%;
@@ -102,40 +102,40 @@
     --destructive:            0 65% 58%;
     --destructive-foreground: 0 0% 100%;
 
-    --border:                 222 18% 17%;
-    --input:                  222 18% 17%;
+    --border:                 0 0% 11%;
+    --input:                  0 0% 11%;
     --ring:                   210 100% 58%;
 
     /* ── Tech Nest Dark Semantic Tokens ── */
-    --tn-bg:                  #0B0E14;
-    --tn-bg-secondary:        #10141C;
-    --tn-surface:             #141922;
-    --tn-surface-raised:      #1A202E;
-    --tn-overlay:             rgba(11, 14, 20, 0.88);
+    --tn-bg:                  #000000;
+    --tn-bg-secondary:        #0A0A0A;
+    --tn-surface:             #0A0A0A;
+    --tn-surface-raised:      #0F0F0F;
+    --tn-overlay:             rgba(0, 0, 0, 0.90);
 
-    --tn-text-primary:        #ECF0F6;
-    --tn-text-secondary:      #8A96A4;
-    --tn-text-muted:          #44505E;
-    --tn-text-inverse:        #0B0E14;
+    --tn-text-primary:        #EDEDED;
+    --tn-text-secondary:      #888888;
+    --tn-text-muted:          #454545;
+    --tn-text-inverse:        #000000;
 
-    --tn-border:              #1D2436;
-    --tn-border-subtle:       #151C2A;
-    --tn-border-strong:       #2A3550;
+    --tn-border:              #1A1A1A;
+    --tn-border-subtle:       #141414;
+    --tn-border-strong:       #272727;
 
     --tn-accent:              #1A90FF;
     --tn-accent-hover:        #45A8FF;
-    --tn-accent-subtle:       #091828;
-    --tn-accent-muted:        #0F2A48;
+    --tn-accent-subtle:       #0A1218;
+    --tn-accent-muted:        #0F1D2E;
     --tn-accent-glow:         0 0 28px rgb(26 144 255 / 0.28);
 
     --tn-success:             #22C55E;
     --tn-warning:             #F59E0B;
     --tn-error:               #EF4444;
 
-    --tn-shadow-sm:           0 1px 2px rgb(0 0 0 / 0.20);
-    --tn-shadow-md:           0 4px 16px rgb(0 0 0 / 0.32), 0 1px 4px rgb(0 0 0 / 0.20);
-    --tn-shadow-lg:           0 12px 36px rgb(0 0 0 / 0.44), 0 4px 10px rgb(0 0 0 / 0.22);
-    --tn-shadow-xl:           0 24px 56px rgb(0 0 0 / 0.56), 0 8px 20px rgb(0 0 0 / 0.28);
+    --tn-shadow-sm:           0 1px 2px rgb(0 0 0 / 0.30);
+    --tn-shadow-md:           0 4px 16px rgb(0 0 0 / 0.44), 0 1px 4px rgb(0 0 0 / 0.30);
+    --tn-shadow-lg:           0 12px 36px rgb(0 0 0 / 0.56), 0 4px 10px rgb(0 0 0 / 0.32);
+    --tn-shadow-xl:           0 24px 56px rgb(0 0 0 / 0.68), 0 8px 20px rgb(0 0 0 / 0.40);
     --tn-shadow-accent:       0 4px 28px rgb(26 144 255 / 0.32);
   }
 
@@ -296,7 +296,6 @@
   .tn-card-hover:hover {
     box-shadow: var(--tn-shadow-md);
     border-color: var(--tn-border-strong);
-    transform: translateY(-1px);
   }
 
   /* ── FOCUS RING ──────────────────────────────────────────── */
@@ -349,10 +348,7 @@
   to   { opacity: 1; }
 }
 
-@keyframes tn-slide-up {
-  from { opacity: 0; transform: translateY(10px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
+
 
 @keyframes tn-scale-in {
   from { opacity: 0; transform: scale(0.97); }
@@ -361,7 +357,6 @@
 
 @layer utilities {
   .animate-tn-fade-in  { animation: tn-fade-in  0.35s cubic-bezier(0.16, 1, 0.3, 1) both; }
-  .animate-tn-slide-up { animation: tn-slide-up 0.35s cubic-bezier(0.16, 1, 0.3, 1) both; }
   .animate-tn-scale-in { animation: tn-scale-in 0.2s  cubic-bezier(0.16, 1, 0.3, 1) both; }
 
   /* Stagger delays for lists */

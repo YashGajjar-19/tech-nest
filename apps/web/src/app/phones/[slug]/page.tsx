@@ -8,7 +8,7 @@ import {
   Wrench, 
   Sparkles, 
   Plus,
-  ChevronRight
+  ArrowRight
 } from "lucide-react";
 
 interface PhoneDetail {
@@ -62,41 +62,38 @@ const mockPhone: PhoneDetail = {
   },
   specs: {
     display: {
-      "Type": "Dynamic AMOLED 2X, 120Hz, HDR10+",
-      "Size": "6.8 inches, 113.5 cm2 (~88.5% screen-to-body ratio)",
-      "Resolution": "1440 x 3120 pixels, 19.5:9 ratio (~505 ppi)",
+      "Type": "AMOLED 2X, 120Hz, HDR10+",
+      "Size": "6.8 inches, 113.5 cm2",
+      "Resolution": "1440 x 3120 pixels, 19.5:9 ratio",
       "Protection": "Corning Gorilla Armor",
     },
     performance: {
       "OS": "Android 14, One UI 6.1",
-      "Chipset": "Qualcomm Snapdragon 8 Gen 3 (4 nm)",
-      "CPU": "8-core (1x3.39GHz Cortex-X4 & 3x3.1GHz & ...)",
-      "GPU": "Adreno 750 (1 GHz)",
+      "Chipset": "Snapdragon 8 Gen 3 (4 nm)",
+      "CPU": "8-core (1x3.39GHz & ...)",
       "RAM": "12GB LPDDR5X",
-      "Storage": "256GB / 512GB / 1TB UFS 4.0",
+      "Storage": "256GB / 512GB / 1TB",
     },
     camera: {
-      "Main": "200 MP, f/1.7, 24mm (wide), Laser AF, OIS",
-      "Telephoto": "50 MP, f/3.4, 111mm, 5x optical zoom",
-      "Ultrawide": "12 MP, f/2.2, 13mm, 120˚",
-      "Video": "8K@24/30fps, 4K@30/60/120fps",
-      "Selfie": "12 MP, f/2.2, 26mm (wide)",
+      "Main": "200 MP, f/1.7, OIS",
+      "Telephoto": "50 MP, f/3.4, 5x optical zoom",
+      "Ultrawide": "12 MP, f/2.2, 120˚",
+      "Video": "8K@30fps, 4K@120fps",
     },
     battery: {
-      "Capacity": "5000 mAh, non-removable",
-      "Charging": "45W wired, 15W wireless, 4.5W reverse",
+      "Capacity": "5000 mAh",
+      "Charging": "45W wired, 15W wireless",
     },
     connectivity: {
-      "WLAN": "Wi-Fi 802.11 a/b/g/n/ac/6e/7, tri-band",
+      "WLAN": "Wi-Fi 7, tri-band",
       "Bluetooth": "5.3, A2DP, LE",
-      "USB": "USB Type-C 3.2, DisplayPort 1.2, OTG",
-      "NFC": "Yes",
+      "USB": "USB Type-C 3.2",
     },
     build: {
       "Dimensions": "162.3 x 79 x 8.6 mm",
       "Weight": "232 g",
-      "Frame": "Titanium frame, glass front & back",
-      "Resistance": "IP68 dust/water resistant (up to 1.5m)",
+      "Frame": "Titanium, glass front & back",
+      "Resistance": "IP68 dust/water resistant",
     }
   },
   news: [
@@ -124,7 +121,7 @@ const mockPhone: PhoneDetail = {
     {
       id: "4",
       title: "Battery Showdown: S24 Ultra vs iPhone 15 Pro Max",
-      source: "Tom's Guide",
+      source: "Toms Guide",
       date: "Feb 10, 2024",
       thumbnail: "https://images.unsplash.com/photo-1621330396167-85fd4fedf0e3?auto=format&fit=crop&q=80&w=400&h=300",
     }
@@ -136,216 +133,201 @@ type PageProps = {
 };
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
-  await params; // Need to await per Next.js 15
+  await params;
   return {
-    title: `${mockPhone.name} Specs & Reviews - Tech Nest`,
-    description: `Detailed specifications, AI review summary, and latest news for the ${mockPhone.name}.`,
+    title: `${mockPhone.name} - Tech Nest`,
+    description: `Detailed specs and AI review summary for ${mockPhone.name}.`,
   };
 }
 
 export default async function PhoneDetailPage({ params }: PageProps) {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { slug } = await params;
-  
-  // Data fetching would happen here using `slug`
   const phone = mockPhone;
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 lg:py-16 space-y-16 animate-tn-fade-in">
-      
-      {/* 1. Hero Section */}
-      <section className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14">
-        {/* Left: Image */}
-        <div className="lg:col-span-5 order-2 lg:order-1">
-          <div className="aspect-3/4 relative rounded-2xl tn-card bg-tn-bg-secondary flex items-center justify-center p-8 overflow-hidden group">
-            {/* Soft backdrop glow behind image */}
-            <div className="absolute inset-0 bg-tn-accent/5 blur-3xl opacity-50 transition-opacity group-hover:opacity-100 duration-700"></div>
-            
+    <div className="bg-tn-bg text-tn-text-primary font-sans selection:bg-tn-accent selection:text-white pt-24 pb-32 w-full transition-colors duration-300 min-h-screen">
+      <div className="max-w-[72rem] mx-auto px-6 sm:px-8 flex flex-col space-y-24 md:space-y-32">
+        
+        {/* 1. Hero Section */}
+        <section className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-8 items-center">
+          {/* Left: Image Container */}
+          <div className="lg:col-span-5 order-2 lg:order-1 flex items-center justify-center p-8 bg-tn-bg-secondary rounded-3xl border border-tn-border-subtle">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img 
               src={phone.imageUrl} 
               alt={phone.name} 
-              className="w-full h-full object-contain filter drop-shadow-2xl transition-transform duration-700 group-hover:scale-105 z-10 mix-blend-multiply dark:mix-blend-normal" 
+              className="w-full max-w-xs object-contain mix-blend-multiply dark:mix-blend-normal transition-opacity duration-300" 
             />
-            
-            <div className="absolute top-5 left-5 z-20">
-              <span className="inline-flex items-center px-3 py-1.5 rounded-full text-xs font-bold tn-surface shadow-sm text-tn-text-primary uppercase tracking-wider border border-tn-border-strong">
+          </div>
+
+          {/* Right: Info */}
+          <div className="lg:col-span-7 order-1 lg:order-2 flex flex-col justify-center">
+            <div className="flex items-center space-x-3 mb-6">
+              <span className="tn-label inline-flex items-center px-3 py-1 rounded-full border border-tn-border">
                 {phone.status}
               </span>
             </div>
-          </div>
-        </div>
-
-        {/* Right: Info Header & Key Specs */}
-        <div className="lg:col-span-7 order-1 lg:order-2 flex flex-col justify-center">
-          <div className="mb-8">
-            <div className="flex items-center space-x-3 mb-4">
-              <span className="tn-label text-tn-accent">{phone.brand}</span>
-              <span className="w-1.5 h-1.5 rounded-full bg-tn-border-strong"></span>
-              <span className="tn-label">{phone.releaseYear}</span>
-            </div>
-            <h1 className="tn-display mb-6">{phone.name}</h1>
             
-            <div className="flex items-baseline space-x-3 mb-8">
-              <span className="text-4xl font-bold tracking-tight text-foreground">{phone.price}</span>
-              <span className="tn-label text-(--tn-text-muted)">Launch Price</span>
-            </div>
+            <p className="tn-label mb-4">{phone.brand} • {phone.releaseYear}</p>
+            <h1 className="tn-h1 mb-8">
+              {phone.name}
+            </h1>
             
-            <div className="flex flex-wrap gap-4">
-              <button className="inline-flex items-center justify-center px-7 py-3.5 rounded-xl bg-tn-accent hover:bg-tn-accent-hover text-white font-semibold transition-all shadow-(--tn-shadow-accent) hover:-translate-y-0.5">
-                <Plus className="w-5 h-5 mr-2" />
+            <div className="flex flex-col sm:flex-row sm:items-center space-y-6 sm:space-y-0 sm:space-x-6 mb-8">
+              <span className="tn-h2">{phone.price}</span>
+              <button className="inline-flex items-center justify-center px-8 py-4 rounded-full bg-tn-accent text-tn-text-inverse hover:bg-tn-accent-hover font-medium transition-colors duration-300">
+                <Plus className="w-4 h-4 mr-2" />
                 Add to Compare
               </button>
             </div>
-          </div>
 
-          {/* Quick Specs Cards */}
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-            <div className="tn-card bg-tn-surface p-5 flex flex-col hover:border-tn-accent/50 transition-colors">
-              <MonitorSmartphone className="w-5 h-5 text-tn-accent mb-3" />
-              <p className="tn-label mb-1">Display</p>
-              <p className="tn-spec text-sm">6.8" AMOLED</p>
-            </div>
-            <div className="tn-card bg-tn-surface p-5 flex flex-col hover:border-tn-accent/50 transition-colors">
-              <Cpu className="w-5 h-5 text-tn-accent mb-3" />
-              <p className="tn-label mb-1">System</p>
-              <p className="tn-spec text-sm">Snapdragon 8</p>
-            </div>
-            <div className="tn-card bg-tn-surface p-5 flex flex-col hover:border-tn-accent/50 transition-colors">
-              <Camera className="w-5 h-5 text-tn-accent mb-3" />
-              <p className="tn-label mb-1">Main Cam</p>
-              <p className="tn-spec text-sm">200 MP</p>
-            </div>
-            <div className="tn-card bg-tn-surface p-5 flex flex-col hover:border-tn-accent/50 transition-colors">
-              <Battery className="w-5 h-5 text-tn-accent mb-3" />
-              <p className="tn-label mb-1">Battery</p>
-              <p className="tn-spec text-sm">5000 mAh</p>
+            {/* Quick Specs Grid (2x2) */}
+            <div className="grid grid-cols-2 gap-px bg-tn-border-subtle rounded-2xl overflow-hidden border border-tn-border-subtle">
+              <div className="bg-tn-bg p-6 flex flex-col justify-center group">
+                <MonitorSmartphone className="w-4 h-4 mb-4 text-tn-text-muted group-hover:text-tn-accent transition-colors duration-300" />
+                <span className="tn-label mb-1">Display</span>
+                <span className="tn-body-sm font-medium">6.8&quot; AMOLED</span>
+              </div>
+              <div className="bg-tn-bg p-6 flex flex-col justify-center group">
+                <Cpu className="w-4 h-4 mb-4 text-tn-text-muted group-hover:text-tn-accent transition-colors duration-300" />
+                <span className="tn-label mb-1">System</span>
+                <span className="tn-body-sm font-medium">Snapdragon 8 Gen 3</span>
+              </div>
+              <div className="bg-tn-bg p-6 flex flex-col justify-center group">
+                <Camera className="w-4 h-4 mb-4 text-tn-text-muted group-hover:text-tn-accent transition-colors duration-300" />
+                <span className="tn-label mb-1">Camera</span>
+                <span className="tn-body-sm font-medium">200 MP Primary</span>
+              </div>
+              <div className="bg-tn-bg p-6 flex flex-col justify-center group">
+                <Battery className="w-4 h-4 mb-4 text-tn-text-muted group-hover:text-tn-accent transition-colors duration-300" />
+                <span className="tn-label mb-1">Battery</span>
+                <span className="tn-body-sm font-medium">5000 mAh</span>
+              </div>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* 2 & 3. AI Summary & Score Section Grid */}
-      <section className="grid grid-cols-1 md:grid-cols-12 gap-8">
-        {/* AI Insight (Span 7) */}
-        <div className="md:col-span-7">
-          <div className="h-full tn-glass p-8 rounded-2xl border border-tn-accent/30 relative overflow-hidden group shadow-(--tn-shadow-md) hover:border-tn-accent/60 transition-colors">
-            <div className="absolute top-0 right-0 w-64 h-64 bg-tn-accent/10 rounded-full blur-3xl -mr-20 -mt-20 pointer-events-none"></div>
-            <div className="relative z-10">
-              <div className="flex items-center space-x-4 mb-5">
-                <div className="w-12 h-12 rounded-xl bg-tn-accent/10 flex items-center justify-center shrink-0 text-tn-accent border border-tn-accent/20">
-                  <Sparkles className="w-6 h-6" />
+        {/* 2. Specifications */}
+        <section className="space-y-8">
+          <div className="flex items-baseline justify-between border-b border-tn-border pb-6">
+            <h2 className="tn-h2">Technical details</h2>
+          </div>
+          
+          <div className="flex flex-col">
+            {Object.entries(phone.specs).map(([category, specs], idx) => {
+              const Icon = 
+                category === 'display' ? MonitorSmartphone :
+                category === 'performance' ? Cpu :
+                category === 'camera' ? Camera :
+                category === 'battery' ? Battery :
+                category === 'connectivity' ? Wifi : Wrench;
+
+              return (
+                <div key={category} className={`grid grid-cols-1 md:grid-cols-4 py-8 group ${idx !== Object.keys(phone.specs).length - 1 ? 'border-b border-tn-border' : ''}`}>
+                  <div className="md:col-span-1 flex items-start space-x-4 mb-6 md:mb-0 text-tn-text-muted group-hover:text-tn-text-primary transition-colors duration-300">
+                    <Icon className="w-4 h-4 mt-0.5" />
+                    <h3 className="tn-label">{category}</h3>
+                  </div>
+                  <div className="md:col-span-3 flex flex-col space-y-1">
+                    {Object.entries(specs).map(([key, value]) => (
+                      <div key={key} className="grid grid-cols-1 sm:grid-cols-3 py-4 border-b border-tn-border-subtle last:border-0 -mx-4 px-4 rounded-lg transition-colors duration-300">
+                        <span className="tn-body-sm text-tn-text-muted font-medium">{key}</span>
+                        <span className="tn-body-sm font-medium sm:col-span-2 leading-relaxed">{value}</span>
+                      </div>
+                    ))}
+                  </div>
                 </div>
-                <div>
-                  <h3 className="tn-h4 flex items-center m-0">
-                    AI Insight summary
-                    <span className="ml-3 px-2 py-0.5 text-[0.65rem] font-bold uppercase tracking-wider rounded border border-tn-accent/40 text-tn-accent bg-tn-accent/5">Coming Soon</span>
-                  </h3>
+              );
+            })}
+          </div>
+        </section>
+
+        {/* 3. AI Insight Summary */}
+        <section>
+          <div className="relative p-8 border border-tn-accent-muted rounded-2xl overflow-hidden">
+            <div className="absolute inset-0 bg-tn-accent-subtle"></div>
+            <div className="relative z-10 flex flex-col md:flex-row md:items-start md:space-x-8">
+              <div className="mb-6 md:mb-0 shrink-0">
+                <div className="w-12 h-12 rounded-full border border-tn-accent-muted flex items-center justify-center bg-tn-accent-subtle tn-accent-text transition-colors duration-300">
+                  <Sparkles className="w-4 h-4" />
                 </div>
               </div>
-              <p className="tn-body-lg text-tn-text-secondary leading-relaxed">
-                We are training our AI on thousands of reviews, benchmarks, and user sentiment data for the {phone.name}. 
-                Soon, this section will provide a synthesized, unbiased verdict highlighting real-world pros, cons, and performance insights.
-              </p>
-            </div>
-          </div>
-        </div>
-
-        {/* Score Section (Span 5) */}
-        <div className="md:col-span-5 h-full tn-card bg-tn-bg-secondary p-8 rounded-2xl flex flex-col justify-center border border-tn-border-subtle hover:border-tn-border transition-colors">
-          <div className="flex items-center justify-between xl:justify-start xl:space-x-12 mb-8">
-            <h2 className="tn-h3 m-0">Nest Score</h2>
-            <div className="flex items-center justify-center relative w-16 h-16 shrink-0">
-              <svg className="absolute inset-0 w-full h-full transform -rotate-90">
-                <circle cx="32" cy="32" r="28" className="stroke-tn-border-strong fill-transparent" strokeWidth="6" />
-                <circle cx="32" cy="32" r="28" className="stroke-tn-accent fill-transparent transition-all duration-1000" strokeWidth="6" strokeDasharray="175.9" strokeDashoffset={175.9 - (175.9 * phone.overallScore / 100)} strokeLinecap="round" />
-              </svg>
-              <span className="font-bold text-xl">{phone.overallScore}</span>
-            </div>
-          </div>
-
-          <div className="space-y-4 w-full">
-            {Object.entries(phone.subScores).map(([key, score]) => (
-              <div key={key}>
-                <div className="flex justify-between items-end mb-1.5">
-                  <span className="tn-label capitalize">{key}</span>
-                  <span className="font-mono text-xs font-semibold">{score}/100</span>
-                </div>
-                <div className="h-1.5 w-full bg-tn-border-strong rounded-full overflow-hidden">
-                  <div className="h-full bg-foreground rounded-full transition-all duration-1000 delay-300" style={{ width: `${score}%` }}></div>
-                </div>
+              <div className="max-w-3xl">
+                <h3 className="tn-label mb-6 flex items-center gap-3">
+                  AI Insight Summary
+                  <span className="px-2 py-1 rounded-full border border-tn-accent-muted text-tn-accent tn-label bg-tn-accent-subtle">Coming Soon</span>
+                </h3>
+                <p className="tn-body-lg">
+                  We are evaluating thousands of reviews, benchmarks, and real-world sentiment for the {phone.name}. Expect a synthesized, unbiased verdict arriving soon.
+                </p>
               </div>
+            </div>
+          </div>
+        </section>
+
+        {/* 4. Rating Section */}
+        <section>
+          <div className="flex flex-col md:flex-row gap-8 items-center justify-between">
+            <div className="flex flex-col items-center md:items-start text-center md:text-left shrink-0">
+              <span className="tn-label mb-6">Nest Score</span>
+              <span className="text-display font-medium tracking-tighter leading-none">{phone.overallScore}</span>
+            </div>
+            <div className="flex flex-col space-y-8 w-full max-w-xl">
+              {Object.entries(phone.subScores).map(([key, score]) => (
+                <div key={key} className="group relative">
+                  <div className="flex justify-between items-baseline mb-3">
+                    <span className="tn-body-sm capitalize font-medium text-tn-text-secondary">{key}</span>
+                    <span className="tn-spec text-tn-text-muted">{score}</span>
+                  </div>
+                  <div className="h-[2px] w-full bg-tn-border-subtle relative overflow-hidden rounded-full">
+                    <div 
+                      className="absolute top-0 left-0 h-full bg-tn-text-primary group-hover:bg-tn-accent transition-colors duration-300" 
+                      style={{ width: `${score}%` }}
+                    ></div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* 5. Related News */}
+        <section className="space-y-8 pb-8">
+          <div className="flex items-baseline justify-between border-b border-tn-border pb-6">
+            <h2 className="tn-h2">Related coverage</h2>
+            <a href="#" className="tn-label hover:text-tn-accent transition-colors flex items-center">
+              View all <ArrowRight className="w-3 h-3 ml-2" />
+            </a>
+          </div>
+          
+          <div className="flex overflow-x-auto gap-6 snap-x snap-mandatory pb-6 -mx-6 px-6 sm:mx-0 sm:px-0 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
+            {phone.news.map((item) => (
+              <a key={item.id} href="#" className="w-[300px] sm:w-[380px] shrink-0 snap-start group flex flex-col">
+                <div className="aspect-[4/3] w-full rounded-2xl overflow-hidden mb-4 bg-tn-bg-secondary relative border border-tn-border-subtle">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img 
+                    src={item.thumbnail} 
+                    alt={item.title} 
+                    className="w-full h-full object-cover grayscale opacity-80 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-300" 
+                  />
+                </div>
+                <div className="flex flex-col px-1">
+                  <div className="flex items-center space-x-3 tn-label mb-3">
+                    <span>{item.source}</span>
+                    <span className="w-1 h-1 rounded-full bg-current opacity-50"></span>
+                    <span>{item.date}</span>
+                  </div>
+                  <h4 className="tn-h4 group-hover:text-tn-accent transition-colors duration-300">
+                    {item.title}
+                  </h4>
+                </div>
+              </a>
             ))}
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* 4. Detailed Specs Table */}
-      <section className="space-y-6">
-        <h2 className="tn-h2 m-0">Technical Specifications</h2>
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
-          {Object.entries(phone.specs).map(([category, specs]) => {
-            const Icon = 
-              category === 'display' ? MonitorSmartphone :
-              category === 'performance' ? Cpu :
-              category === 'camera' ? Camera :
-              category === 'battery' ? Battery :
-              category === 'connectivity' ? Wifi : Wrench;
-
-            return (
-              <div key={category} className="tn-card overflow-hidden border-tn-border">
-                <div className="flex items-center px-6 py-5 bg-tn-bg-secondary border-b border-tn-border">
-                  <Icon className="w-5 h-5 mr-3 text-tn-accent" />
-                  <h3 className="tn-h4 capitalize m-0">{category}</h3>
-                </div>
-                <div className="p-0">
-                  {Object.entries(specs).map(([key, value], idx, arr) => (
-                    <div key={key} className={`flex flex-col sm:flex-row sm:items-baseline px-6 py-4 hover:bg-tn-bg-secondary/30 transition-colors ${idx !== arr.length - 1 ? 'border-b border-tn-border-subtle' : ''}`}>
-                      <span className="sm:w-1/3 tn-label mb-1 sm:mb-0 shrink-0">{key}</span>
-                      <span className="sm:w-2/3 tn-body-sm leading-relaxed">{value}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            );
-          })}
-        </div>
-      </section>
-
-      {/* 5. Related News */}
-      <section className="space-y-6 pt-4">
-        <div className="flex items-center justify-between border-b border-tn-border pb-4">
-          <h2 className="tn-h3 m-0">Related Coverage</h2>
-          <a href="#" className="tn-label text-tn-accent hover:text-tn-accent-hover flex items-center transition-colors">
-            View all <ChevronRight className="w-4 h-4 ml-1" />
-          </a>
-        </div>
-        
-        <div className="flex overflow-x-auto pb-6 gap-6 snap-x snap-mandatory [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
-          {phone.news.map((item) => (
-            <a key={item.id} href="#" className="w-72 sm:w-80 shrink-0 snap-start tn-card tn-card-hover overflow-hidden flex flex-col group border-tn-border">
-              <div className="aspect-video w-full bg-tn-bg-secondary overflow-hidden relative">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img 
-                  src={item.thumbnail} 
-                  alt={item.title} 
-                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" 
-                />
-              </div>
-              <div className="p-6 flex flex-col grow bg-tn-surface group-hover:bg-tn-bg-secondary/30 transition-colors">
-                <h4 className="font-semibold text-[1.05rem] mb-4 leading-relaxed line-clamp-2">
-                  {item.title}
-                </h4>
-                <div className="mt-auto flex items-center justify-between tn-label text-[0.65rem] text-(--tn-text-muted)">
-                  <span className="text-foreground">{item.source}</span>
-                  <span>{item.date}</span>
-                </div>
-              </div>
-            </a>
-          ))}
-        </div>
-      </section>
-
+      </div>
     </div>
   );
 }

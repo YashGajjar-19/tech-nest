@@ -137,9 +137,7 @@ const config: Config = {
         sm: "0 1px 2px rgb(0 0 0 / 0.04)",
         md: "0 4px 12px rgb(0 0 0 / 0.06), 0 1px 3px rgb(0 0 0 / 0.04)",
         lg: "0 12px 32px rgb(0 0 0 / 0.08), 0 2px 6px rgb(0 0 0 / 0.04)",
-        xl: "0 24px 48px rgb(0 0 0 / 0.10), 0 8px 16px rgb(0 0 0 / 0.05)",
         accent: "0 4px 24px rgb(0 128 255 / 0.22)",
-        "accent-lg": "0 8px 40px rgb(0 128 255 / 0.32)",
       },
 
       // ── Transitions ────────────────────────────────────────
@@ -158,7 +156,6 @@ const config: Config = {
       // ── Animations ─────────────────────────────────────────
       animation: {
         "fade-in": "tn-fade-in  0.35s cubic-bezier(0.16, 1, 0.3, 1) both",
-        "slide-up": "tn-slide-up 0.35s cubic-bezier(0.16, 1, 0.3, 1) both",
         "scale-in": "tn-scale-in 0.2s  cubic-bezier(0.16, 1, 0.3, 1) both",
         shimmer: "tn-shimmer  1.8s  ease-in-out infinite",
       },
@@ -167,10 +164,6 @@ const config: Config = {
         "tn-fade-in": {
           from: { opacity: "0" },
           to: { opacity: "1" },
-        },
-        "tn-slide-up": {
-          from: { opacity: "0", transform: "translateY(10px)" },
-          to: { opacity: "1", transform: "translateY(0)" },
         },
         "tn-scale-in": {
           from: { opacity: "0", transform: "scale(0.97)" },
