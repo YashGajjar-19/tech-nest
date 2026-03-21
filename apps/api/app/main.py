@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from app.db.supabase import get_supabase
 
 app = FastAPI(
     title="Tech Nest API",
@@ -14,6 +15,16 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+@app.on_event("startup")
+async def startup():
+    # Test Supabase connection on startup
+    try:
+        db = get_supabase()
+        db.table("phones").select("id").limit(1).execute()
+        print("✅ Supabase connected successfully")
+    except Exception as e:
+        print(f"❌ Supabase connection failed: {e}")
 
 @app.get("/")
 def root():
