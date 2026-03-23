@@ -146,18 +146,18 @@ export default async function PhoneDetailPage({ params }: PageProps) {
   const phone = mockPhone;
 
   return (
-    <div className="bg-tn-bg text-tn-text-primary font-sans selection:bg-tn-accent selection:text-white pt-24 pb-32 w-full transition-colors duration-300 min-h-screen">
-      <div className="max-w-[72rem] mx-auto px-6 sm:px-8 flex flex-col space-y-24 md:space-y-32">
+    <div className="bg-tn-bg text-tn-text-primary font-sans pt-24 pb-32 w-full min-h-screen">
+      <div className="max-w-[1200px] mx-auto px-6 flex flex-col space-y-24 md:space-y-32">
         
         {/* 1. Hero Section */}
         <section className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-8 items-center">
           {/* Left: Image Container */}
-          <div className="lg:col-span-5 order-2 lg:order-1 flex items-center justify-center p-8 bg-tn-bg-secondary rounded-3xl border border-tn-border-subtle">
+          <div className="lg:col-span-5 order-2 lg:order-1 flex items-center justify-center p-8 bg-tn-bg-secondary rounded-[16px] border border-tn-border-subtle">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img 
               src={phone.imageUrl} 
               alt={phone.name} 
-              className="w-full max-w-xs object-contain mix-blend-multiply dark:mix-blend-normal transition-opacity duration-300" 
+              className="w-full max-w-xs object-contain mix-blend-multiply dark:mix-blend-normal" 
             />
           </div>
 
@@ -176,31 +176,31 @@ export default async function PhoneDetailPage({ params }: PageProps) {
             
             <div className="flex flex-col sm:flex-row sm:items-center space-y-6 sm:space-y-0 sm:space-x-6 mb-8">
               <span className="tn-h2">{phone.price}</span>
-              <button className="inline-flex items-center justify-center px-8 py-4 rounded-full bg-tn-accent text-tn-text-inverse hover:bg-tn-accent-hover font-medium transition-colors duration-300">
+              <button className="inline-flex items-center justify-center h-10 px-6 rounded-[10px] bg-tn-accent text-white hover:opacity-90 font-medium transition-opacity duration-[150ms]">
                 <Plus className="w-4 h-4 mr-2" />
                 Add to Compare
               </button>
             </div>
 
             {/* Quick Specs Grid (2x2) */}
-            <div className="grid grid-cols-2 gap-px bg-tn-border-subtle rounded-2xl overflow-hidden border border-tn-border-subtle">
+            <div className="grid grid-cols-2 gap-px bg-tn-border-subtle rounded-[16px] overflow-hidden border border-tn-border-subtle">
               <div className="bg-tn-bg p-6 flex flex-col justify-center group">
-                <MonitorSmartphone className="w-4 h-4 mb-4 text-tn-text-muted group-hover:text-tn-accent transition-colors duration-300" />
+                <MonitorSmartphone className="w-4 h-4 mb-4 text-tn-text-muted group-hover:text-tn-accent transition-colors duration-[180ms]" />
                 <span className="tn-label mb-1">Display</span>
                 <span className="tn-body-sm font-medium">6.8&quot; AMOLED</span>
               </div>
               <div className="bg-tn-bg p-6 flex flex-col justify-center group">
-                <Cpu className="w-4 h-4 mb-4 text-tn-text-muted group-hover:text-tn-accent transition-colors duration-300" />
+                <Cpu className="w-4 h-4 mb-4 text-tn-text-muted group-hover:text-tn-accent transition-colors duration-[180ms]" />
                 <span className="tn-label mb-1">System</span>
                 <span className="tn-body-sm font-medium">Snapdragon 8 Gen 3</span>
               </div>
               <div className="bg-tn-bg p-6 flex flex-col justify-center group">
-                <Camera className="w-4 h-4 mb-4 text-tn-text-muted group-hover:text-tn-accent transition-colors duration-300" />
+                <Camera className="w-4 h-4 mb-4 text-tn-text-muted group-hover:text-tn-accent transition-colors duration-[180ms]" />
                 <span className="tn-label mb-1">Camera</span>
                 <span className="tn-body-sm font-medium">200 MP Primary</span>
               </div>
               <div className="bg-tn-bg p-6 flex flex-col justify-center group">
-                <Battery className="w-4 h-4 mb-4 text-tn-text-muted group-hover:text-tn-accent transition-colors duration-300" />
+                <Battery className="w-4 h-4 mb-4 text-tn-text-muted group-hover:text-tn-accent transition-colors duration-[180ms]" />
                 <span className="tn-label mb-1">Battery</span>
                 <span className="tn-body-sm font-medium">5000 mAh</span>
               </div>
@@ -225,13 +225,13 @@ export default async function PhoneDetailPage({ params }: PageProps) {
 
               return (
                 <div key={category} className={`grid grid-cols-1 md:grid-cols-4 py-8 group ${idx !== Object.keys(phone.specs).length - 1 ? 'border-b border-tn-border' : ''}`}>
-                  <div className="md:col-span-1 flex items-start space-x-4 mb-6 md:mb-0 text-tn-text-muted group-hover:text-tn-text-primary transition-colors duration-300">
+                  <div className="md:col-span-1 flex items-start space-x-4 mb-6 md:mb-0 text-tn-text-muted group-hover:text-tn-text-primary transition-colors duration-[180ms]">
                     <Icon className="w-4 h-4 mt-0.5" />
                     <h3 className="tn-label">{category}</h3>
                   </div>
                   <div className="md:col-span-3 flex flex-col space-y-1">
                     {Object.entries(specs).map(([key, value]) => (
-                      <div key={key} className="grid grid-cols-1 sm:grid-cols-3 py-4 border-b border-tn-border-subtle last:border-0 -mx-4 px-4 rounded-lg transition-colors duration-300">
+                      <div key={key} className="grid grid-cols-1 sm:grid-cols-3 py-4 border-b border-tn-border-subtle last:border-0 -mx-4 px-4 rounded-[12px]">
                         <span className="tn-body-sm text-tn-text-muted font-medium">{key}</span>
                         <span className="tn-body-sm font-medium sm:col-span-2 leading-relaxed">{value}</span>
                       </div>
@@ -245,11 +245,11 @@ export default async function PhoneDetailPage({ params }: PageProps) {
 
         {/* 3. AI Insight Summary */}
         <section>
-          <div className="relative p-8 border border-tn-accent-muted rounded-2xl overflow-hidden">
+          <div className="relative p-8 border border-tn-accent-muted rounded-[16px] overflow-hidden">
             <div className="absolute inset-0 bg-tn-accent-subtle"></div>
             <div className="relative z-10 flex flex-col md:flex-row md:items-start md:space-x-8">
               <div className="mb-6 md:mb-0 shrink-0">
-                <div className="w-12 h-12 rounded-full border border-tn-accent-muted flex items-center justify-center bg-tn-accent-subtle tn-accent-text transition-colors duration-300">
+                <div className="w-10 h-10 rounded-[10px] border border-tn-accent-muted flex items-center justify-center bg-tn-accent-subtle tn-accent-text">
                   <Sparkles className="w-4 h-4" />
                 </div>
               </div>
@@ -280,9 +280,9 @@ export default async function PhoneDetailPage({ params }: PageProps) {
                     <span className="tn-body-sm capitalize font-medium text-tn-text-secondary">{key}</span>
                     <span className="tn-spec text-tn-text-muted">{score}</span>
                   </div>
-                  <div className="h-[2px] w-full bg-tn-border-subtle relative overflow-hidden rounded-full">
+                  <div className="tn-score-bar w-full">
                     <div 
-                      className="absolute top-0 left-0 h-full bg-tn-text-primary group-hover:bg-tn-accent transition-colors duration-300" 
+                      className="tn-score-bar-fill active" 
                       style={{ width: `${score}%` }}
                     ></div>
                   </div>
@@ -304,12 +304,12 @@ export default async function PhoneDetailPage({ params }: PageProps) {
           <div className="flex overflow-x-auto gap-6 snap-x snap-mandatory pb-6 -mx-6 px-6 sm:mx-0 sm:px-0 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
             {phone.news.map((item) => (
               <a key={item.id} href="#" className="w-[300px] sm:w-[380px] shrink-0 snap-start group flex flex-col">
-                <div className="aspect-[4/3] w-full rounded-2xl overflow-hidden mb-4 bg-tn-bg-secondary relative border border-tn-border-subtle">
+                <div className="aspect-[4/3] w-full rounded-[16px] overflow-hidden mb-4 bg-tn-bg-secondary relative border border-tn-border-subtle">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img 
                     src={item.thumbnail} 
                     alt={item.title} 
-                    className="w-full h-full object-cover grayscale opacity-80 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-300" 
+                    className="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-[180ms]" 
                   />
                 </div>
                 <div className="flex flex-col px-1">
@@ -318,7 +318,7 @@ export default async function PhoneDetailPage({ params }: PageProps) {
                     <span className="w-1 h-1 rounded-full bg-current opacity-50"></span>
                     <span>{item.date}</span>
                   </div>
-                  <h4 className="tn-h4 group-hover:text-tn-accent transition-colors duration-300">
+                  <h4 className="tn-h4 group-hover:text-tn-accent transition-colors duration-[180ms]">
                     {item.title}
                   </h4>
                 </div>

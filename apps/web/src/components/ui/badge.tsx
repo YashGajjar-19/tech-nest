@@ -4,20 +4,21 @@ import { cn } from "@/lib/utils"
 
 /* ──────────────────────────────────────────────────────────────
    BADGE
+   Small pill · subtle background · icon + text
    Variants: default · secondary · outline
    ────────────────────────────────────────────────────────────── */
 
 const badgeVariants = cva(
-  "inline-flex h-5 w-fit shrink-0 items-center justify-center gap-1 rounded-full px-2 text-xs font-medium whitespace-nowrap transition-colors [&>svg]:size-3",
+  "inline-flex h-5 w-fit shrink-0 items-center justify-center gap-1 rounded-full px-2 text-[11px] font-medium whitespace-nowrap [&>svg]:size-3",
   {
     variants: {
       variant: {
         default:
-          "bg-tn-accent text-tn-text-inverse",
+          "bg-[var(--accent)] text-white",
         secondary:
-          "bg-tn-bg-secondary text-tn-text-secondary border border-tn-border-subtle",
+          "bg-[var(--accent-subtle)] text-[var(--accent)]",
         outline:
-          "border border-tn-border text-tn-text-secondary",
+          "border border-[var(--border)] text-[var(--text-secondary)]",
       },
     },
     defaultVariants: {

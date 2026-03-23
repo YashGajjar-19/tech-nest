@@ -4,8 +4,8 @@ import { Skeleton } from "@/components/ui/skeleton"
 
 /* ──────────────────────────────────────────────────────────────
    INPUT
-   Consistent height, border, focus ring.
-   Supports loading skeleton.
+   Rounded 12px · bg: #111113 · subtle border
+   Focus: soft accent glow (not neon)
    ────────────────────────────────────────────────────────────── */
 
 interface InputProps extends React.ComponentProps<"input"> {
@@ -22,7 +22,7 @@ function Input({ className, type, loading = false, ...props }: InputProps) {
       type={type}
       data-slot="input"
       className={cn(
-        "h-9 w-full rounded-lg border border-tn-border bg-tn-surface px-3 text-sm text-tn-text-primary placeholder:text-tn-text-muted transition-colors duration-200 outline-none focus-visible:border-tn-accent focus-visible:ring-2 focus-visible:ring-tn-accent/20 disabled:pointer-events-none disabled:opacity-40",
+        "h-9 w-full rounded-[12px] border border-[var(--border)] bg-[var(--bg-secondary)] px-3 text-[13px] text-[var(--text-primary)] placeholder:text-[var(--text-tertiary)] transition-all duration-[180ms] ease-[cubic-bezier(0.4,0,0.2,1)] outline-none focus-visible:border-[var(--accent)] focus-visible:shadow-[var(--accent-glow)] disabled:pointer-events-none disabled:opacity-40",
         className
       )}
       {...props}
@@ -31,7 +31,7 @@ function Input({ className, type, loading = false, ...props }: InputProps) {
 }
 
 function InputSkeleton() {
-  return <Skeleton className="h-9 w-full rounded-lg" />
+  return <Skeleton className="h-9 w-full rounded-[12px]" />
 }
 
 export { Input, InputSkeleton }

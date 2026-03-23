@@ -13,7 +13,7 @@ export function ThemeProvider({
     // @ts-expect-error next-themes typing issue with React 19 removing implicit children
     <NextThemesProvider
       attribute="class"
-      defaultTheme="system"
+      defaultTheme="dark"
       enableSystem
       disableTransitionOnChange
       {...props}

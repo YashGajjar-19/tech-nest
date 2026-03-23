@@ -3,8 +3,9 @@ import { cn } from "@/lib/utils"
 
 /* ──────────────────────────────────────────────────────────────
    CARD SYSTEM
-   Uses tn-card (globals.css) as the base surface.
-   Composed: Card → CardHeader → CardContent → CardFooter
+   Uses design system card surface: #151518
+   16px radius, 1px border rgba(255,255,255,0.05)
+   Hover: translateY(-2px), subtle shadow — no scale, no glow
    ────────────────────────────────────────────────────────────── */
 
 function Card({ className, ...props }: React.ComponentProps<"div">) {
@@ -12,7 +13,7 @@ function Card({ className, ...props }: React.ComponentProps<"div">) {
     <div
       data-slot="card"
       className={cn(
-        "tn-card flex flex-col gap-4 overflow-hidden rounded-lg p-4",
+        "tn-card flex flex-col gap-4 overflow-hidden p-4",
         className
       )}
       {...props}
@@ -34,7 +35,7 @@ function CardTitle({ className, ...props }: React.ComponentProps<"h3">) {
   return (
     <h3
       data-slot="card-title"
-      className={cn("tn-h4 text-tn-text-primary", className)}
+      className={cn("tn-h4 text-[var(--text-primary)]", className)}
       {...props}
     />
   )
@@ -44,7 +45,7 @@ function CardDescription({ className, ...props }: React.ComponentProps<"p">) {
   return (
     <p
       data-slot="card-description"
-      className={cn("tn-body-sm text-tn-text-secondary", className)}
+      className={cn("text-[13px] leading-[20px] text-[var(--text-secondary)]", className)}
       {...props}
     />
   )
@@ -65,7 +66,7 @@ function CardFooter({ className, ...props }: React.ComponentProps<"div">) {
     <div
       data-slot="card-footer"
       className={cn(
-        "flex items-center border-t border-tn-border-subtle pt-4",
+        "flex items-center border-t border-[var(--divider)] pt-4",
         className
       )}
       {...props}

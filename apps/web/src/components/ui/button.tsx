@@ -8,24 +8,29 @@ import { Skeleton } from "@/components/ui/skeleton"
    BUTTON
    Variants: primary · secondary · ghost
    Sizes:    sm · md · lg
+   
+   Rules:
+   · Primary = filled accent, radius 10px
+   · Secondary = ghost, border only
+   · Interaction: opacity change (not scale), 120–180ms
    ────────────────────────────────────────────────────────────── */
 
 const buttonVariants = cva(
-  "inline-flex shrink-0 items-center justify-center rounded-lg font-medium whitespace-nowrap transition-colors duration-200 outline-none select-none focus-visible:ring-2 focus-visible:ring-tn-accent focus-visible:ring-offset-2 focus-visible:ring-offset-tn-bg disabled:pointer-events-none disabled:opacity-40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
+  "inline-flex shrink-0 items-center justify-center rounded-[10px] font-medium whitespace-nowrap outline-none select-none transition-opacity duration-[150ms] ease-[cubic-bezier(0.4,0,0.2,1)] focus-visible:ring-2 focus-visible:ring-[var(--accent)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--bg-primary)] disabled:pointer-events-none disabled:opacity-40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
   {
     variants: {
       variant: {
         primary:
-          "bg-tn-accent text-tn-text-inverse hover:bg-tn-accent-hover",
+          "bg-[var(--accent)] text-white hover:opacity-90",
         secondary:
-          "bg-tn-surface border border-tn-border text-tn-text-primary hover:border-tn-border-strong hover:bg-tn-bg-secondary",
+          "bg-transparent border border-[var(--border)] text-[var(--text-primary)] hover:opacity-80 hover:border-[var(--tn-border-strong)]",
         ghost:
-          "text-tn-text-secondary hover:bg-tn-bg-secondary hover:text-tn-text-primary",
+          "text-[var(--text-secondary)] hover:opacity-80 hover:text-[var(--text-primary)]",
       },
       size: {
-        sm: "h-8 gap-1.5 px-3 text-sm",
-        md: "h-9 gap-2 px-4 text-sm",
-        lg: "h-10 gap-2 px-6 text-sm",
+        sm: "h-8 gap-1.5 px-3 text-[13px]",
+        md: "h-9 gap-2 px-4 text-[13px]",
+        lg: "h-10 gap-2 px-6 text-[15px]",
         icon: "size-9",
         "icon-sm": "size-8",
       },
@@ -97,7 +102,7 @@ function ButtonSkeleton({
             ? "h-8"
             : "h-9"
 
-  return <Skeleton className={cn(heightClass, widthClass, "rounded-lg")} />
+  return <Skeleton className={cn(heightClass, widthClass, "rounded-[10px]")} />
 }
 
 export { Button, ButtonSkeleton, buttonVariants }

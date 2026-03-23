@@ -5,16 +5,19 @@ export function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="border-t border-tn-border bg-tn-surface pt-12 pb-8">
-      <div className="container mx-auto px-4 md:px-8">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
+    <footer className="border-t border-[var(--divider)] bg-[var(--bg-primary)] pt-16 pb-8">
+      <div className="mx-auto max-w-[1200px] px-6">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
           {/* Logo & Tagline */}
-          <div className="col-span-1 md:col-span-1 flex flex-col gap-4">
-            <Link href="/" className="tn-h4 text-tn-accent truncate">
+          <div className="col-span-1 flex flex-col gap-4">
+            <Link
+              href="/"
+              className="text-[16px] font-medium text-[var(--accent)] font-[family-name:var(--font-display)]"
+            >
               Tech Nest
             </Link>
-            <p className="tn-body-sm text-tn-text-secondary pr-4">
-              Compare phones, read news, and get AI-powered recommendations with an editorial-tech aesthetic.
+            <p className="text-[13px] leading-[20px] text-[var(--text-secondary)] max-w-[240px]">
+              Compare phones, read news, and get AI-powered recommendations.
             </p>
           </div>
 
@@ -22,38 +25,78 @@ export function Footer() {
           <div className="col-span-1 md:col-span-3 grid grid-cols-2 lg:grid-cols-3 gap-8">
             <div className="flex flex-col gap-3">
               <h4 className="tn-label">Platform</h4>
-              <Link href="/phones" className="tn-body-sm text-tn-text-secondary hover:text-tn-accent transition-colors">Phones</Link>
-              <Link href="/compare" className="tn-body-sm text-tn-text-secondary hover:text-tn-accent transition-colors">Compare</Link>
-              <Link href="/news" className="tn-body-sm text-tn-text-secondary hover:text-tn-accent transition-colors">News</Link>
+              {[
+                { href: "/phones", label: "Phones" },
+                { href: "/compare", label: "Compare" },
+                { href: "/news", label: "News" },
+              ].map((link) => (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className="text-[13px] text-[var(--text-secondary)] transition-colors duration-[120ms] hover:text-[var(--text-primary)]"
+                >
+                  {link.label}
+                </Link>
+              ))}
             </div>
-            
+
             <div className="flex flex-col gap-3">
               <h4 className="tn-label">Company</h4>
-              <Link href="/about" className="tn-body-sm text-tn-text-secondary hover:text-tn-accent transition-colors">About</Link>
-              <Link href="/contact" className="tn-body-sm text-tn-text-secondary hover:text-tn-accent transition-colors">Contact</Link>
+              {[
+                { href: "/about", label: "About" },
+                { href: "/contact", label: "Contact" },
+              ].map((link) => (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className="text-[13px] text-[var(--text-secondary)] transition-colors duration-[120ms] hover:text-[var(--text-primary)]"
+                >
+                  {link.label}
+                </Link>
+              ))}
             </div>
 
             <div className="flex flex-col gap-3 col-span-2 lg:col-span-1">
               <h4 className="tn-label">Legal</h4>
-              <Link href="/privacy" className="tn-body-sm text-tn-text-secondary hover:text-tn-accent transition-colors">Privacy Policy</Link>
-              <Link href="/terms" className="tn-body-sm text-tn-text-secondary hover:text-tn-accent transition-colors">Terms of Service</Link>
+              {[
+                { href: "/privacy", label: "Privacy Policy" },
+                { href: "/terms", label: "Terms of Service" },
+              ].map((link) => (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className="text-[13px] text-[var(--text-secondary)] transition-colors duration-[120ms] hover:text-[var(--text-primary)]"
+                >
+                  {link.label}
+                </Link>
+              ))}
             </div>
           </div>
         </div>
 
         {/* Bottom Bar */}
-        <div className="flex flex-col md:flex-row items-center justify-between pt-8 border-t border-tn-border-subtle gap-4">
-          <p className="tn-body-sm text-tn-text-muted">
+        <div className="flex flex-col md:flex-row items-center justify-between pt-8 border-t border-[var(--divider)] gap-4">
+          <p className="text-[13px] text-[var(--text-tertiary)]">
             &copy; {currentYear} Tech Nest. All rights reserved.
           </p>
           <div className="flex items-center gap-4">
-            <Link href="https://twitter.com" target="_blank" rel="noopener noreferrer" className="text-tn-text-secondary hover:text-tn-accent transition-colors">
+            <Link
+              href="https://twitter.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-[var(--text-tertiary)] transition-colors duration-[120ms] hover:text-[var(--text-secondary)]"
+            >
               <span className="sr-only">Twitter</span>
-              <Twitter className="h-5 w-5" />
+              <Twitter className="h-[16px] w-[16px]" />
             </Link>
-            <Link href="https://github.com" target="_blank" rel="noopener noreferrer" className="text-tn-text-secondary hover:text-tn-accent transition-colors">
+            <Link
+              href="https://github.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-[var(--text-tertiary)] transition-colors duration-[120ms] hover:text-[var(--text-secondary)]"
+            >
               <span className="sr-only">GitHub</span>
-              <Github className="h-5 w-5" />
+              <Github className="h-[16px] w-[16px]" />
             </Link>
           </div>
         </div>

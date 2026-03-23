@@ -14,7 +14,7 @@ const config: Config = {
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
         card: {
-          DEFAULT: "hsl(var(--card))",
+          DEFAULT: "hsl(var(--card-hsl))",
           foreground: "hsl(var(--card-foreground))",
         },
         popover: {
@@ -34,14 +34,14 @@ const config: Config = {
           foreground: "hsl(var(--muted-foreground))",
         },
         accent: {
-          DEFAULT: "hsl(var(--accent))",
+          DEFAULT: "hsl(var(--accent-hsl))",
           foreground: "hsl(var(--accent-foreground))",
         },
         destructive: {
           DEFAULT: "hsl(var(--destructive))",
           foreground: "hsl(var(--destructive-foreground))",
         },
-        border: "hsl(var(--border))",
+        border: "hsl(var(--border-hsl))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
 
@@ -71,20 +71,6 @@ const config: Config = {
           warning: "var(--tn-warning)",
           error: "var(--tn-error)",
         },
-
-        // ── Electric Blue full scale (theme-invariant) ─────────
-        blue: {
-          50: "#EBF5FF",
-          100: "#C9E5FF",
-          200: "#94CCFF",
-          300: "#56B0FF",
-          400: "#2197FF",
-          500: "#0080FF",
-          600: "#006ACC",
-          700: "#0051A3",
-          800: "#003A7A",
-          900: "#002352",
-        },
       },
 
       // ── Font families ──────────────────────────────────────
@@ -92,32 +78,19 @@ const config: Config = {
         display: ["var(--font-display)", "system-ui", "sans-serif"],
         body: ["var(--font-body)", "system-ui", "sans-serif"],
         mono: ["var(--font-mono)", "monospace"],
-        // Override Tailwind's `font-sans` to use our body font
         sans: ["var(--font-body)", "system-ui", "sans-serif"],
       },
 
-      // ── Extended font sizes ────────────────────────────────
+      // ── Typography Scale ────────────────────────────────────
+      // H1: 40/48 · H2: 28/36 · H3: 20/28 · Body: 15/24 · Small: 13/20
       fontSize: {
-        display: [
-          "clamp(2.75rem, 6vw, 4.75rem)",
-          { lineHeight: "1.04", letterSpacing: "-0.038em" },
-        ],
-        "heading-1": [
-          "clamp(2rem, 3.5vw, 3.25rem)",
-          { lineHeight: "1.1", letterSpacing: "-0.032em" },
-        ],
-        "heading-2": [
-          "clamp(1.5rem, 2.5vw, 2.25rem)",
-          { lineHeight: "1.2", letterSpacing: "-0.025em" },
-        ],
-        "heading-3": [
-          "clamp(1.2rem, 2vw, 1.625rem)",
-          { lineHeight: "1.28", letterSpacing: "-0.02em" },
-        ],
-        "heading-4": [
-          "1.125rem",
-          { lineHeight: "1.35", letterSpacing: "-0.015em" },
-        ],
+        "heading-1": ["40px", { lineHeight: "48px", letterSpacing: "-0.025em" }],
+        "heading-2": ["28px", { lineHeight: "36px", letterSpacing: "-0.02em" }],
+        "heading-3": ["20px", { lineHeight: "28px", letterSpacing: "-0.015em" }],
+        "heading-4": ["16px", { lineHeight: "24px", letterSpacing: "-0.01em" }],
+        body: ["15px", { lineHeight: "24px" }],
+        "body-lg": ["17px", { lineHeight: "28px" }],
+        "body-sm": ["13px", { lineHeight: "20px" }],
       },
 
       // ── Border radius ──────────────────────────────────────
@@ -134,30 +107,28 @@ const config: Config = {
 
       // ── Shadows ────────────────────────────────────────────
       boxShadow: {
-        sm: "0 1px 2px rgb(0 0 0 / 0.04)",
-        md: "0 4px 12px rgb(0 0 0 / 0.06), 0 1px 3px rgb(0 0 0 / 0.04)",
-        lg: "0 12px 32px rgb(0 0 0 / 0.08), 0 2px 6px rgb(0 0 0 / 0.04)",
-        accent: "0 4px 24px rgb(0 128 255 / 0.22)",
+        sm: "var(--tn-shadow-sm)",
+        md: "var(--tn-shadow-md)",
+        lg: "var(--tn-shadow-lg)",
+        xl: "var(--tn-shadow-xl)",
       },
 
-      // ── Transitions ────────────────────────────────────────
+      // ── Transitions (physics, not decoration) ──────────────
       transitionTimingFunction: {
-        "out-expo": "cubic-bezier(0.16, 1, 0.3, 1)",
-        "in-out": "cubic-bezier(0.4, 0, 0.2, 1)",
-        spring: "cubic-bezier(0.34, 1.56, 0.64, 1)",
+        default: "cubic-bezier(0.4, 0, 0.2, 1)",
       },
 
       transitionDuration: {
         fast: "120ms",
-        base: "200ms",
-        slow: "350ms",
+        normal: "180ms",
+        slow: "280ms",
       },
 
       // ── Animations ─────────────────────────────────────────
       animation: {
-        "fade-in": "tn-fade-in  0.35s cubic-bezier(0.16, 1, 0.3, 1) both",
-        "scale-in": "tn-scale-in 0.2s  cubic-bezier(0.16, 1, 0.3, 1) both",
-        shimmer: "tn-shimmer  1.8s  ease-in-out infinite",
+        "fade-in": "tn-fade-in 280ms cubic-bezier(0.4, 0, 0.2, 1) both",
+        "slide-up": "tn-slide-up 280ms cubic-bezier(0.4, 0, 0.2, 1) both",
+        shimmer: "tn-shimmer 1.8s ease-in-out infinite",
       },
 
       keyframes: {
@@ -165,9 +136,9 @@ const config: Config = {
           from: { opacity: "0" },
           to: { opacity: "1" },
         },
-        "tn-scale-in": {
-          from: { opacity: "0", transform: "scale(0.97)" },
-          to: { opacity: "1", transform: "scale(1)" },
+        "tn-slide-up": {
+          from: { opacity: "0", transform: "translateY(8px)" },
+          to: { opacity: "1", transform: "translateY(0)" },
         },
         "tn-shimmer": {
           "0%": { backgroundPosition: "200% 0" },
@@ -175,7 +146,7 @@ const config: Config = {
         },
       },
 
-      // ── Spacing extras ─────────────────────────────────────
+      // ── Spacing Scale: 4/8/12/16/24/32/48/64 ──────────────
       spacing: {
         "4.5": "1.125rem",
         "5.5": "1.375rem",
@@ -186,9 +157,10 @@ const config: Config = {
       },
 
       // ── Max width ──────────────────────────────────────────
+      // Max: 1200px, Content: 960px
       maxWidth: {
-        "8xl": "88rem", // 1408px — wide content
-        "9xl": "96rem", // 1536px — full-width
+        content: "960px",
+        layout: "1200px",
         prose: "68ch",
         "prose-sm": "52ch",
       },
