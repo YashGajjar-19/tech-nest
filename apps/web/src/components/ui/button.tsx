@@ -5,33 +5,35 @@ import { cn } from "@/lib/utils"
 import { Skeleton } from "@/components/ui/skeleton"
 
 /* ──────────────────────────────────────────────────────────────
-   BUTTON
-   Variants: primary · secondary · ghost
-   Sizes:    sm · md · lg
+   BUTTON — Dual-Soul Design
+
+   Sleek proportions: generous horizontal (24px), tight vertical (10px)
+   Radius: 12px (rounded-xl)
    
-   Rules:
-   · Primary = filled accent, radius 10px
-   · Secondary = ghost, border only
-   · Interaction: opacity change (not scale), 120–180ms
+   Primary: filled accent, accent shadow
+   Secondary: ghost, border, surface bg
+   Ghost: transparent, text only
+   
+   Interaction: opacity + brightness, 150ms spring
    ────────────────────────────────────────────────────────────── */
 
 const buttonVariants = cva(
-  "inline-flex shrink-0 items-center justify-center rounded-[10px] font-medium whitespace-nowrap outline-none select-none transition-opacity duration-[150ms] ease-[cubic-bezier(0.4,0,0.2,1)] focus-visible:ring-2 focus-visible:ring-[var(--accent)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--bg-primary)] disabled:pointer-events-none disabled:opacity-40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
+  "inline-flex shrink-0 items-center justify-center rounded-xl font-medium whitespace-nowrap outline-none select-none transition-all duration-[150ms] ease-[cubic-bezier(0.16,1,0.3,1)] focus-visible:shadow-[var(--focus-ring)] disabled:pointer-events-none disabled:opacity-40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
   {
     variants: {
       variant: {
         primary:
-          "bg-[var(--accent)] text-white hover:opacity-90",
+          "bg-[var(--accent)] text-white shadow-[var(--shadow-accent)] hover:brightness-110",
         secondary:
-          "bg-transparent border border-[var(--border)] text-[var(--text-primary)] hover:opacity-80 hover:border-[var(--tn-border-strong)]",
+          "tn-liquid-btn bg-[var(--surface)] border border-[var(--border)] text-[var(--text-primary)] hover:border-[var(--border-strong)] hover:shadow-md",
         ghost:
-          "text-[var(--text-secondary)] hover:opacity-80 hover:text-[var(--text-primary)]",
+          "text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--accent-subtle)]",
       },
       size: {
-        sm: "h-8 gap-1.5 px-3 text-[13px]",
-        md: "h-9 gap-2 px-4 text-[13px]",
-        lg: "h-10 gap-2 px-6 text-[15px]",
-        icon: "size-9",
+        sm:      "h-8 gap-1.5 px-4 text-[13px]",
+        md:      "h-9 gap-2 px-5 text-[13px]",
+        lg:      "h-10 gap-2 px-6 text-[14px]",
+        icon:    "size-9",
         "icon-sm": "size-8",
       },
     },
@@ -102,7 +104,7 @@ function ButtonSkeleton({
             ? "h-8"
             : "h-9"
 
-  return <Skeleton className={cn(heightClass, widthClass, "rounded-[10px]")} />
+  return <Skeleton className={cn(heightClass, widthClass, "rounded-xl")} />
 }
 
 export { Button, ButtonSkeleton, buttonVariants }

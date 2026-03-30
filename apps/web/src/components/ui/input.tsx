@@ -4,8 +4,8 @@ import { Skeleton } from "@/components/ui/skeleton"
 
 /* ──────────────────────────────────────────────────────────────
    INPUT
-   Rounded 12px · bg: #111113 · subtle border
-   Focus: soft accent glow (not neon)
+   Rounded 12px · bg: surface · focus: accent ring glow
+   Geist Sans for input text
    ────────────────────────────────────────────────────────────── */
 
 interface InputProps extends React.ComponentProps<"input"> {
@@ -22,7 +22,7 @@ function Input({ className, type, loading = false, ...props }: InputProps) {
       type={type}
       data-slot="input"
       className={cn(
-        "h-9 w-full rounded-[12px] border border-[var(--border)] bg-[var(--bg-secondary)] px-3 text-[13px] text-[var(--text-primary)] placeholder:text-[var(--text-tertiary)] transition-all duration-[180ms] ease-[cubic-bezier(0.4,0,0.2,1)] outline-none focus-visible:border-[var(--accent)] focus-visible:shadow-[var(--accent-glow)] disabled:pointer-events-none disabled:opacity-40",
+        "h-9 w-full rounded-xl border border-[var(--border)] bg-[var(--bg-secondary)] px-3 text-[13px] text-[var(--text-primary)] placeholder:text-[var(--text-muted)] transition-all duration-[200ms] ease-[cubic-bezier(0.16,1,0.3,1)] outline-none focus-visible:border-[var(--accent)] focus-visible:shadow-[var(--focus-ring)] disabled:pointer-events-none disabled:opacity-40",
         className
       )}
       {...props}
@@ -31,7 +31,7 @@ function Input({ className, type, loading = false, ...props }: InputProps) {
 }
 
 function InputSkeleton() {
-  return <Skeleton className="h-9 w-full rounded-[12px]" />
+  return <Skeleton className="h-9 w-full rounded-xl" />
 }
 
 export { Input, InputSkeleton }

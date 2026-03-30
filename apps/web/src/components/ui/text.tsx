@@ -5,14 +5,15 @@ import { cn } from "@/lib/utils"
 /* ──────────────────────────────────────────────────────────────
    TEXT
    Typography primitive with variant + size control.
+   Uses Geist Sans for body and display, Geist Mono for data.
    ────────────────────────────────────────────────────────────── */
 
-const textVariants = cva("font-[family-name:var(--font-body)]", {
+const textVariants = cva("font-[family-name:var(--font-geist-sans)]", {
   variants: {
     variant: {
       primary: "text-[var(--text-primary)]",
       secondary: "text-[var(--text-secondary)]",
-      muted: "text-[var(--text-tertiary)]",
+      muted: "text-[var(--text-muted)]",
       accent: "text-[var(--accent)]",
     },
     size: {
@@ -24,11 +25,12 @@ const textVariants = cva("font-[family-name:var(--font-body)]", {
     weight: {
       normal: "font-normal",
       medium: "font-medium",
+      semibold: "font-semibold",
     },
     family: {
-      body: "font-[family-name:var(--font-body)]",
-      display: "font-[family-name:var(--font-display)]",
-      mono: "font-[family-name:var(--font-mono)]",
+      body: "font-[family-name:var(--font-geist-sans)]",
+      display: "font-[family-name:var(--font-geist-sans)]",
+      mono: "font-[family-name:var(--font-geist-mono)]",
     },
   },
   defaultVariants: {
@@ -40,7 +42,7 @@ const textVariants = cva("font-[family-name:var(--font-body)]", {
 })
 
 interface TextProps
-  extends React.ComponentProps<"span">,
+  extends React.HTMLAttributes<HTMLElement>,
     VariantProps<typeof textVariants> {
   as?: "span" | "p" | "div" | "label"
 }

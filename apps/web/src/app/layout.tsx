@@ -2,32 +2,16 @@ import type { Metadata } from "next";
 import { ClerkProvider } from "@clerk/nextjs";
 import { ThemeProvider } from "@/components/providers/theme-provider";
 import { Navbar, Footer } from "@/components/layout";
-import { Inter, Plus_Jakarta_Sans, JetBrains_Mono } from "next/font/google";
+import { GeistSans } from "geist/font/sans";
+import { GeistMono } from "geist/font/mono";
 import "./globals.css";
 
-/* ── Font Stack ─────────────────────────────────────────────── */
-/* Headings: Plus Jakarta Sans (geometric, confident — Satoshi alternative)  */
-/* Body:     Inter (clean, refined)                                          */
-/* Mono:     JetBrains Mono (specs, data)                                    */
-
-const jakartaSans = Plus_Jakarta_Sans({
-  subsets: ["latin"],
-  variable: "--font-display",
-  display: "swap",
-  weight: ["500", "600", "700"],
-});
-
-const inter = Inter({
-  subsets: ["latin"],
-  variable: "--font-body",
-  display: "swap",
-});
-
-const jetbrainsMono = JetBrains_Mono({
-  subsets: ["latin"],
-  variable: "--font-mono",
-  display: "swap",
-});
+/* ── Font Stack ─────────────────────────────────────────────
+   Geist Sans  — Display + Body (mathematical precision, geometric)
+                  CSS var: --font-geist-sans
+   Geist Mono  — Specs, data, engineered feel
+                  CSS var: --font-geist-mono
+   ────────────────────────────────────────────────────────── */
 
 export const metadata: Metadata = {
   title: "Tech Nest — Compare, Decide, Upgrade",
@@ -44,10 +28,10 @@ export default function RootLayout({
     <ClerkProvider>
       <html
         lang="en"
-        className={`${jakartaSans.variable} ${inter.variable} ${jetbrainsMono.variable}`}
+        className={`${GeistSans.variable} ${GeistMono.variable}`}
         suppressHydrationWarning
       >
-        <body className="flex min-h-screen flex-col bg-[var(--bg-primary)] text-[var(--text-primary)]">
+        <body className="flex min-h-screen flex-col">
           <ThemeProvider>
             <Navbar />
             <main className="flex-1">{children}</main>
